@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>LAD</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow:hidden;font-family:'Times New Roman',Times,serif;color:#ff0000;cursor:default}
+a{color:inherit;text-decoration:none;cursor:default}
+.h{position:absolute;display:block;z-index:5}
+.dead{position:fixed;pointer-events:none;z-index:9;background:#ff0000;width:2px;height:2px}
+.dead.k{background:#000}
+.blk{position:fixed;pointer-events:none;z-index:4;background:#000}
+.scan{pointer-events:none;position:fixed;inset:0;z-index:8;opacity:.45;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 1px,transparent 1px 3px)}
+.fl{position:fixed;inset:0;background:#ff0000;pointer-events:none;z-index:10;opacity:0}
+canvas{position:fixed;inset:0;display:block}
+</style></head><body>
+<canvas id="c"></canvas>
+<div class="scan"></div><div class="fl" id="fl"></div>
+<script src="x.js"></script>
+<script>(function(){var T=["7935", "7745", "9329", "4338", "4749", "5333"];var c=document.getElementById("c"),g=c.getContext("2d"),W,H,mx=-1e4,my=-1e4,f=0,cell=110;function sz(){W=c.width=innerWidth;H=c.height=innerHeight;cell=W<600?90:120}addEventListener("resize",sz);sz();addEventListener("pointermove",function(e){mx=e.clientX;my=e.clientY},{passive:true});var ang={};function draw(){f++;g.fillStyle="#000";g.fillRect(0,0,W,H);var cols=Math.ceil(W/cell),rows=Math.ceil(H/cell);for(var j=0;j<rows;j++)for(var i=0;i<cols;i++){var cx=i*cell+cell/2,cy=j*cell+cell/2,d=Math.hypot(mx-cx,my-cy),sp=0.01+2/(1+d/40);var k=j*cols+i;ang[k]=(ang[k]||k)+sp*0.05;var a=ang[k],b=ang[k]*0.7,s=cell*0.28,P=[];for(var n=0;n<8;n++){var x=(n&1?1:-1),y=(n&2?1:-1),z=(n&4?1:-1);var x1=x*Math.cos(a)-z*Math.sin(a),z1=x*Math.sin(a)+z*Math.cos(a);var y1=y*Math.cos(b)-z1*Math.sin(b);z1=y*Math.sin(b)+z1*Math.cos(b);var q=2.6/(3.6+z1);P.push([cx+x1*s*q,cy+y1*s*q]);}g.strokeStyle=d<cell?"#3a3aff":"#ff0000";g.beginPath();for(var p=0;p<8;p++)for(var r=p+1;r<8;r++){var e=p^r;if(e===1||e===2||e===4){g.moveTo(P[p][0],P[p][1]);g.lineTo(P[r][0],P[r][1]);}}g.stroke();}}setInterval(draw,40);c.addEventListener("click",function(e){var cols=Math.ceil(W/cell);var k=Math.floor(e.clientY/cell)*cols+Math.floor(e.clientX/cell);location.href=T[k%T.length]+".html";});})();</script>
+</body></html>

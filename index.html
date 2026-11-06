@@ -116,6 +116,7 @@
   .chat .in i{display:block;color:var(--r2);font-size:9px}
   .chat input{width:100%;background:#000;border:1px solid var(--r3);color:var(--r);font:inherit;padding:2px 4px;margin-top:4px}
   @media(max-width:600px){.chat{width:150px}}
+  .dr,.dr:hover{color:inherit;text-decoration:none;background:none}
   .inad{background:var(--b);color:#000;font-weight:700;font-style:normal;padding:0 3px;font-size:9px;animation:inv .7s steps(1) infinite;white-space:nowrap}
 
   .lb{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.94);display:none;place-items:center;padding:10px}
@@ -179,7 +180,7 @@
   <div class="body">
     <p data-rot>Ten units, all 2026, all recovered from the account described above. Click any unit to inspect it at full size. Units are displayed in four tones of red per STD-01; the colour originals are shown on the Instagram at no charge. The video units are short loops cut from the full pieces. Hard copies of any unit are available through the order form. Feelings pictured are not included.</p>
     <div class="grid">
-      <a class="work" data-src="img/mouth.jpg" data-t="untitled (mouth)" data-m="LAD-0001 · 2026 · video"><video src="img/loop.mp4" muted loop autoplay playsinline></video><span class="tv">AS SEEN ON TV</span><b data-rot>mouth.mp4</b></a>
+      <a class="work" data-src="img/mouth.jpg" data-t="untitled (mouth)" data-m="LAD-0001 · 2026 · video"><video src="img/loop.mp4" muted loop autoplay playsinline></video><span class="tv" data-door="x/9539.html">AS SEEN ON TV</span><b data-rot>mouth.mp4</b></a>
       <a class="work" data-src="img/fwm.jpg" data-t="F*ck with me" data-m="LAD-0002 · 2026 · digital"><span class="pr">$25</span><b data-rot>fwm.jpg</b></a>
       <a class="work" data-src="img/soul.jpg" data-t="soul ripped" data-m="LAD-0003 · 2026 · digital"><b data-rot>soul_ripped.jpg</b></a>
       <a class="work" data-src="img/pcdd.jpg" data-t="Post Chromatic Death Disorder" data-m="LAD-0004 · 2026 · digital"><span class="pr">$25</span><b data-rot>pcdd.jpg</b></a>
@@ -190,7 +191,7 @@
       <a class="work" data-src="img/hero.jpg" data-t="untitled (VHS) II" data-m="LAD-0009 · 2026 · video"><b data-rot>vhs_02.mp4</b></a>
       <a class="work" data-src="img/samcarly.jpg" data-t="SAM 遗事 CARLY / / CARLY 遗事 SAM (excerpt)" data-m="LAD-0010 · 2026 · video"><video src="img/samcarly.mp4" muted loop autoplay playsinline></video><span class="tv">AS SEEN ON TV</span><b data-rot>sam_carly.mp4</b></a>
       <div class="adtile"><video src="img/loop.mp4" muted loop autoplay playsinline></video><span data-rot>XXX ¤ LIVE ¤ UNCENSORED</span><small data-rot>1-900-555-0199 · $3.99/min · must be 18+ · must be something</small></div>
-      <div class="adtile"><span data-rot>THIS SPACE FOR RENT</span><small data-rot>$9.99/mo · high traffic · low feelings · inquire within</small></div>
+      <div class="adtile" data-door="x/4364.html"><span data-rot>THIS SPACE FOR RENT</span><small data-rot>$9.99/mo · high traffic · low feelings · inquire within</small></div>
     </div>
     <h3 data-rot>Catalogue</h3>
     <table class="tbl">
@@ -280,7 +281,7 @@
     <p data-rot><b>§4 CONSUMABLES.</b> Consumables are intended for consumption. The company makes no representation as to what the customer will become. Angel dust, acid, dissociatives and other consumables advertised on this portal are advertised; whether they are sold is a question for a representative. A representative will be with you shortly.</p>
     <p data-rot><b>§5 CHILDREN.</b> The company no longer sells childhoods. Childhoods sold prior to 2012 remain the property of the company and may be recalled at any time without notice. Customers in possession of a recalled childhood must not return it. Keep it where it is. A representative will collect.</p>
     <p data-rot><b>§6 LIABILITY.</b> THE COMPANY IS NOT LIABLE FOR ANYTHING THAT HAS HAPPENED TO YOU, IS HAPPENING TO YOU, OR WILL HAPPEN TO YOU, INCLUDING AS A RESULT OF THIS PORTAL, THE UNITS, THE CONSUMABLES, THE COUNTRY, OR THE YEAR. The company's total liability to any customer shall not exceed the lesser of (a) the purchase price of the feeling, or (b) $0.00.</p>
-    <p data-rot><b>§7 ARBITRATION.</b> All disputes will be settled by a representative. The representative's decision is final. The representative will be with you shortly. "Shortly" is not defined in these terms and the company reserves the right not to define it.</p>
+    <p data-rot><b>§7 ARBITRATION.</b> All disputes will be settled by a representative. The representative's decision is final. The representative will be with you <a class="dr" href="x/6902.html">shortly</a>. "Shortly" is not defined in these terms and the company reserves the right not to define it.</p>
     <p data-rot><b>§8 GOVERNING LAW.</b> These terms are governed by the laws of the United States of America, which are available for purchase. Taxes calculated at checkout.</p>
     <p data-rot><b>§9 SEVERABILITY.</b> If any part of you is found to be invalid or unenforceable, the rest of you remains in full force and effect.</p>
     <p data-rot><b>§10 PRIVACY.</b> This portal sets no cookies, except the one that remembers how much of it you have used, and the one that remembers you were here, and the one you agreed to be. Your visit has been valued. The valuation is shown at the top of the portal and may be sold back to the company at any time at the current rate. The current rate is $0.00.</p>
@@ -486,7 +487,7 @@
     ['Advertisement','NO CREDIT CHECK','cash today. 2,000% APR.','Licensed in your state. Your state has been notified.'],
     ['Advertisement','BAIL BONDS — 24 HRS','we come to you.','We are already here.'],
   ];
-  let pops=0, total=0; const MAXP=mobile?5:9, MAXT=40;
+  let pops=0, total=0; const MAXP=mobile?3:5, MAXT=18;
   function popup(force){
     if(pops>=MAXP||total>=MAXT) return; pops++; total++;
     const a=ADS[Math.floor(Math.random()*ADS.length)];
@@ -494,24 +495,24 @@
     const x=20+Math.random()*Math.max(10,innerWidth-300), y=60+Math.random()*Math.max(10,innerHeight-240);
     d.style.left=x+'px'; d.style.top=y+'px';
     d.innerHTML=`<div class="tb"><span>${a[0]}</span><button>×</button></div><div class="in"><b>${a[1]}</b><i>${a[2]}</i><small>${a[3]}</small><span class="buy">BUY NOW</span></div>`;
-    d.querySelector('button').onclick=()=>{ d.remove(); pops--; feed(.05); flash(.5); popup(); popup(); };
+    d.querySelector('button').onclick=()=>{ d.remove(); pops--; feed(.05); flash(.5); popup(); if(Math.random()<.3) popup(); };
     d.querySelector('.buy').onclick=()=>{ say('ADDED TO CART. THERE IS NO CART.'); feed(.05); };
     document.body.appendChild(d);
   }
-  setTimeout(()=>popup(),9000);
-  setInterval(()=>{ if(Math.random()<.35+rot) popup(); },35000);
+  setTimeout(()=>popup(),25000);
+  setInterval(()=>{ if(Math.random()<.25+rot*.5) popup(); },70000);
 
   // cookie notice
   (function(){ const d=document.createElement('div'); d.className='pop ck';
     d.innerHTML=`<div class="tb"><span>Cookie Notice</span><span></span></div><div class="in">This portal uses cookies. By continuing you agree to be a cookie. Your visit has already been valued. See Terms of Service §10.<div class="btns"><button>ACCEPT</button><button>ACCEPT</button></div></div>`;
-    d.querySelectorAll('button').forEach(b=>b.onclick=()=>{ d.remove(); flash(.5); feed(.05); setTimeout(()=>popup(),1500); });
+    d.querySelectorAll('button').forEach(b=>b.onclick=()=>{ d.remove(); flash(.5); feed(.05); });
     document.body.appendChild(d); })();
 
   // ---------- LIVE SUPPORT ----------
   let q=2; const QM=['Connecting you to a representative…','Please hold.','Your call is important to us.','A representative will be with you shortly.','Still connecting…','Thank you for your patience.','Do not hang up.'];
-  setInterval(()=>{ q+=Math.random()<.7?1:0; $('#chatq').textContent='You are number '+q+' in line.'; if(Math.random()<.3) $('#chatmsg').textContent=QM[Math.floor(Math.random()*QM.length)]; },4000);
+  setInterval(()=>{ q+=Math.random()<.7?1:0; $('#chatq').textContent='You are number '+q+' in line.'; if(q>20){ $('#chatmsg').innerHTML='<a class="dr" href="x/8168.html">A representative is available.</a>'; } else if(Math.random()<.3) $('#chatmsg').textContent=QM[Math.floor(Math.random()*QM.length)]; },4000);
   $('#chatin').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); e.target.value=''; $('#chatmsg').textContent='A representative has read your message.'; q+=3; feed(.05); } });
-  $('#chatx').onclick=()=>{ $('#chat').style.display='none'; popup(); popup(); };
+  $('#chatx').onclick=()=>{ $('#chat').style.display='none'; popup(); };
 
   // ---------- INLINE ADS IN THE COPY ----------
   const INAD=['[AD] HOT SINGLES — BUY NOW','[AD] ANGEL DUST $19.99','[SPONSORED]','[AD] ACT NOW','[AD] 0% APR','[AD] AS SEEN ON TV','[AD] FEELINGS $0.99','[AD] CALL 1-900-555-0199','[AD] YOUR CHILDHOOD — RESTOCKED'];
@@ -533,6 +534,10 @@
     $('#rotpct').textContent='0x'+(rot*255|0).toString(16).padStart(2,'0').toUpperCase();
     store.set('rot4',rot);
   },400);
+
+  // ---------- DOORS ----------
+  $$('[data-door]').forEach(el=>{ el.style.cursor='default'; el.addEventListener('click',e=>{ e.preventDefault(); e.stopPropagation(); location.href=el.dataset.door; }); });
+  bg.addEventListener('click',e=>{ const off=(frame*0.4)%cell; const i=Math.floor((e.clientX+off)/cell), j=Math.floor(e.clientY/cell); if(deadCells.has(j*cols+i)) location.href='x/9539.html'; });
 
   // ---------- LIGHTBOX / ORDER ----------
   const lb=$('#lb'), toast=$('#toast'); let tt;

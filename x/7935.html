@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>NO SIGNAL</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow:hidden;font-family:'Times New Roman',Times,serif;color:#ff0000;cursor:default}
+a{color:inherit;text-decoration:none;cursor:default}
+.h{position:absolute;display:block;z-index:5}
+.dead{position:fixed;pointer-events:none;z-index:9;background:#ff0000;width:2px;height:2px}
+.dead.k{background:#000}
+.blk{position:fixed;pointer-events:none;z-index:4;background:#000}
+.scan{pointer-events:none;position:fixed;inset:0;z-index:8;opacity:.45;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 1px,transparent 1px 3px)}
+.fl{position:fixed;inset:0;background:#ff0000;pointer-events:none;z-index:10;opacity:0}
+#n{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);font-size:min(28vw,40vh);font-weight:700;color:#ff0000;text-shadow:6px 6px 0 #3a3aff;font-family:'Courier New',monospace}
+</style></head><body>
+<a id="n" href="6902.html">0x00</a>
+<div class="scan"></div><div class="fl" id="fl"></div>
+<script src="x.js"></script>
+<script>var n=document.getElementById("n"),v=Math.floor(Math.random()*255);setInterval(function(){v=(v+1)%256;n.textContent="0x"+v.toString(16).toUpperCase().padStart(2,"0")},90);</script>
+</body></html>

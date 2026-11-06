@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>FEELINGS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;overflow:hidden;font-family:'Times New Roman',Times,serif;color:#ff0000;cursor:default}
+a{color:inherit;text-decoration:none;cursor:default}
+.h{position:absolute;display:block;z-index:5}
+.dead{position:fixed;pointer-events:none;z-index:9;background:#ff0000;width:2px;height:2px}
+.dead.k{background:#000}
+.blk{position:fixed;pointer-events:none;z-index:4;background:#000}
+.scan{pointer-events:none;position:fixed;inset:0;z-index:8;opacity:.45;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 1px,transparent 1px 3px)}
+.fl{position:fixed;inset:0;background:#ff0000;pointer-events:none;z-index:10;opacity:0}
+video{position:fixed;inset:0;width:100vw;height:100vh;object-fit:contain;background:#000}#u{position:fixed;left:6px;bottom:6px;font-size:9px;color:#3a3aff;z-index:6;font-style:italic}
+</style></head><body>
+<video id="v" src="../img/samcarly_full.mp4" muted loop autoplay playsinline></video><div id="u">click for sound</div><a class="h" href="2659.html" style="left:13vw;top:67vh;width:22vw;height:16vh"></a><a class="h" href="4994.html" style="left:51vw;top:4vh;width:18vw;height:12vh"></a>
+<a class="h" href="0906.html" style="left:69vw;top:5vh;width:9vw;height:9vh"></a>
+<div class="scan"></div><div class="fl" id="fl"></div>
+<script src="x.js"></script>
+<script>var v=document.getElementById("v");v.play().catch(function(){});document.getElementById("u").addEventListener("click",function(){v.muted=!v.muted;this.textContent=v.muted?"click for sound":"click for silence";});</script>
+</body></html>
