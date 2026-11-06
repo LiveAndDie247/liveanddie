@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LIVE.AND.DIE</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{--r:#ff0000;--r60:rgba(255,0,0,.6);--r35:rgba(255,0,0,.35);--r15:rgba(255,0,0,.15);--r8:rgba(255,0,0,.08);--tt:'VT323',ui-monospace,monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#000;color:var(--r);font-family:var(--tt);font-size:19px;line-height:1.2;overflow:hidden;image-rendering:pixelated}
+  ::selection{background:var(--r);color:#000}
+  a{color:inherit;text-decoration:none}
+  img,video,canvas{display:block;max-width:100%}
+  button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+
+  .desk{position:fixed;inset:0 0 30px 0;background:#000 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='%23000'/><rect width='1' height='1' fill='%23200000'/><rect x='2' y='2' width='1' height='1' fill='%23200000'/></svg>")}
+  body::before{content:"";pointer-events:none;position:fixed;inset:0;z-index:90;opacity:.5;background:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 1px,transparent 1px 3px)}
+
+  .bv{border:2px solid;border-color:var(--r60) var(--r15) var(--r15) var(--r60);background:#000}
+  .bv-in{border:2px solid;border-color:var(--r15) var(--r60) var(--r60) var(--r15);background:#000}
+
+  .icons{position:absolute;top:12px;left:10px;display:grid;gap:10px;z-index:1}
+  .icon{width:84px;text-align:center;cursor:pointer;padding:4px 2px;user-select:none}
+  .icon svg{width:36px;height:36px;margin:0 auto 4px;display:block;stroke:var(--r);fill:none;stroke-width:2}
+  .icon span{display:block;font-size:17px;line-height:1;padding:1px 2px}
+  .icon:hover span{background:var(--r);color:#000}
+
+  .wall{position:absolute;right:16px;bottom:40px;text-align:right;pointer-events:none;z-index:0}
+  .wall h1{font-weight:400;font-size:clamp(44px,11vw,140px);line-height:.85;letter-spacing:-.02em}
+  .wall p{font-size:19px;color:var(--r60);margin-top:4px}
+
+  .win{position:absolute;min-width:280px;max-width:calc(100vw - 12px);display:none;flex-direction:column;z-index:10}
+  .win.on{display:flex}
+  .tb{display:flex;align-items:center;gap:6px;padding:2px 6px;background:var(--r35);color:var(--r);font-size:19px;cursor:move;user-select:none}
+  .win.active .tb{background:var(--r);color:#000}
+  .tb .t{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb .t i{font-style:normal;opacity:.55}
+  .tb button{width:20px;height:18px;line-height:1;padding:0;border:1px solid currentColor}
+  .body{padding:10px;overflow:auto;max-height:calc(100vh - 110px)}
+  .menu{display:flex;gap:16px;padding:1px 8px;font-size:17px;border-bottom:1px solid var(--r15)}
+  .status{font-size:17px;padding:2px 8px;border-top:1px solid var(--r15);color:var(--r60);display:flex;justify-content:space-between}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .work{position:relative;aspect-ratio:1;overflow:hidden;cursor:pointer;background:#000}
+  .work canvas{width:100%;height:100%}
+  .work:hover{outline:1px solid var(--r);outline-offset:-1px}
+  .work b{position:absolute;left:3px;bottom:3px;right:3px;background:#000;font-weight:400;font-size:16px;padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  table{width:100%;border-collapse:collapse}
+  td,th{padding:3px 8px;text-align:left;border-bottom:1px solid var(--r15);font-weight:400}
+  th{color:var(--r60);font-size:17px}
+  tr:hover td{background:var(--r);color:#000}
+  .btn{display:inline-block;padding:1px 14px;border:1px solid var(--r);line-height:1.2}
+  .btn:hover{background:var(--r);color:#000}
+
+  .prints{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .print canvas{aspect-ratio:1;width:100%}
+  .print .m{display:flex;justify-content:space-between;padding:4px 0}
+  .print .btn{width:100%;text-align:center}
+
+  pre{white-space:pre-wrap;font-family:var(--tt)}
+  .dim{color:var(--r60)}
+
+  .viewer .body{padding:4px}
+  .viewer canvas{width:min(84vw,600px);aspect-ratio:1;background:#000}
+
+  .task{position:fixed;left:0;right:0;bottom:0;height:30px;display:flex;align-items:center;gap:4px;padding:2px;z-index:80;background:#000;border-top:2px solid var(--r60)}
+  .start{padding:0 10px;height:24px;line-height:1}
+  .tasks{flex:1;display:flex;gap:3px;overflow:hidden}
+  .tasks button{height:24px;padding:0 8px;font-size:17px;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tasks button.cur{background:var(--r);color:#000}
+  .tray{height:24px;padding:0 10px;display:flex;align-items:center;gap:12px;font-size:17px}
+  .tray .rot{color:var(--r60)}
+
+  .smenu{position:fixed;left:2px;bottom:32px;width:200px;display:none;z-index:85}
+  .smenu.on{display:block}
+  .smenu li{list-style:none;padding:5px 10px;cursor:pointer;border-bottom:1px solid var(--r8)}
+  .smenu li:hover{background:var(--r);color:#000}
+
+  .dead{position:fixed;pointer-events:none;z-index:95;background:var(--r);width:2px;height:2px}
+  .dead.k{background:#000}
+
+  @media(max-width:600px){
+    .icons{gap:4px}.icon{width:68px}.grid{grid-template-columns:repeat(2,1fr)}
+    .win{left:4px!important;top:40px!important;right:4px;max-width:none;min-width:0;transform:none!important}
+    .wall{right:8px;bottom:36px}.wall h1{font-size:15vw}
+  }
+</style>
+</head>
+<body>
+<div class="desk"></div>
+
+<div class="icons">
+  <div class="icon" data-open="w-work"><svg viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="24"/><path d="M4 14h32"/><path d="M8 28l8-8 6 6 4-4 6 6"/></svg><span data-rot>WORK</span></div>
+  <div class="icon" data-open="w-music"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><circle cx="20" cy="20" r="3"/></svg><span data-rot>MUSIC</span></div>
+  <div class="icon" data-open="w-prints"><svg viewBox="0 0 40 40"><path d="M10 6h20v10H10z"/><rect x="6" y="16" width="28" height="14"/><path d="M12 24h16v10H12z"/></svg><span data-rot>PRINTS</span></div>
+  <div class="icon" data-open="w-about"><svg viewBox="0 0 40 40"><path d="M9 4h16l8 8v24H9z"/><path d="M25 4v8h8"/><path d="M14 20h12M14 25h12M14 30h8"/></svg><span data-rot>README.TXT</span></div>
+  <div class="icon" data-open="w-links"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="M5 20h30M20 5c6 6 6 24 0 30M20 5c-6 6-6 24 0 30"/></svg><span data-rot>LINKS</span></div>
+</div>
+
+<div class="wall">
+  <h1 data-rot>LIVE.AND.DIE</h1>
+  <p data-rot>ART / MUSIC / VIDEO — BURLINGTON, WI</p>
+</div>
+
+<div class="win bv" id="w-work" style="left:120px;top:24px;width:620px">
+  <div class="tb"><span class="t"><span data-rot>WORK</span> <i data-rot>C:\LIVE.AND.DIE\2026\</i></span><button class="min">_</button><button class="cls">×</button></div>
+  <div class="menu"><span data-rot>File</span><span data-rot>Edit</span><span data-rot>View</span></div>
+  <div class="body">
+    <div class="grid">
+      <div class="work" data-src="img/mouth.jpg" data-t="untitled (mouth) — 2026, video"><b data-rot>mouth.mp4</b></div>
+      <div class="work" data-src="img/fwm.jpg" data-t="F*ck with me — 2026, digital"><b data-rot>fwm.jpg</b></div>
+      <div class="work" data-src="img/soul.jpg" data-t="soul ripped — 2026, digital"><b data-rot>soul_ripped.jpg</b></div>
+      <div class="work" data-src="img/pcdd.jpg" data-t="Post Chromatic Death Disorder — 2026, digital"><b data-rot>pcdd.jpg</b></div>
+      <div class="work" data-src="img/bikechain.jpg" data-t="bikechain — 2026, digital"><b data-rot>bikechain.jpg</b></div>
+      <div class="work" data-src="img/bakuro.jpg" data-t="曝露療法 — 2026, digital"><b data-rot>曝露療法.jpg</b></div>
+      <div class="work" data-src="img/mix.jpg" data-t="実在世界MIX — 2026, video"><b data-rot>mix.mp4</b></div>
+      <div class="work" data-src="img/vhs.jpg" data-t="untitled (VHS) — 2026, video"><b data-rot>vhs_01.mp4</b></div>
+      <div class="work" data-src="img/hero.jpg" data-t="untitled (VHS) II — 2026, video"><b data-rot>vhs_02.mp4</b></div>
+    </div>
+  </div>
+  <div class="status"><span data-rot>9 objects</span><span class="rot-read"></span></div>
+</div>
+
+<div class="win bv" id="w-music" style="left:160px;top:64px;width:520px">
+  <div class="tb"><span class="t"><span data-rot>MUSIC</span></span><button class="min">_</button><button class="cls">×</button></div>
+  <div class="body">
+    <table>
+      <tr><th>#</th><th data-rot>title</th><th data-rot>type</th><th></th></tr>
+      <tr><td>01</td><td data-rot>Her.sloth</td><td data-rot>single, 2026</td><td><a class="btn" href="https://instagram.com/live.and.die" target="_blank" rel="noopener">play</a></td></tr>
+      <tr><td>02</td><td data-rot>untitled (mouth)</td><td data-rot>original audio, 2026</td><td><a class="btn" href="https://instagram.com/live.and.die" target="_blank" rel="noopener">play</a></td></tr>
+      <tr><td>03</td><td data-rot>実在世界MIX</td><td data-rot>mix, 2026</td><td><a class="btn" href="https://instagram.com/live.and.die" target="_blank" rel="noopener">play</a></td></tr>
+    </table>
+  </div>
+  <div class="status"><span data-rot>3 tracks</span><span class="rot-read"></span></div>
+</div>
+
+<div class="win bv" id="w-prints" style="left:200px;top:84px;width:560px">
+  <div class="tb"><span class="t"><span data-rot>PRINTS</span></span><button class="min">_</button><button class="cls">×</button></div>
+  <div class="body">
+    <div class="prints">
+      <div class="print" data-src="img/bikechain.jpg"><div class="m"><span data-rot>bikechain</span><span>$25</span></div><button class="btn" data-p="bikechain">request</button></div>
+      <div class="print" data-src="img/soul.jpg"><div class="m"><span data-rot>soul ripped</span><span>$25</span></div><button class="btn" data-p="soul ripped">request</button></div>
+      <div class="print" data-src="img/fwm.jpg"><div class="m"><span data-rot>f*ck with me</span><span>$25</span></div><button class="btn" data-p="F*ck with me">request</button></div>
+      <div class="print" data-src="img/pcdd.jpg"><div class="m"><span data-rot>p.c.d.d.</span><span>$25</span></div><button class="btn" data-p="Post Chromatic Death Disorder">request</button></div>
+    </div>
+    <p class="dim" style="margin-top:12px" data-rot>12x12 in. matte. signed. open edition. ships from WI.</p>
+  </div>
+  <div class="status"><span id="pstat" data-rot>request copies an order line. paste it to @live.and.die.</span><span class="rot-read"></span></div>
+</div>
+
+<div class="win bv" id="w-about" style="left:240px;top:54px;width:460px">
+  <div class="tb"><span class="t"><span data-rot>README.TXT</span></span><button class="min">_</button><button class="cls">×</button></div>
+  <div class="body"><pre data-rot>LIVE.AND.DIE
+
+David Black
+Burlington, Wisconsin
+
+art. music. video.
+2026.</pre></div>
+  <div class="status"><span></span><span class="rot-read"></span></div>
+</div>
+
+<div class="win bv" id="w-links" style="left:280px;top:104px;width:360px">
+  <div class="tb"><span class="t"><span data-rot>LINKS</span></span><button class="min">_</button><button class="cls">×</button></div>
+  <div class="body">
+    <table>
+      <tr><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>instagram</a></td><td class="dim">@live.and.die</td></tr>
+      <tr><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>streaming</a></td><td class="dim">Her.sloth</td></tr>
+      <tr><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>contact</a></td><td class="dim">DM</td></tr>
+    </table>
+  </div>
+  <div class="status"><span></span><span class="rot-read"></span></div>
+</div>
+
+<div class="win bv viewer" id="w-view" style="left:50%;top:30px;transform:translateX(-50%)">
+  <div class="tb"><span class="t" id="vt"></span><button class="cls">×</button></div>
+  <div class="body"><canvas id="vc" width="720" height="720"></canvas></div>
+  <div class="status"><span>720 × 720</span><span class="rot-read"></span></div>
+</div>
+
+<ul class="smenu bv" id="smenu">
+  <li data-open="w-work" data-rot>work</li><li data-open="w-music" data-rot>music</li><li data-open="w-prints" data-rot>prints</li><li data-open="w-links" data-rot>links</li><li data-open="w-about" data-rot>readme.txt</li>
+</ul>
+
+<div class="task">
+  <button class="start bv" id="start" data-rot>START</button>
+  <div class="tasks" id="tasks"></div>
+  <div class="tray bv-in"><span class="rot" id="rotpct">0x00</span><span id="clock">00:00</span></div>
+</div>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const store={get(){try{return parseFloat(localStorage.getItem('rot'))||0}catch(e){return 0}},set(v){try{localStorage.setItem('rot',v)}catch(e){}}};
+
+  // ---------- ROT STATE ----------
+  // rot in [0,1]. grows with interaction. never shrinks.
+  let rot=store.get(), heat=0;           // heat = recent interaction, decays
+  const feed=(amt)=>{ heat=Math.min(1,heat+amt); rot=Math.min(1,rot+amt*0.03); };
+  let lastX=0,lastY=0;
+  window.addEventListener('pointermove',e=>{ const d=Math.hypot(e.clientX-lastX,e.clientY-lastY); lastX=e.clientX;lastY=e.clientY; if(d<200) feed(d/4000); },{passive:true});
+  window.addEventListener('pointerdown',e=>{ feed(.12); dead(e.clientX,e.clientY,2+Math.floor(rot*6)); },{passive:true});
+  window.addEventListener('scroll',()=>feed(.02),{passive:true,capture:true});
+  window.addEventListener('keydown',()=>feed(.05));
+
+  // dead pixels where touched
+  function dead(x,y,n){ for(let i=0;i<n;i++){ const d=document.createElement('i'); d.className='dead'+(Math.random()<.4?' k':''); const s=1+Math.floor(Math.random()*3); d.style.cssText=`left:${x+(Math.random()-.5)*40*(1+rot*4)|0}px;top:${y+(Math.random()-.5)*40*(1+rot*4)|0}px;width:${s}px;height:${s}px`; document.body.appendChild(d);} }
+
+  // ---------- TEXT ROT ----------
+  const GL='░▒▓█▌▐▀▄■□▪▫'; const HX='0123456789ABCDEF';
+  const texts=[]; $$('[data-rot]').forEach(el=>{ el.dataset.orig=el.textContent; texts.push(el); });
+  function rotText(){
+    const p=rot*rot*0.9+heat*0.08;     // probability a char is damaged
+    for(const el of texts){
+      const o=el.dataset.orig; let out='';
+      for(let i=0;i<o.length;i++){ const c=o[i];
+        if(c===' '||c==='\n'){out+=c;continue}
+        const h=hash(el.dataset.orig+i+(rot*40|0));          // stable per char per rot-step
+        if(h<p) out+= (h<p*.3)? GL[(h*1e4|0)%GL.length] : (h<p*.6? HX[(h*1e5|0)%16] : ' ');
+        else out+=c;
+      }
+      if(el.textContent!==out) el.textContent=out;
+    }
+  }
+  function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)} return ((h>>>0)%10000)/10000; }
+
+  // ---------- IMAGE ROT ----------
+  // each image lives on a canvas; rot damages its pixel buffer in place, permanently for the session.
+  const imgs=new Map();
+  function loadInto(cv,src,size){ const im=new Image(); im.onload=()=>{ cv.width=size;cv.height=size; const cx=cv.getContext('2d'); cx.drawImage(im,0,0,size,size);
+      // force black/red: luminance -> red channel
+      const id=cx.getImageData(0,0,size,size),d=id.data; for(let i=0;i<d.length;i+=4){ const l=(d[i]*.3+d[i+1]*.59+d[i+2]*.11); const v=l>110?255:(l>60?120:0); d[i]=v;d[i+1]=0;d[i+2]=0; } cx.putImageData(id,0,0); imgs.set(cv,{cx,size,hot:0}); }; im.src=src; }
+  function damage(cv,amt){ const s=imgs.get(cv); if(!s) return; const {cx,size}=s; const n=Math.ceil(amt*12);
+    for(let k=0;k<n;k++){ const r=Math.random();
+      if(r<.5){ // row shear
+        const y=Math.random()*size|0, h=1+Math.random()*(4+amt*30)|0, dx=(Math.random()-.5)*size*amt*.8|0;
+        cx.drawImage(cv,0,y,size,h,dx,y,size,h); }
+      else if(r<.8){ // block drop
+        const w=4+Math.random()*size*amt*.5|0, h=2+Math.random()*size*amt*.2|0; cx.fillStyle=Math.random()<.5?'#000':'#f00'; cx.fillRect(Math.random()*size|0,Math.random()*size|0,w,h); }
+      else { // byte copy from elsewhere
+        const w=8+Math.random()*60|0,h=8+Math.random()*60|0; cx.drawImage(cv,Math.random()*size|0,Math.random()*size|0,w,h,Math.random()*size|0,Math.random()*size|0,w,h); }
+    } }
+  $$('.work').forEach(w=>{ const cv=document.createElement('canvas'); w.prepend(cv); loadInto(cv,w.dataset.src,240);
+    w.addEventListener('pointermove',()=>{ damage(cv,.06+rot*.3); feed(.004); },{passive:true}); });
+  $$('.print').forEach(w=>{ const cv=document.createElement('canvas'); w.prepend(cv); loadInto(cv,w.dataset.src,200);
+    w.addEventListener('pointermove',()=>{ damage(cv,.05+rot*.3); },{passive:true}); });
+  const vc=$('#vc'); vc.addEventListener('pointermove',()=>damage(vc,.03+rot*.2),{passive:true});
+
+  // ---------- TICK ----------
+  setInterval(()=>{
+    heat*=0.92;
+    if(rot>0||heat>0){ rotText();
+      for(const [cv] of imgs) if(Math.random()<rot*.6+heat*.3) damage(cv,rot*.4+heat*.2);
+      if(Math.random()<rot*.5) dead(Math.random()*innerWidth,Math.random()*innerHeight,1);
+    }
+    $('#rotpct').textContent='0x'+(rot*255|0).toString(16).padStart(2,'0').toUpperCase();
+    $$('.rot-read').forEach(e=>e.textContent=(rot*100|0)+'% rot');
+    store.set(rot);
+  },400);
+
+  // ---------- WINDOWS ----------
+  let z=10; const tasks=$('#tasks');
+  function focus(w){ $$('.win').forEach(x=>x.classList.remove('active')); w.classList.add('active'); w.style.zIndex=++z; $$('#tasks button').forEach(b=>b.classList.toggle('cur',b.dataset.w===w.id)); }
+  function open(id){ const w=document.getElementById(id); if(!w) return; feed(.08);
+    if(!w.classList.contains('on')){ w.classList.add('on');
+      if(id!=='w-view'&&!tasks.querySelector('[data-w="'+id+'"]')){ const b=document.createElement('button'); b.className='bv'; b.dataset.w=id; b.textContent=w.querySelector('.t').textContent.trim().split(' ')[0]; b.onclick=()=>{ if(w.classList.contains('on')&&w.classList.contains('active')){w.classList.remove('on');b.classList.remove('cur')} else {w.classList.add('on');focus(w)} }; tasks.appendChild(b);} }
+    focus(w); $('#smenu').classList.remove('on'); }
+  function close(w){ w.classList.remove('on'); const b=tasks.querySelector('[data-w="'+w.id+'"]'); if(b) b.remove(); }
+  $$('[data-open]').forEach(el=>el.addEventListener('click',()=>open(el.dataset.open)));
+  $$('.win').forEach(w=>{ w.addEventListener('pointerdown',()=>focus(w));
+    w.querySelector('.cls').onclick=e=>{e.stopPropagation();close(w)};
+    const m=w.querySelector('.min'); if(m) m.onclick=e=>{e.stopPropagation();w.classList.remove('on')};
+    const tb=w.querySelector('.tb'); let sx,sy,ox,oy,drag=false;
+    tb.addEventListener('pointerdown',e=>{ if(e.target.tagName==='BUTTON'||innerWidth<=600) return; drag=true; sx=e.clientX;sy=e.clientY; const r=w.getBoundingClientRect(); ox=r.left;oy=r.top; w.style.transform='none'; tb.setPointerCapture(e.pointerId); });
+    tb.addEventListener('pointermove',e=>{ if(!drag) return; w.style.left=(ox+e.clientX-sx)+'px'; w.style.top=(oy+e.clientY-sy)+'px'; });
+    tb.addEventListener('pointerup',()=>drag=false);
+  });
+
+  // viewer
+  $$('.work').forEach(el=>el.addEventListener('click',()=>{ $('#vt').textContent=el.dataset.t; loadInto(vc,el.dataset.src,720); open('w-view'); }));
+
+  // prints
+  $$('.print .btn').forEach(b=>b.addEventListener('click',()=>{ const t='print request: '+b.dataset.p+' / 12x12 matte'; try{navigator.clipboard.writeText(t)}catch(e){} const s=$('#pstat'); s.dataset.orig='copied. paste it to @live.and.die.'; }));
+
+  // start
+  $('#start').onclick=e=>{e.stopPropagation(); $('#smenu').classList.toggle('on')};
+  document.addEventListener('click',e=>{ if(!e.target.closest('#smenu,#start')) $('#smenu').classList.remove('on'); });
+
+  // clock
+  const ck=$('#clock'); const tick=()=>{ const d=new Date(); ck.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }; tick(); setInterval(tick,10000);
+
+  if(innerWidth>700) setTimeout(()=>open('w-about'),300);
+})();
+</script>
+</body>
+</html>
