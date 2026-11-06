@@ -4,294 +4,545 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LIVE.AND.DIE</title>
-<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<meta name="description" content="LIVE.AND.DIE PRODUCTIONS — customer portal. surplus memory stock, audio feelings, hard copies.">
 <style>
-  :root{--r:#ff0000;--r60:rgba(255,0,0,.6);--r35:rgba(255,0,0,.35);--r15:rgba(255,0,0,.15);--r8:rgba(255,0,0,.08);--tt:'VT323',ui-monospace,monospace}
+  :root{--r:#ff0000;--r2:#aa0000;--r3:#4a0000;--b:#3a3aff;--b2:#2222cc;--b3:#101060;--sf:'Times New Roman',Times,'Liberation Serif',serif;--tt:'Courier New',monospace}
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:#000;color:var(--r);font-family:var(--tt);font-size:19px;line-height:1.2;overflow:hidden;image-rendering:pixelated}
+  html{background:#000}
+  body{font-family:var(--sf);font-size:11px;line-height:1.35;color:var(--b);min-height:100vh;overflow-x:hidden;text-align:center}
   ::selection{background:var(--r);color:#000}
-  a{color:inherit;text-decoration:none}
-  img,video,canvas{display:block;max-width:100%}
+  a{color:var(--r);text-decoration:underline}
+  a:hover{background:var(--b);color:#000;text-decoration:none}
+  img,canvas,video{display:block;max-width:100%}
   button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+  b,strong{font-weight:700} i,em{font-style:italic}
+  p{margin:0 0 6px}
+  #bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;image-rendering:pixelated}
+  .hid{position:fixed;width:2px;height:2px;opacity:0;pointer-events:none;left:-10px}
+  body::before{content:"";pointer-events:none;position:fixed;inset:0;z-index:50;opacity:.45;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 1px,transparent 1px 3px)}
 
-  .desk{position:fixed;inset:0 0 30px 0;background:#000 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4'><rect width='4' height='4' fill='%23000'/><rect width='1' height='1' fill='%23200000'/><rect x='2' y='2' width='1' height='1' fill='%23200000'/></svg>")}
-  body::before{content:"";pointer-events:none;position:fixed;inset:0;z-index:90;opacity:.5;background:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 1px,transparent 1px 3px)}
+  .sh{text-shadow:1px 1px 0 #000,2px 2px 0 #000}
+  .ol{text-shadow:1px 0 #000,-1px 0 #000,0 1px #000,0 -1px #000,2px 2px 0 #000}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @keyframes inv{0%,49%{background:var(--r);color:#000}50%,100%{background:var(--b);color:#000}}
+  @keyframes bord{0%,49%{border-color:var(--r)}50%,100%{border-color:var(--b)}}
+  @keyframes strobe{0%,45%{opacity:1}50%{opacity:.25}55%,100%{opacity:1}}
+  @keyframes marq{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+  .blink{animation:blink 1s steps(1) infinite}
+  .blink2{animation:blink .5s steps(1) infinite}
+  .inv{animation:inv .8s steps(1) infinite;padding:0 4px;font-weight:700}
+  .flash{position:fixed;inset:0;background:var(--r);pointer-events:none;z-index:60;opacity:0}
 
-  .bv{border:2px solid;border-color:var(--r60) var(--r15) var(--r15) var(--r60);background:#000}
-  .bv-in{border:2px solid;border-color:var(--r15) var(--r60) var(--r60) var(--r15);background:#000}
+  .page{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:8px 6px 30px}
+  .corp{font-size:10px;letter-spacing:.15em;color:var(--r);font-weight:700}
+  h1{font-weight:700;font-size:clamp(26px,7vw,44px);line-height:1;margin:4px 0 2px;color:var(--r);animation:strobe 2s steps(1) infinite}
+  h2{font-weight:700;font-size:15px;line-height:1.1;margin:16px 0 4px;color:var(--r)}
+  h3{font-weight:700;font-size:12px;margin:8px 0 2px;color:var(--r)}
+  .tag{font-size:11px;color:var(--b);font-style:italic}
+  .hr{color:var(--r);font-size:11px;letter-spacing:.6em;margin:10px 0}
+  .marq{overflow:hidden;white-space:nowrap;border:1px solid var(--r);border-left:0;border-right:0;margin:8px -6px;background:#000}
+  .marq span{display:inline-block;padding:1px 0;color:var(--r);font-weight:700;font-family:var(--tt);font-size:11px;animation:marq 30s linear infinite}
+  .marq span u{color:var(--b);text-decoration:none}
 
-  .icons{position:absolute;top:12px;left:10px;display:grid;gap:10px;z-index:1}
-  .icon{width:84px;text-align:center;cursor:pointer;padding:4px 2px;user-select:none}
-  .icon svg{width:36px;height:36px;margin:0 auto 4px;display:block;stroke:var(--r);fill:none;stroke-width:2}
-  .icon span{display:block;font-size:17px;line-height:1;padding:1px 2px}
-  .icon:hover span{background:var(--r);color:#000}
+  table{border-collapse:collapse;margin:6px auto;width:100%}
+  td,th{vertical-align:top;text-align:left;padding:3px 6px}
+  .tbl{border:2px solid var(--r);background:#000}
+  .tbl td{border:1px solid var(--r3)}
+  .tbl th{border:1px solid var(--r3);color:var(--r);font-weight:700;background:var(--r3)}
+  .body{border:3px double var(--r);background:#000;padding:8px 10px;text-align:left;margin:8px 0}
+  .keys td:first-child{width:52px;text-align:center}
+  .keys b a{font-size:12px}
+  .keys i{color:var(--b)}
+  .nav td{text-align:center;border:1px solid var(--b3);padding:2px 4px;font-family:var(--tt);font-size:10px}
+  ul{text-align:left;margin:4px 0 4px 20px}
+  li{margin:1px 0}
+  .ctr{font-size:11px;color:var(--b)}
+  .ctr b{font-family:var(--tt);font-style:normal;font-weight:400;background:#000;color:var(--r);border:1px solid var(--r);padding:0 3px;letter-spacing:.1em}
+  .ctr button{border:1px solid var(--r);color:var(--r);padding:0 5px;font-size:10px;font-weight:700;animation:bord .6s steps(1) infinite}
+  .ctr button:hover{background:var(--r);color:#000}
+  .kw{font-size:9px;line-height:1.3;color:var(--r2);text-align:justify;word-break:break-word}
+  .kw.b{color:var(--b2)}
+  .fine{font-size:8px;line-height:1.2;color:var(--r2);text-align:justify;margin:4px 0}
+  .tos p{font-size:10px;line-height:1.3;text-align:justify;margin:0 0 3px}
+  .tos b{color:var(--r)}
+  .spec td:first-child{white-space:nowrap;color:var(--r);font-family:var(--tt);font-size:10px}
 
-  .wall{position:absolute;right:16px;bottom:40px;text-align:right;pointer-events:none;z-index:0}
-  .wall h1{font-weight:400;font-size:clamp(44px,11vw,140px);line-height:.85;letter-spacing:-.02em}
-  .wall p{font-size:19px;color:var(--r60);margin-top:4px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+  @media(max-width:480px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .work{border:2px solid var(--r);background:#000;cursor:pointer;text-decoration:none;display:block;position:relative}
+  .work canvas,.work video{width:100%;aspect-ratio:1;object-fit:cover;border-bottom:2px solid var(--r)}
+  .work b{display:block;font-size:10px;color:var(--r);padding:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .work:hover b{background:var(--b);color:#000}
+  .work .tv{position:absolute;top:3px;right:3px;background:var(--b);color:#000;font-size:8px;font-weight:700;padding:0 3px;border:1px solid #000}
+  .work .pr{position:absolute;top:3px;left:3px;background:var(--r);color:#000;font-size:9px;font-weight:700;padding:0 3px}
+  .adtile{border:2px solid var(--b);background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;padding:4px;color:var(--r);font-weight:700;line-height:1.1;animation:bord .7s steps(1) infinite;position:relative;overflow:hidden}
+  .adtile video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;border:0}
+  .adtile span{position:relative;font-size:13px}
+  .adtile small{position:relative;font-size:8px;color:var(--b);font-weight:400}
 
-  .win{position:absolute;min-width:280px;max-width:calc(100vw - 12px);display:none;flex-direction:column;z-index:10}
-  .win.on{display:flex}
-  .tb{display:flex;align-items:center;gap:6px;padding:2px 6px;background:var(--r35);color:var(--r);font-size:19px;cursor:move;user-select:none}
-  .win.active .tb{background:var(--r);color:#000}
-  .tb .t{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .tb .t i{font-style:normal;opacity:.55}
-  .tb button{width:20px;height:18px;line-height:1;padding:0;border:1px solid currentColor}
-  .body{padding:10px;overflow:auto;max-height:calc(100vh - 110px)}
-  .menu{display:flex;gap:16px;padding:1px 8px;font-size:17px;border-bottom:1px solid var(--r15)}
-  .status{font-size:17px;padding:2px 8px;border-top:1px solid var(--r15);color:var(--r60);display:flex;justify-content:space-between}
+  .g{image-rendering:pixelated;display:inline-block;vertical-align:middle}
+  .gr{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin:6px 0}
+  .wide{width:100%;height:auto;display:block;image-rendering:pixelated}
+  .ad{display:block;margin:8px auto;max-width:468px;width:100%;height:auto;image-rendering:auto}
+  .side{position:fixed;top:0;bottom:0;width:130px;z-index:1;display:none;flex-direction:column;align-items:center;justify-content:space-around;padding:10px 0;pointer-events:none}
+  .side.l{left:0}.side.r{right:0}
+  @media(min-width:920px){.side{display:flex}}
+  .b88{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:8px 0}
+  .b88 span{width:88px;height:31px;border:1px solid var(--r);font-size:10px;line-height:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:2px;background:#000;color:var(--r);font-style:normal}
+  .b88 span:nth-child(2n){background:var(--b);color:#000;border-color:#000}
+  footer{margin-top:16px;font-size:10px;color:var(--b)}
+  footer .bar{background:var(--b);color:var(--r);padding:1px 6px;display:inline-block;font-weight:700}
+  footer .bar a{color:var(--r)} footer .bar a:hover{background:#000;color:var(--b)}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  .work{position:relative;aspect-ratio:1;overflow:hidden;cursor:pointer;background:#000}
-  .work canvas{width:100%;height:100%}
-  .work:hover{outline:1px solid var(--r);outline-offset:-1px}
-  .work b{position:absolute;left:3px;bottom:3px;right:3px;background:#000;font-weight:400;font-size:16px;padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* popups */
+  .pop{position:fixed;z-index:65;width:260px;max-width:calc(100vw - 16px);border:2px solid var(--r);background:#000;text-align:left;box-shadow:4px 4px 0 var(--b3)}
+  .pop .tb{display:flex;align-items:center;justify-content:space-between;background:var(--r);color:#000;font-size:10px;font-weight:700;padding:1px 4px;font-family:var(--tt)}
+  .pop .tb button{color:#000;font-weight:700;border:1px solid #000;line-height:1;padding:0 4px;font-size:10px}
+  .pop .in{padding:8px 10px;color:var(--b)}
+  .pop .in b{display:block;color:var(--r);font-size:16px;line-height:1.05}
+  .pop .in i{display:block;font-size:11px;margin:3px 0}
+  .pop .in small{display:block;font-size:8px;color:var(--r2);line-height:1.2}
+  .pop .in .buy{display:inline-block;margin-top:6px;border:1px solid var(--r);color:var(--r);padding:1px 10px;font-weight:700;animation:inv .5s steps(1) infinite}
+  .pop.ck{width:300px;left:50%;top:40%;transform:translate(-50%,-50%);z-index:68}
+  .pop.ck .tb{background:var(--b)}
+  .pop.ck .in{font-size:11px}
+  .pop.ck .btns{display:flex;gap:8px;margin-top:8px}
+  .pop.ck .btns button{flex:1;border:2px solid var(--r);color:var(--r);font-weight:700;padding:3px}
+  .pop.ck .btns button:hover{background:var(--r);color:#000}
+  .chat{position:fixed;left:6px;bottom:6px;z-index:64;width:190px;border:2px solid var(--b);background:#000;text-align:left;font-size:10px;color:var(--b)}
+  .chat .tb{background:var(--b);color:#000;font-weight:700;font-family:var(--tt);padding:1px 4px;display:flex;justify-content:space-between}
+  .chat .tb button{color:#000;border:1px solid #000;padding:0 4px;line-height:1}
+  .chat .in{padding:5px 6px}
+  .chat .in i{display:block;color:var(--r2);font-size:9px}
+  .chat input{width:100%;background:#000;border:1px solid var(--r3);color:var(--r);font:inherit;padding:2px 4px;margin-top:4px}
+  @media(max-width:600px){.chat{width:150px}}
+  .inad{background:var(--b);color:#000;font-weight:700;font-style:normal;padding:0 3px;font-size:9px;animation:inv .7s steps(1) infinite;white-space:nowrap}
 
-  table{width:100%;border-collapse:collapse}
-  td,th{padding:3px 8px;text-align:left;border-bottom:1px solid var(--r15);font-weight:400}
-  th{color:var(--r60);font-size:17px}
-  tr:hover td{background:var(--r);color:#000}
-  .btn{display:inline-block;padding:1px 14px;border:1px solid var(--r);line-height:1.2}
-  .btn:hover{background:var(--r);color:#000}
-
-  .prints{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-  .print canvas{aspect-ratio:1;width:100%}
-  .print .m{display:flex;justify-content:space-between;padding:4px 0}
-  .print .btn{width:100%;text-align:center}
-
-  pre{white-space:pre-wrap;font-family:var(--tt)}
-  .dim{color:var(--r60)}
-
-  .viewer .body{padding:4px}
-  .viewer canvas{width:min(84vw,600px);aspect-ratio:1;background:#000}
-
-  .task{position:fixed;left:0;right:0;bottom:0;height:30px;display:flex;align-items:center;gap:4px;padding:2px;z-index:80;background:#000;border-top:2px solid var(--r60)}
-  .start{padding:0 10px;height:24px;line-height:1}
-  .tasks{flex:1;display:flex;gap:3px;overflow:hidden}
-  .tasks button{height:24px;padding:0 8px;font-size:17px;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .tasks button.cur{background:var(--r);color:#000}
-  .tray{height:24px;padding:0 10px;display:flex;align-items:center;gap:12px;font-size:17px}
-  .tray .rot{color:var(--r60)}
-
-  .smenu{position:fixed;left:2px;bottom:32px;width:200px;display:none;z-index:85}
-  .smenu.on{display:block}
-  .smenu li{list-style:none;padding:5px 10px;cursor:pointer;border-bottom:1px solid var(--r8)}
-  .smenu li:hover{background:var(--r);color:#000}
-
-  .dead{position:fixed;pointer-events:none;z-index:95;background:var(--r);width:2px;height:2px}
+  .lb{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.94);display:none;place-items:center;padding:10px}
+  .lb.on{display:grid}
+  .lb .in{border:3px double var(--r);background:#000;padding:4px;max-width:min(92vw,600px);width:100%}
+  .lb canvas{width:100%;aspect-ratio:1}
+  .lb .cap{display:flex;justify-content:space-between;padding:4px 2px 0;font-size:11px;color:var(--r)}
+  .lb .cap em{color:var(--b)}
+  .lb .x{position:fixed;top:6px;right:12px;font-size:36px;line-height:1;color:var(--r)}
+  .dead{position:fixed;pointer-events:none;z-index:55;background:var(--r);width:2px;height:2px}
   .dead.k{background:#000}
-
-  @media(max-width:600px){
-    .icons{gap:4px}.icon{width:68px}.grid{grid-template-columns:repeat(2,1fr)}
-    .win{left:4px!important;top:40px!important;right:4px;max-width:none;min-width:0;transform:none!important}
-    .wall{right:8px;bottom:36px}.wall h1{font-size:15vw}
-  }
+  .toast{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);background:var(--b);color:#000;padding:3px 12px;z-index:80;display:none;border:1px solid #000;outline:1px solid var(--r);font-weight:700}
 </style>
 </head>
 <body>
-<div class="desk"></div>
+<canvas id="bg"></canvas>
+<video class="hid" id="v1" src="img/loop.mp4" muted loop autoplay playsinline></video>
+<video class="hid" id="v2" src="img/vhsloop.mp4" muted loop autoplay playsinline></video>
+<video class="hid" id="v3" src="img/samcarly.mp4" muted loop autoplay playsinline></video>
+<div class="flash" id="flash"></div>
 
-<div class="icons">
-  <div class="icon" data-open="w-work"><svg viewBox="0 0 40 40"><rect x="4" y="8" width="32" height="24"/><path d="M4 14h32"/><path d="M8 28l8-8 6 6 4-4 6 6"/></svg><span data-rot>WORK</span></div>
-  <div class="icon" data-open="w-music"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><circle cx="20" cy="20" r="3"/></svg><span data-rot>MUSIC</span></div>
-  <div class="icon" data-open="w-prints"><svg viewBox="0 0 40 40"><path d="M10 6h20v10H10z"/><rect x="6" y="16" width="28" height="14"/><path d="M12 24h16v10H12z"/></svg><span data-rot>PRINTS</span></div>
-  <div class="icon" data-open="w-about"><svg viewBox="0 0 40 40"><path d="M9 4h16l8 8v24H9z"/><path d="M25 4v8h8"/><path d="M14 20h12M14 25h12M14 30h8"/></svg><span data-rot>README.TXT</span></div>
-  <div class="icon" data-open="w-links"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15"/><path d="M5 20h30M20 5c6 6 6 24 0 30M20 5c-6 6-6 24 0 30"/></svg><span data-rot>LINKS</span></div>
-</div>
+<div class="side l"><img class="g" src="gif/sky1.gif" width="120" height="600" alt="" style="image-rendering:auto"><img class="g" src="gif/radar.gif" width="64" height="64" alt=""><img class="g" src="gif/cube.gif" width="64" height="64" alt=""></div>
+<div class="side r"><img class="g" src="gif/sky2.gif" width="120" height="600" alt="" style="image-rendering:auto"><img class="g" src="gif/globe.gif" width="64" height="64" alt=""><img class="g" src="gif/octa.gif" width="64" height="64" alt=""></div>
 
-<div class="wall">
-  <h1 data-rot>LIVE.AND.DIE</h1>
-  <p data-rot>ART / MUSIC / VIDEO — BURLINGTON, WI</p>
-</div>
+<div class="page" id="top">
 
-<div class="win bv" id="w-work" style="left:120px;top:24px;width:620px">
-  <div class="tb"><span class="t"><span data-rot>WORK</span> <i data-rot>C:\LIVE.AND.DIE\2026\</i></span><button class="min">_</button><button class="cls">×</button></div>
-  <div class="menu"><span data-rot>File</span><span data-rot>Edit</span><span data-rot>View</span></div>
+  <div class="corp" data-rot>LIVE.AND.DIE PRODUCTIONS ¤ CUSTOMER PORTAL ¤ FISCAL YEAR 2038</div>
+  <h1 class="ol" data-rot>LIVE.AND.DIE</h1>
+  <div class="tag sh" data-rot>licensed retailer of feelings, memories &amp; related consumables ¤ region 5</div>
+  <div class="gr"><img class="g" src="gif/cd.gif" width="40" height="40" alt=""><img class="g" src="gif/scope.gif" width="120" height="40" alt=""><img class="g" src="gif/cube.gif" width="40" height="40" alt=""><img class="g" src="gif/lad.gif" width="120" height="30" alt=""><img class="g" src="gif/octa.gif" width="40" height="40" alt=""><img class="g" src="gif/bars.gif" width="72" height="30" alt=""><img class="g" src="gif/cd.gif" width="40" height="40" alt=""></div>
+  <div class="marq"><span id="tick"></span></div>
+  <div class="ctr">you are visitor # <b id="cnt">000000</b> &nbsp; <span class="blink2">■</span> <b id="rotpct">0x00</b> &nbsp; <span class="blink2">■</span> your visit is currently valued at <b id="val">$0.0043</b> <button id="sell" data-rot>SELL</button></div>
+  <img class="ad" src="gif/ad_feel.gif" width="468" height="60" alt="">
+
+  <div class="body" id="notice">
+    <p data-rot><b class="inv">NOTICE TO CUSTOMERS</b></p>
+    <p data-rot>It is the year 2038. Feelings are manufactured, licensed and sold by the unit. Memories are forged to order and shipped in kits. LIVE.AND.DIE PRODUCTIONS is a licensed retailer of feelings, memories and related consumables serving Region 5. This portal lists current surplus stock, audio feelings in inventory, hard-copy ordering, manufacturing standards, recall notices and terms of service. All prices in United States dollars. Taxes calculated at checkout. All sales are final.</p>
+    <p data-rot>The stock listed below was recovered from a single account. The account holder is not named. He spends his days in a rented room with the blinds down, a desktop built from parts, a phone with a cracked screen, nine unsold prints in a tube, two sheets of something, a bottle of something else, cold fries, a cassette with the tape pulled out, a television that only gets channel 2, a web show from 2007 playing at half speed on a laptop that will not close, and the feeling, which is not for sale, of having been a child once in a country that sold it back to him at retail. The company has acquired everything else. It is offered here at a discount.</p>
+    <p data-rot>Customers are advised that the portal degrades with use and that the company does not repair it. A representative will be with you shortly.</p>
+  </div>
+
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="keys" data-rot>Keys or Bookmarks to the Catalogue</h2>
+  <div class="tag" data-rot>every department is on this one page. there are no other pages. there is no other store.</div>
+  <table class="tbl keys">
+    <tr><td><a href="#stock"><img class="g" src="gif/cube.gif" width="40" height="40" alt=""></a></td><td><b><a href="#stock" data-rot>Surplus Memory Stock</a></b> — <i data-rot>ten units, 2026. digital, video, collage. three video units play on this page.</i></td></tr>
+    <tr><td><a href="#audio"><img class="g" src="gif/cd.gif" width="40" height="40" alt=""></a></td><td><b><a href="#audio" data-rot>Audio Feelings</a></b> — <i data-rot>SAM 遗事 CARLY / / CARLY 遗事 SAM (album, 2026), Her.sloth (single, 2026), and loose audio.</i></td></tr>
+    <tr><td><a href="#order"><img class="g" src="gif/pyr.gif" width="40" height="40" alt=""></a></td><td><b><a href="#order" data-rot>Hard Copy Order Form</a></b> — <i data-rot>12×12 inch matte, signed, open edition. the only physical product sold here.</i></td></tr>
+    <tr><td><a href="#standards"><img class="g" src="gif/octa.gif" width="40" height="40" alt=""></a></td><td><b><a href="#standards" data-rot>Manufacturing Standards</a></b> — <i data-rot>STD-01 through STD-06. contrast, source, body, sound, equipment, packaging.</i></td></tr>
+    <tr><td><a href="#terms"><img class="g" src="gif/hex.gif" width="52" height="14" alt=""></a></td><td><b><a href="#terms" data-rot>Terms of Service</a></b> — <i data-rot>acceptance, feelings, memory, consumables, children, liability, arbitration, governing law, severability.</i></td></tr>
+    <tr><td><a href="#recalls"><img class="g" src="gif/radar.gif" width="40" height="40" alt=""></a></td><td><b><a href="#recalls" data-rot>Recall Notices &amp; Revisions</a></b> — <i data-rot>dated. including the recall of all childhoods sold 1998–2012.</i></td></tr>
+    <tr><td><a href="#service"><img class="g" src="gif/globe.gif" width="40" height="40" alt=""></a></td><td><b><a href="#service" data-rot>Customer Service</a></b> — <i data-rot>frequently asked questions. returns. a representative will be with you shortly.</i></td></tr>
+    <tr><td><a href="#dealers"><img class="g" src="gif/rings.gif" width="40" height="40" alt=""></a></td><td><b><a href="#dealers" data-rot>Authorized Dealers</a></b> — <i data-rot>Instagram, Bandcamp, YouTube, contact. DM only.</i></td></tr>
+    <tr><td><a href="#keywords"><img class="g" src="gif/bin.gif" width="36" height="48" alt=""></a></td><td><b><a href="#keywords" data-rot>Key Words</a></b> — <i data-rot>for the search engines.</i></td></tr>
+  </table>
+  <img class="ad" src="gif/ad_singles.gif" width="468" height="60" alt="">
+
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="stock" data-rot>Surplus Memory Stock</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
   <div class="body">
+    <p data-rot>Ten units, all 2026, all recovered from the account described above. Click any unit to inspect it at full size. Units are displayed in four tones of red per STD-01; the colour originals are shown on the Instagram at no charge. The video units are short loops cut from the full pieces. Hard copies of any unit are available through the order form. Feelings pictured are not included.</p>
     <div class="grid">
-      <div class="work" data-src="img/mouth.jpg" data-t="untitled (mouth) — 2026, video"><b data-rot>mouth.mp4</b></div>
-      <div class="work" data-src="img/fwm.jpg" data-t="F*ck with me — 2026, digital"><b data-rot>fwm.jpg</b></div>
-      <div class="work" data-src="img/soul.jpg" data-t="soul ripped — 2026, digital"><b data-rot>soul_ripped.jpg</b></div>
-      <div class="work" data-src="img/pcdd.jpg" data-t="Post Chromatic Death Disorder — 2026, digital"><b data-rot>pcdd.jpg</b></div>
-      <div class="work" data-src="img/bikechain.jpg" data-t="bikechain — 2026, digital"><b data-rot>bikechain.jpg</b></div>
-      <div class="work" data-src="img/bakuro.jpg" data-t="曝露療法 — 2026, digital"><b data-rot>曝露療法.jpg</b></div>
-      <div class="work" data-src="img/mix.jpg" data-t="実在世界MIX — 2026, video"><b data-rot>mix.mp4</b></div>
-      <div class="work" data-src="img/vhs.jpg" data-t="untitled (VHS) — 2026, video"><b data-rot>vhs_01.mp4</b></div>
-      <div class="work" data-src="img/hero.jpg" data-t="untitled (VHS) II — 2026, video"><b data-rot>vhs_02.mp4</b></div>
+      <a class="work" data-src="img/mouth.jpg" data-t="untitled (mouth)" data-m="LAD-0001 · 2026 · video"><video src="img/loop.mp4" muted loop autoplay playsinline></video><span class="tv">AS SEEN ON TV</span><b data-rot>mouth.mp4</b></a>
+      <a class="work" data-src="img/fwm.jpg" data-t="F*ck with me" data-m="LAD-0002 · 2026 · digital"><span class="pr">$25</span><b data-rot>fwm.jpg</b></a>
+      <a class="work" data-src="img/soul.jpg" data-t="soul ripped" data-m="LAD-0003 · 2026 · digital"><b data-rot>soul_ripped.jpg</b></a>
+      <a class="work" data-src="img/pcdd.jpg" data-t="Post Chromatic Death Disorder" data-m="LAD-0004 · 2026 · digital"><span class="pr">$25</span><b data-rot>pcdd.jpg</b></a>
+      <a class="work" data-src="img/bikechain.jpg" data-t="bikechain" data-m="LAD-0005 · 2026 · digital"><span class="tv">AS SEEN ON TV</span><b data-rot>bikechain.jpg</b></a>
+      <a class="work" data-src="img/bakuro.jpg" data-t="曝露療法" data-m="LAD-0006 · 2026 · collage"><b data-rot>曝露療法.jpg</b></a>
+      <a class="work" data-src="img/mix.jpg" data-t="実在世界MIX" data-m="LAD-0007 · 2026 · video"><span class="pr">$25</span><b data-rot>mix.mp4</b></a>
+      <a class="work" data-src="img/vhs.jpg" data-t="untitled (VHS)" data-m="LAD-0008 · 2026 · video"><video src="img/vhsloop.mp4" muted loop autoplay playsinline></video><b data-rot>vhs_01.mp4</b></a>
+      <a class="work" data-src="img/hero.jpg" data-t="untitled (VHS) II" data-m="LAD-0009 · 2026 · video"><b data-rot>vhs_02.mp4</b></a>
+      <a class="work" data-src="img/samcarly.jpg" data-t="SAM 遗事 CARLY / / CARLY 遗事 SAM (excerpt)" data-m="LAD-0010 · 2026 · video"><video src="img/samcarly.mp4" muted loop autoplay playsinline></video><span class="tv">AS SEEN ON TV</span><b data-rot>sam_carly.mp4</b></a>
+      <div class="adtile"><video src="img/loop.mp4" muted loop autoplay playsinline></video><span data-rot>XXX ¤ LIVE ¤ UNCENSORED</span><small data-rot>1-900-555-0199 · $3.99/min · must be 18+ · must be something</small></div>
+      <div class="adtile"><span data-rot>THIS SPACE FOR RENT</span><small data-rot>$9.99/mo · high traffic · low feelings · inquire within</small></div>
     </div>
+    <h3 data-rot>Catalogue</h3>
+    <table class="tbl">
+      <tr><th data-rot>SKU</th><th data-rot>unit</th><th data-rot>type</th><th data-rot>condition</th><th data-rot>notes</th></tr>
+      <tr><td data-rot>LAD-0001</td><td data-rot><b>untitled (mouth)</b></td><td data-rot>video, 1:1</td><td data-rot>crushed</td><td data-rot><i>nine mouths. red. the audio is the original.</i></td></tr>
+      <tr><td data-rot>LAD-0002</td><td data-rot><b>F*ck with me</b></td><td data-rot>digital</td><td data-rot>crushed</td><td data-rot><i>the only unit with more than one colour.</i></td></tr>
+      <tr><td data-rot>LAD-0003</td><td data-rot><b>soul ripped</b></td><td data-rot>digital</td><td data-rot>crushed</td><td data-rot><i>cassette tape pulled out of a deck. black and white. no grey.</i></td></tr>
+      <tr><td data-rot>LAD-0004</td><td data-rot><b>Post Chromatic Death Disorder</b></td><td data-rot>digital</td><td data-rot>crushed</td><td data-rot><i>liquid figure. the title is the diagnosis.</i></td></tr>
+      <tr><td data-rot>LAD-0005</td><td data-rot><b>bikechain</b></td><td data-rot>digital</td><td data-rot>crushed</td><td data-rot><i>line drawing. upside-down figure. chains.</i></td></tr>
+      <tr><td data-rot>LAD-0006</td><td data-rot><b>曝露療法</b></td><td data-rot>collage</td><td data-rot>crushed</td><td data-rot><i>"exposure therapy." magazine scan, figure, adult sticker.</i></td></tr>
+      <tr><td data-rot>LAD-0007</td><td data-rot><b>実在世界MIX</b></td><td data-rot>video</td><td data-rot>crushed</td><td data-rot><i>"real world mix." found television, layered, with its own mix underneath.</i></td></tr>
+      <tr><td data-rot>LAD-0008</td><td data-rot><b>untitled (VHS)</b></td><td data-rot>video</td><td data-rot>crushed</td><td data-rot><i>figure, arm up, tape noise, the watermark burned in.</i></td></tr>
+      <tr><td data-rot>LAD-0009</td><td data-rot><b>untitled (VHS) II</b></td><td data-rot>video</td><td data-rot>crushed</td><td data-rot><i>same tape, later. the title in the frame.</i></td></tr>
+      <tr><td data-rot>LAD-0010</td><td data-rot><b>SAM 遗事 CARLY / / CARLY 遗事 SAM</b> (excerpt)</td><td data-rot>video</td><td data-rot>moshed</td><td data-rot><i>a web show from 2007, datamoshed. the album of the same name plays under it.</i></td></tr>
+    </table>
+    <p class="fine" data-rot>Condition "crushed" indicates a unit manufactured to STD-01 with no midtones present. Condition "moshed" indicates a unit in which the source footage has been allowed to decay in accordance with STD-02. Units are sold as-is. Units are not guaranteed to produce a feeling. Units that produce a feeling are not guaranteed to produce the same feeling twice. Pictured feelings are a serving suggestion.</p>
   </div>
-  <div class="status"><span data-rot>9 objects</span><span class="rot-read"></span></div>
-</div>
+  <img class="ad" src="gif/ad_dust.gif" width="468" height="60" alt="">
 
-<div class="win bv" id="w-music" style="left:160px;top:64px;width:520px">
-  <div class="tb"><span class="t"><span data-rot>MUSIC</span></span><button class="min">_</button><button class="cls">×</button></div>
+  <div class="gr"><img class="g" src="gif/plane.gif" width="64" height="48" alt=""><img class="g" src="gif/static.gif" width="40" height="40" alt=""><img class="g" src="gif/pulse.gif" width="40" height="40" alt=""><img class="g" src="gif/prog.gif" width="160" height="16" alt=""><img class="g" src="gif/pulse.gif" width="40" height="40" alt=""><img class="g" src="gif/static.gif" width="40" height="40" alt=""><img class="g" src="gif/plane.gif" width="64" height="48" alt=""></div>
+
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="audio" data-rot>Audio Feelings</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
   <div class="body">
-    <table>
-      <tr><th>#</th><th data-rot>title</th><th data-rot>type</th><th></th></tr>
-      <tr><td>01</td><td data-rot>Her.sloth</td><td data-rot>single, 2026</td><td><a class="btn" href="https://instagram.com/live.and.die" target="_blank" rel="noopener">play</a></td></tr>
-      <tr><td>02</td><td data-rot>untitled (mouth)</td><td data-rot>original audio, 2026</td><td><a class="btn" href="https://instagram.com/live.and.die" target="_blank" rel="noopener">play</a></td></tr>
-      <tr><td>03</td><td data-rot>実在世界MIX</td><td data-rot>mix, 2026</td><td><a class="btn" href="https://instagram.com/live.and.die" target="_blank" rel="noopener">play</a></td></tr>
+    <p data-rot>Audio units in inventory. Noise, industrial, IDM, vapornoise. Manufactured to STD-04: the reference material is sampled, slowed, crushed and returned to the customer with the middle removed. Audio units are delivered through authorized dealers only.</p>
+    <table class="tbl">
+      <tr><th>#</th><th data-rot>unit</th><th data-rot>type</th><th data-rot>notes</th><th></th></tr>
+      <tr><td>01</td><td data-rot><b><span class="blink2">♪</span> SAM 遗事 CARLY / / CARLY 遗事 SAM</b></td><td data-rot>album · 2026</td><td data-rot><i>a tribute. 2038. a former child star, a web show, a friend presumed dead, a high-rise, the pop of 2007 at half speed.</i></td><td><a href="https://ladproductions.bandcamp.com/album/sam-carly-carly-sam" target="_blank" rel="noopener" data-rot>[BANDCAMP]</a></td></tr>
+      <tr><td>02</td><td data-rot><b>Her.sloth</b></td><td data-rot>single · 2026</td><td data-rot><i>first release.</i></td><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>[LISTEN]</a></td></tr>
+      <tr><td>03</td><td data-rot><b>untitled (mouth)</b></td><td data-rot>original audio · 2026</td><td data-rot><i>the sound under the nine mouths. loops.</i></td><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>[LISTEN]</a></td></tr>
+      <tr><td>04</td><td data-rot><b>実在世界MIX</b></td><td data-rot>mix · 2026</td><td data-rot><i>found television audio, pitched.</i></td><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>[LISTEN]</a></td></tr>
+      <tr><td>05</td><td data-rot><b>(untitled)</b></td><td data-rot>in production</td><td data-rot><i>—</i></td><td data-rot>[SOON]</td></tr>
+    </table>
+    <p class="fine" data-rot>Audio feelings are licensed, not sold. The license is non-transferable and terminates on the customer's death, or on the death of the feeling, whichever comes first. Streaming links replace the dealer links when the distributor clears them. The distributor has not cleared them. The distributor has not cleared anything since 2011.</p>
+  </div>
+
+  <div class="gr"><img class="g" src="gif/spin.gif" width="28" height="28" alt=""><img class="g" src="gif/digits.gif" width="64" height="20" alt=""><img class="g" src="gif/liss.gif" width="40" height="40" alt=""><img class="g" src="gif/moire.gif" width="48" height="48" alt=""><img class="g" src="gif/bar.gif" width="96" height="32" alt=""><img class="g" src="gif/moire.gif" width="48" height="48" alt=""><img class="g" src="gif/liss.gif" width="40" height="40" alt=""><img class="g" src="gif/digits.gif" width="64" height="20" alt=""><img class="g" src="gif/spin.gif" width="28" height="28" alt=""></div>
+  <img class="ad" src="gif/ad_revisit.gif" width="468" height="60" alt="">
+
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="order" data-rot>Hard Copy Order Form</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
+  <div class="body">
+    <p data-rot>Hard copies are the only physical product sold through this portal. There is no cart and no checkout. Click a unit below and an order line is copied to your clipboard. Paste it into a DM to the Instagram dealer. A representative will reply with payment details.</p>
+    <div class="grid">
+      <a class="work print" data-src="img/bikechain.jpg" data-p="LAD-0005 bikechain"><span class="pr">$25</span><b data-rot>bikechain</b></a>
+      <a class="work print" data-src="img/soul.jpg" data-p="LAD-0003 soul ripped"><span class="pr">$25</span><b data-rot>soul ripped</b></a>
+      <a class="work print" data-src="img/fwm.jpg" data-p="LAD-0002 F*ck with me"><span class="pr">$25</span><b data-rot>f*ck with me</b></a>
+      <a class="work print" data-src="img/pcdd.jpg" data-p="LAD-0004 Post Chromatic Death Disorder"><span class="pr">$25</span><b data-rot>p.c.d.d.</b></a>
+    </div>
+    <ul>
+      <li data-rot><b>12 × 12 inch hard copy</b>, matte stock, signed on the back. Open edition. <b>$25</b> plus shipping.</li>
+      <li data-rot><b>Any unit in surplus stock</b>, including stills from the video units, can be printed at the same size and price. State the SKU.</li>
+      <li data-rot><b>Larger sizes</b> (18 × 18, 24 × 24) on request.</li>
+      <li data-rot><b>Digital files are not sold.</b> Feelings are not sold here. Feelings are sold everywhere else.</li>
+    </ul>
+    <p data-rot><b>Please note:</b> hard copies are printed from the colour originals, not the red versions shown on this portal. A red version can be made on request. Ships rolled, in a tube, within the United States; elsewhere on request.</p>
+    <p class="fine" data-rot>Order lines are copied to the clipboard only; this portal does not transmit anything. By pasting an order line you agree to the Terms of Service in their entirety, including §5 (Children) and §9 (Severability). Shipping estimates are estimates. Delivery is not guaranteed in the event of recall, weather, war, or the customer no longer wanting it, which is the most common event.</p>
+  </div>
+
+  <div class="gr"><img class="g" src="gif/xhair.gif" width="36" height="36" alt=""><img class="g" src="gif/bin.gif" width="42" height="56" alt=""><img class="g" src="gif/rings.gif" width="40" height="40" alt=""><img class="g" src="gif/lad.gif" width="120" height="30" alt=""><img class="g" src="gif/rings.gif" width="40" height="40" alt=""><img class="g" src="gif/bin.gif" width="42" height="56" alt=""><img class="g" src="gif/xhair.gif" width="36" height="36" alt=""></div>
+
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="standards" data-rot>Manufacturing Standards</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
+  <div class="body">
+    <p data-rot>All units are manufactured to the following standards. Units failing any standard are destroyed, or sold at a discount.</p>
+    <table class="tbl spec">
+      <tr><td>STD-01</td><td data-rot><b>CONTRAST.</b> No midtones. Every unit is pushed until the grey is gone: either black and white, or black and one colour. A photograph with a full tonal range is asking you to believe it. A photograph with two tones is asking you to look at it. What survives is the unit. What does not was decoration.</td></tr>
+      <tr><td>STD-02</td><td data-rot><b>SOURCE.</b> Found, not shot. Tape, scans, magazines, television: material that already existed and already had a texture. The compression, the tracking lines, the dither and the moiré are the grain of the material and are not defects. The job is to find the image that is already in there and remove everything around it.</td></tr>
+      <tr><td>STD-03</td><td data-rot><b>BODY.</b> Mouths without faces. Hands without arms. A torso in liquid. A figure upside down. The body is cut where it needs to be cut, the way a collage cuts paper. No unit is about a person. Every unit is about the shape.</td></tr>
+      <tr><td>STD-04</td><td data-rot><b>SOUND.</b> Mean level −17 dB. No dynamics. No air. The pictures have no midtones and the sound has none either. Audio units that breathe are returned to the line.</td></tr>
+      <tr><td>STD-05</td><td data-rot><b>EQUIPMENT.</b> A phone. A desktop built from parts. Free software. No unit is generated. No unit is rendered on a farm.</td></tr>
+      <tr><td>STD-06</td><td data-rot><b>PACKAGING.</b> This portal. One file, written by hand, in the manner of portals that were written by one person for no reason except that they wanted to, which the customer could tell.</td></tr>
     </table>
   </div>
-  <div class="status"><span data-rot>3 tracks</span><span class="rot-read"></span></div>
-</div>
+  <img class="ad" src="gif/ad_doctor.gif" width="468" height="60" alt="">
 
-<div class="win bv" id="w-prints" style="left:200px;top:84px;width:560px">
-  <div class="tb"><span class="t"><span data-rot>PRINTS</span></span><button class="min">_</button><button class="cls">×</button></div>
-  <div class="body">
-    <div class="prints">
-      <div class="print" data-src="img/bikechain.jpg"><div class="m"><span data-rot>bikechain</span><span>$25</span></div><button class="btn" data-p="bikechain">request</button></div>
-      <div class="print" data-src="img/soul.jpg"><div class="m"><span data-rot>soul ripped</span><span>$25</span></div><button class="btn" data-p="soul ripped">request</button></div>
-      <div class="print" data-src="img/fwm.jpg"><div class="m"><span data-rot>f*ck with me</span><span>$25</span></div><button class="btn" data-p="F*ck with me">request</button></div>
-      <div class="print" data-src="img/pcdd.jpg"><div class="m"><span data-rot>p.c.d.d.</span><span>$25</span></div><button class="btn" data-p="Post Chromatic Death Disorder">request</button></div>
-    </div>
-    <p class="dim" style="margin-top:12px" data-rot>12x12 in. matte. signed. open edition. ships from WI.</p>
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="terms" data-rot>Terms of Service</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
+  <div class="body tos">
+    <p data-rot><b>§1 ACCEPTANCE.</b> By viewing this portal you agree to these terms. By not viewing this portal you agree to these terms. By having once been in a position to view this portal, you agree to these terms. Agreement is retroactive to birth and survives termination.</p>
+    <p data-rot><b>§2 FEELINGS.</b> All feelings are sold as-is, where-is, with all faults. The company makes no representation that any feeling corresponds to any event, person, place or prior feeling. Feelings are non-returnable, non-refundable, non-transferable and non-negotiable. Feelings purchased in error remain the property of the customer. There is no procedure for feelings purchased in error.</p>
+    <p data-rot><b>§3 MEMORY.</b> Memories are forged to order. The company does not warrant that a memory sold corresponds to an event that occurred. Revisit kits may cause the event to occur. The company is not liable for events that occur as a result of being remembered. Memories recovered from the account described in the Notice to Customers are sold at surplus and may contain traces of the account holder.</p>
+    <p data-rot><b>§4 CONSUMABLES.</b> Consumables are intended for consumption. The company makes no representation as to what the customer will become. Angel dust, acid, dissociatives and other consumables advertised on this portal are advertised; whether they are sold is a question for a representative. A representative will be with you shortly.</p>
+    <p data-rot><b>§5 CHILDREN.</b> The company no longer sells childhoods. Childhoods sold prior to 2012 remain the property of the company and may be recalled at any time without notice. Customers in possession of a recalled childhood must not return it. Keep it where it is. A representative will collect.</p>
+    <p data-rot><b>§6 LIABILITY.</b> THE COMPANY IS NOT LIABLE FOR ANYTHING THAT HAS HAPPENED TO YOU, IS HAPPENING TO YOU, OR WILL HAPPEN TO YOU, INCLUDING AS A RESULT OF THIS PORTAL, THE UNITS, THE CONSUMABLES, THE COUNTRY, OR THE YEAR. The company's total liability to any customer shall not exceed the lesser of (a) the purchase price of the feeling, or (b) $0.00.</p>
+    <p data-rot><b>§7 ARBITRATION.</b> All disputes will be settled by a representative. The representative's decision is final. The representative will be with you shortly. "Shortly" is not defined in these terms and the company reserves the right not to define it.</p>
+    <p data-rot><b>§8 GOVERNING LAW.</b> These terms are governed by the laws of the United States of America, which are available for purchase. Taxes calculated at checkout.</p>
+    <p data-rot><b>§9 SEVERABILITY.</b> If any part of you is found to be invalid or unenforceable, the rest of you remains in full force and effect.</p>
+    <p data-rot><b>§10 PRIVACY.</b> This portal sets no cookies, except the one that remembers how much of it you have used, and the one that remembers you were here, and the one you agreed to be. Your visit has been valued. The valuation is shown at the top of the portal and may be sold back to the company at any time at the current rate. The current rate is $0.00.</p>
   </div>
-  <div class="status"><span id="pstat" data-rot>request copies an order line. paste it to @live.and.die.</span><span class="rot-read"></span></div>
-</div>
 
-<div class="win bv" id="w-about" style="left:240px;top:54px;width:460px">
-  <div class="tb"><span class="t"><span data-rot>README.TXT</span></span><button class="min">_</button><button class="cls">×</button></div>
-  <div class="body"><pre data-rot>LIVE.AND.DIE
+  <div class="gr"><img class="g" src="gif/scope.gif" width="120" height="40" alt=""><img class="g" src="gif/radar.gif" width="40" height="40" alt=""><img class="g" src="gif/static.gif" width="40" height="40" alt=""><img class="g" src="gif/radar.gif" width="40" height="40" alt=""><img class="g" src="gif/scope.gif" width="120" height="40" alt=""></div>
+  <img class="ad" src="gif/ad_lawyer.gif" width="468" height="60" alt="">
 
-David Black
-Burlington, Wisconsin
-
-art. music. video.
-2026.</pre></div>
-  <div class="status"><span></span><span class="rot-read"></span></div>
-</div>
-
-<div class="win bv" id="w-links" style="left:280px;top:104px;width:360px">
-  <div class="tb"><span class="t"><span data-rot>LINKS</span></span><button class="min">_</button><button class="cls">×</button></div>
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="recalls" data-rot>Recall Notices &amp; Revisions</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
   <div class="body">
-    <table>
-      <tr><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>instagram</a></td><td class="dim">@live.and.die</td></tr>
-      <tr><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>streaming</a></td><td class="dim">Her.sloth</td></tr>
-      <tr><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>contact</a></td><td class="dim">DM</td></tr>
+    <table class="tbl">
+      <tr><td data-rot><b>06/NOV/2026</b></td><td data-rot>Portal rebuilt. Stock relisted at retail. Advertising added. Terms of Service extended to cover feelings purchased before 2038. Unit LAD-0010 added to surplus stock.</td></tr>
+      <tr><td data-rot><b>05/NOV/2026</b></td><td data-rot>Portal opened. Domain acquired. First order received: one Tuesday, 2007. Could not be fulfilled. Three earlier versions of the portal were built and discarded the same day.</td></tr>
+      <tr><td data-rot><b>21/MAY/2026</b></td><td data-rot>SAM 遗事 CARLY / / CARLY 遗事 SAM released through the Bandcamp dealer.</td></tr>
+      <tr><td data-rot><b>2026</b></td><td data-rot>Her.sloth released. Nine units added to surplus stock.</td></tr>
+      <tr><td data-rot><b class="inv">RECALL</b></td><td data-rot><b>All childhoods sold between 1998 and 2012 are recalled</b> due to a defect in the feeling. Do not return them. Keep them where they are. Do not attempt to repair them. A representative will collect. Customers who have already attempted repair should see Customer Service.</td></tr>
     </table>
   </div>
-  <div class="status"><span></span><span class="rot-read"></span></div>
+
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="service" data-rot>Customer Service</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
+  <div class="body">
+    <p data-rot><b>Is any of this generated?</b> No. Every unit is made by hand from tape, scans and photographs, in editing software. The portal itself was built with the assistance of a machine, which is a different department.</p>
+    <p data-rot><b>Why is everything red?</b> Red is the one colour that survives STD-01. Full-colour units are shown on the Instagram at no charge.</p>
+    <p data-rot><b>Can I use a unit?</b> For a flyer, a mix cover, a wall or a tattoo: ask by DM, and the answer is usually yes, with credit. For anything that makes money: ask, and the answer is a conversation. For training a model: no.</p>
+    <p data-rot><b>Can I return a feeling?</b> No. See Terms, §2.</p>
+    <p data-rot><b>I purchased a childhood in 2004 and it has stopped working.</b> See Recall Notices. Do not return it. Keep it where it is. Do not attempt repair.</p>
+    <p data-rot><b>Where is the about page? Who runs this?</b> There is no about page. There is stock, standards, terms, recalls and a DM button. The account holder is not named. See Notice to Customers.</p>
+    <p data-rot><b>Why does the portal keep breaking?</b> See Notice to Customers, final paragraph.</p>
+    <p data-rot><b>Will there be more stock?</b> Yes. Stock is replenished as the account holder produces it.</p>
+    <p data-rot><b>How do I reach a representative?</b> A representative will be with you shortly.</p>
+  </div>
+
+  <div class="body" style="text-align:center">
+    <p data-rot><b class="inv">NOW HIRING</b></p>
+    <p data-rot><b>LINE WORKER — FEELINGS DIVISION — $14.50/HR</b></p>
+    <p data-rot>Must stand 12 hours. Must lift 50 lbs. Must be a person (negotiable). No experience necessary. No experience possible. Benefits after 90 days. There are no benefits. Apply within.</p>
+    <p class="fine" data-rot>The company is an equal opportunity employer. Opportunity is equal to zero for all applicants.</p>
+  </div>
+  <img class="ad" src="gif/ad_freedom.gif" width="468" height="60" alt="">
+
+  <div class="gr"><img class="g" src="gif/cube.gif" width="40" height="40" alt=""><img class="g" src="gif/hex.gif" width="120" height="30" alt=""><img class="g" src="gif/pyr.gif" width="40" height="40" alt=""><img class="g" src="gif/bars.gif" width="72" height="30" alt=""><img class="g" src="gif/octa.gif" width="40" height="40" alt=""></div>
+
+  <div class="hr">* * *</div>
+  <h2 class="ol" id="dealers" data-rot>Authorized Dealers</h2>
+  <img class="wide" src="gif/ants.gif" width="400" height="6" alt="">
+  <table class="tbl">
+    <tr><td><b><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>INSTAGRAM</a></b> <img class="g" src="gif/arrow.gif" width="14" height="14" alt=""></td><td data-rot><i>@live.and.die — all units post here first. full colour. 680+ posts.</i></td></tr>
+    <tr><td><b><a href="https://ladproductions.bandcamp.com/album/sam-carly-carly-sam" target="_blank" rel="noopener" data-rot>BANDCAMP</a></b></td><td data-rot><i>audio feelings. SAM 遗事 CARLY / / CARLY 遗事 SAM.</i></td></tr>
+    <tr><td><b><a href="https://youtube.com/@schneiderproductions2006" target="_blank" rel="noopener" data-rot>YOUTUBE</a></b></td><td data-rot><i>video units, full length.</i></td></tr>
+    <tr><td><b><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>CONTACT</a></b></td><td data-rot><i>DM only. no email, no phone, no form. a representative will be with you shortly.</i></td></tr>
+    <tr><td><b><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener" data-rot>GUESTBOOK</a></b> <img class="g" src="gif/spin.gif" width="14" height="14" alt=""></td><td data-rot><i>sign it in the comments of the newest post.</i></td></tr>
+    <tr><td><b><a href="https://github.com/LiveAndDie247/liveanddie" target="_blank" rel="noopener" data-rot>SOURCE</a></b></td><td data-rot><i>one HTML file and a folder of GIFs.</i></td></tr>
+  </table>
+  <img class="ad" src="gif/ad_church.gif" width="468" height="60" alt="">
+
+  <div class="marq"><span data-rot>LIVE.AND.DIE PRODUCTIONS ¤ FEELINGS ¤ MEMORIES ¤ RELATED CONSUMABLES ¤ REGION 5 ¤ ALL SALES FINAL ¤ TAXES CALCULATED AT CHECKOUT ¤ LIVE.AND.DIE PRODUCTIONS ¤ FEELINGS ¤ MEMORIES ¤ RELATED CONSUMABLES ¤</span></div>
+
+  <div class="hr">* * *</div>
+  <h3 data-rot>Channel Guide</h3>
+  <table class="nav">
+    <tr><td><a href="#notice" data-rot>CH 02 NOTICE</a></td><td><a href="#keys" data-rot>CH 03 KEYS</a></td><td><a href="#stock" data-rot>CH 04 STOCK</a></td><td><a href="#audio" data-rot>CH 05 AUDIO</a></td></tr>
+    <tr><td><a href="#order" data-rot>CH 06 ORDER</a></td><td><a href="#standards" data-rot>CH 07 STANDARDS</a></td><td><a href="#terms" data-rot>CH 08 TERMS</a></td><td><a href="#recalls" data-rot>CH 09 RECALLS</a></td></tr>
+    <tr><td><a href="#service" data-rot>CH 10 SERVICE</a></td><td><a href="#dealers" data-rot>CH 11 DEALERS</a></td><td><a href="#keywords" data-rot>CH 12 KEY WORDS</a></td><td><a href="#top" data-rot>CH 00 TOP</a></td></tr>
+  </table>
+
+  <footer>
+    <div class="bar" data-rot>LIVE.AND.DIE PRODUCTIONS ¤ 2038 ¤ <a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">Contact a representative</a> ¤ Powered by GitHub Pages ¤ Taxes calculated at checkout</div>
+    <div class="b88"><img class="g" src="gif/b_hot.gif" width="88" height="31" alt=""><img class="g" src="gif/b_link.gif" width="88" height="31" alt=""><img class="g" src="gif/b_mail.gif" width="88" height="31" alt=""><img class="g" src="gif/b_cnt.gif" width="88" height="31" alt=""><span data-rot>LIVE.AND.DIE</span><span data-rot>Her.sloth</span><span data-rot>FEELINGS $0.99</span><span data-rot>PRINTS 12×12</span><span data-rot>@live.and.die</span><span data-rot>ALL SALES FINAL</span></div>
+    <p class="kw" style="font-style:italic;margin-top:8px" data-rot>All units on this portal are the property of LIVE.AND.DIE PRODUCTIONS unless specified otherwise. Found material is used as collage. Nothing here is associated with any label, platform, company, candidate, church, pharmacy, or country, except the one. This portal is hand-coded and has no tracking. Your visit has been valued.</p>
+  </footer>
+
+  <div class="hr">* * *</div>
+  <h3 id="keywords" data-rot>Key Words</h3>
+  <p class="kw" data-rot>live and die live.and.die liveanddie productions feelings memories consumables surplus stock hard copy art music video noise industrial idm vapornoise vaporwave sampling collage found footage vhs scan crushed contrast no midtones black red blue glitch datamosh dither moire tape hiss tracking lines body mouth hand torso figure print 12x12 matte signed open edition her.sloth single 2026 sam carly carly sam 2038 revisit kit tribute web show former child star untitled mouth soul ripped post chromatic death disorder bikechain 曝露療法 exposure therapy 実在世界mix real world mix buy now as seen on tv operators are standing by taxes calculated at checkout all sales final region 5 hand coded one page github pages instagram bandcamp dm only live and die live.and.die liveanddie</p>
+  <p class="kw b" data-rot>Key Words (alphabetical): acid · all sales final · angel dust · archive · art · as seen on tv · bandcamp · bikechain · black · blue · body · buy now · carly · childhood · collage · consumables · contrast · crushed · datamosh · die · dither · dm · ephemera · exposure · feelings · figure · footage · found · freedom · glitch · grain · hand · hard copy · her.sloth · idm · industrial · instagram · live · loud · magazine · matte · memory · midtones · mix · moire · mouth · music · noise · one page · order · pieces · prints · recall · red · region 5 · representative · revisit kit · sam · scan · signed · single · sound · stock · tape · terms · torso · tracking · tuesday · untitled · vapornoise · vhs · video · wireframe · 2007 · 2026 · 2038</p>
+
 </div>
 
-<div class="win bv viewer" id="w-view" style="left:50%;top:30px;transform:translateX(-50%)">
-  <div class="tb"><span class="t" id="vt"></span><button class="cls">×</button></div>
-  <div class="body"><canvas id="vc" width="720" height="720"></canvas></div>
-  <div class="status"><span>720 × 720</span><span class="rot-read"></span></div>
-</div>
+<div class="chat" id="chat"><div class="tb"><span>LIVE SUPPORT</span><button id="chatx">×</button></div><div class="in"><span id="chatmsg">Connecting you to a representative…</span><i id="chatq">You are number 2 in line.</i><input id="chatin" placeholder="type your question"></div></div>
 
-<ul class="smenu bv" id="smenu">
-  <li data-open="w-work" data-rot>work</li><li data-open="w-music" data-rot>music</li><li data-open="w-prints" data-rot>prints</li><li data-open="w-links" data-rot>links</li><li data-open="w-about" data-rot>readme.txt</li>
-</ul>
-
-<div class="task">
-  <button class="start bv" id="start" data-rot>START</button>
-  <div class="tasks" id="tasks"></div>
-  <div class="tray bv-in"><span class="rot" id="rotpct">0x00</span><span id="clock">00:00</span></div>
-</div>
+<div class="lb" id="lb"><button class="x" id="lbx">×</button><div class="in"><canvas id="vc" width="720" height="720"></canvas><div class="cap"><span id="vt"></span><em id="vm"></em></div></div></div>
+<div class="toast" id="toast"></div>
 
 <script>
 (function(){
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-  const store={get(){try{return parseFloat(localStorage.getItem('rot'))||0}catch(e){return 0}},set(v){try{localStorage.setItem('rot',v)}catch(e){}}};
+  const store={get(k,d){try{return localStorage.getItem(k)??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  const mobile=innerWidth<600;
 
-  // ---------- ROT STATE ----------
-  // rot in [0,1]. grows with interaction. never shrinks.
-  let rot=store.get(), heat=0;           // heat = recent interaction, decays
-  const feed=(amt)=>{ heat=Math.min(1,heat+amt); rot=Math.min(1,rot+amt*0.03); };
-  let lastX=0,lastY=0;
-  window.addEventListener('pointermove',e=>{ const d=Math.hypot(e.clientX-lastX,e.clientY-lastY); lastX=e.clientX;lastY=e.clientY; if(d<200) feed(d/4000); },{passive:true});
-  window.addEventListener('pointerdown',e=>{ feed(.12); dead(e.clientX,e.clientY,2+Math.floor(rot*6)); },{passive:true});
-  window.addEventListener('scroll',()=>feed(.02),{passive:true,capture:true});
-  window.addEventListener('keydown',()=>feed(.05));
-
-  // dead pixels where touched
+  // ---------- ROT ----------
+  const CAP=.55;
+  let rot=Math.min(CAP,parseFloat(store.get('rot4',0))||0), heat=0;
+  const feed=a=>{ heat=Math.min(1,heat+a); rot=Math.min(CAP,rot+a*0.004); };
+  let lx=0,ly=0;
+  addEventListener('pointermove',e=>{ const d=Math.hypot(e.clientX-lx,e.clientY-ly); lx=e.clientX;ly=e.clientY; if(d<200) feed(d/5000); },{passive:true});
+  addEventListener('pointerdown',e=>{ feed(.1); dead(e.clientX,e.clientY,2+Math.floor(rot*6)); flash(.35); },{passive:true});
+  addEventListener('scroll',()=>feed(.01),{passive:true});
+  addEventListener('keydown',()=>feed(.04));
   function dead(x,y,n){ for(let i=0;i<n;i++){ const d=document.createElement('i'); d.className='dead'+(Math.random()<.4?' k':''); const s=1+Math.floor(Math.random()*3); d.style.cssText=`left:${x+(Math.random()-.5)*40*(1+rot*4)|0}px;top:${y+(Math.random()-.5)*40*(1+rot*4)|0}px;width:${s}px;height:${s}px`; document.body.appendChild(d);} }
+  const fl=$('#flash'); let ft; function flash(o){ fl.style.opacity=o; clearTimeout(ft); ft=setTimeout(()=>fl.style.opacity=0,60); }
+
+  let cnt=parseInt(store.get('cnt',0))||(6660+Math.floor(Math.random()*300)); cnt++; store.set('cnt',cnt);
+  $('#cnt').textContent=String(cnt).padStart(6,'0');
 
   // ---------- TEXT ROT ----------
-  const GL='░▒▓█▌▐▀▄■□▪▫'; const HX='0123456789ABCDEF';
-  const texts=[]; $$('[data-rot]').forEach(el=>{ el.dataset.orig=el.textContent; texts.push(el); });
-  function rotText(){
-    const p=rot*rot*0.9+heat*0.08;     // probability a char is damaged
-    for(const el of texts){
-      const o=el.dataset.orig; let out='';
-      for(let i=0;i<o.length;i++){ const c=o[i];
-        if(c===' '||c==='\n'){out+=c;continue}
-        const h=hash(el.dataset.orig+i+(rot*40|0));          // stable per char per rot-step
-        if(h<p) out+= (h<p*.3)? GL[(h*1e4|0)%GL.length] : (h<p*.6? HX[(h*1e5|0)%16] : ' ');
-        else out+=c;
-      }
-      if(el.textContent!==out) el.textContent=out;
-    }
-  }
+  const GL='░▒▓█▌▐▀▄■□'; const HX='0123456789ABCDEF';
+  const texts=$$('[data-rot]'); texts.forEach(el=>el.dataset.orig=el.textContent);
   function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)} return ((h>>>0)%10000)/10000; }
+  function rotText(){
+    const p=rot*rot*0.9+heat*0.04;
+    for(const el of texts){ const walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT); let n,i=0;
+      while(n=walk.nextNode()){ if(n.parentNode.classList&&n.parentNode.classList.contains('inad')) continue;
+        if(n._o==null) n._o=n.textContent; const o=n._o; let out='';
+        for(let k=0;k<o.length;k++){ const c=o[k]; if(c===' '||c==='\n'){out+=c;continue}
+          const h=hash(el.dataset.orig.slice(0,24)+(i+k)+(rot*40|0));
+          out+= h<p ? ((h<p*.3)? GL[(h*1e4|0)%GL.length] : (h<p*.6? HX[(h*1e5|0)%16] : ' ')) : c; }
+        if(n.textContent!==out) n.textContent=out; i+=o.length; } }
+  }
 
-  // ---------- IMAGE ROT ----------
-  // each image lives on a canvas; rot damages its pixel buffer in place, permanently for the session.
+  // ---------- IMAGE ROT (four reds) ----------
   const imgs=new Map();
-  function loadInto(cv,src,size){ const im=new Image(); im.onload=()=>{ cv.width=size;cv.height=size; const cx=cv.getContext('2d'); cx.drawImage(im,0,0,size,size);
-      // force black/red: luminance -> red channel
-      const id=cx.getImageData(0,0,size,size),d=id.data; for(let i=0;i<d.length;i+=4){ const l=(d[i]*.3+d[i+1]*.59+d[i+2]*.11); const v=l>110?255:(l>60?120:0); d[i]=v;d[i+1]=0;d[i+2]=0; } cx.putImageData(id,0,0); imgs.set(cv,{cx,size,hot:0}); }; im.src=src; }
+  function vb(cx,size,mode){ const id=cx.getImageData(0,0,size,size),d=id.data; for(let i=0;i<d.length;i+=4){ const l=d[i]*.3+d[i+1]*.59+d[i+2]*.11; let v=l<40?0:(l<100?0x55:(l<170?0xAA:0xFF)); if(mode===2) v=0xFF-v; if(mode===1){d[i]=0;d[i+1]=0;d[i+2]=v;} else {d[i]=v;d[i+1]=0;d[i+2]=0;} } cx.putImageData(id,0,0); }
+  function loadInto(cv,src,size){ const im=new Image(); im.onload=()=>{ cv.width=size;cv.height=size; const cx=cv.getContext('2d'); cx.drawImage(im,0,0,size,size); vb(cx,size,0); imgs.set(cv,{cx,size}); }; im.src=src; }
   function damage(cv,amt){ const s=imgs.get(cv); if(!s) return; const {cx,size}=s; const n=Math.ceil(amt*12);
     for(let k=0;k<n;k++){ const r=Math.random();
-      if(r<.5){ // row shear
-        const y=Math.random()*size|0, h=1+Math.random()*(4+amt*30)|0, dx=(Math.random()-.5)*size*amt*.8|0;
-        cx.drawImage(cv,0,y,size,h,dx,y,size,h); }
-      else if(r<.8){ // block drop
-        const w=4+Math.random()*size*amt*.5|0, h=2+Math.random()*size*amt*.2|0; cx.fillStyle=Math.random()<.5?'#000':'#f00'; cx.fillRect(Math.random()*size|0,Math.random()*size|0,w,h); }
-      else { // byte copy from elsewhere
-        const w=8+Math.random()*60|0,h=8+Math.random()*60|0; cx.drawImage(cv,Math.random()*size|0,Math.random()*size|0,w,h,Math.random()*size|0,Math.random()*size|0,w,h); }
-    } }
-  $$('.work').forEach(w=>{ const cv=document.createElement('canvas'); w.prepend(cv); loadInto(cv,w.dataset.src,240);
-    w.addEventListener('pointermove',()=>{ damage(cv,.06+rot*.3); feed(.004); },{passive:true}); });
-  $$('.print').forEach(w=>{ const cv=document.createElement('canvas'); w.prepend(cv); loadInto(cv,w.dataset.src,200);
-    w.addEventListener('pointermove',()=>{ damage(cv,.05+rot*.3); },{passive:true}); });
+      if(r<.5){ const y=Math.random()*size|0,h=1+Math.random()*(4+amt*30)|0,dx=(Math.random()-.5)*size*amt*.8|0; cx.drawImage(cv,0,y,size,h,dx,y,size,h); }
+      else if(r<.8){ const w=4+Math.random()*size*amt*.5|0,h=2+Math.random()*size*amt*.2|0; cx.fillStyle=Math.random()<.6?'#000':'#f00'; cx.fillRect(Math.random()*size|0,Math.random()*size|0,w,h); }
+      else { const w=8+Math.random()*60|0,h=8+Math.random()*60|0; cx.drawImage(cv,Math.random()*size|0,Math.random()*size|0,w,h,Math.random()*size|0,Math.random()*size|0,w,h); } } }
+  $$('.work').forEach(w=>{ if(w.querySelector('video')||!w.dataset.src) return; const cv=document.createElement('canvas'); w.prepend(cv); loadInto(cv,w.dataset.src,200);
+    w.addEventListener('pointermove',()=>{ damage(cv,.05+rot*.3); feed(.003); },{passive:true}); });
   const vc=$('#vc'); vc.addEventListener('pointermove',()=>damage(vc,.03+rot*.2),{passive:true});
+
+  // ---------- BACKGROUND ----------
+  const bg=$('#bg'), g=bg.getContext('2d'); const vids=[$('#v1'),$('#v2'),$('#v3')];
+  const T=64; const tiles=vids.map(()=>{ const c=document.createElement('canvas'); c.width=c.height=T; return c; }); const tctx=tiles.map(c=>c.getContext('2d'));
+  let W=0,H=0,cell=110,cols=0,rows=0,deadCells=new Set();
+  function size(){ W=bg.width=innerWidth; H=bg.height=innerHeight; cell=innerWidth<600?96:120; cols=Math.ceil(W/cell)+1; rows=Math.ceil(H/cell)+1; }
+  addEventListener('resize',size); size();
+  let frame=0;
+  const ADW=['BUY NOW','$9.99','SALE','AS SEEN ON TV','0% APR','XXX','FREE*','CALL NOW','ACT NOW','$0.00','NEW!','SOLD'];
+  function draw(){
+    frame++;
+    vids.forEach((v,i)=>{ if(v.readyState>=2){ try{ tctx[i].drawImage(v,0,0,T,T); vb(tctx[i],T,i); }catch(e){} } });
+    g.fillStyle='#000'; g.fillRect(0,0,W,H);
+    const off=(frame*0.4)%cell;
+    g.font='bold 14px Times New Roman'; g.textAlign='center';
+    for(let j=0;j<rows;j++) for(let i=0;i<cols;i++){
+      const k=j*cols+i; const x=i*cell-off, y=j*cell;
+      if(deadCells.has(k)){ if((k+frame/8|0)%3===0){ g.fillStyle='rgba(58,58,255,.5)'; g.fillText(ADW[k%ADW.length],x+cell/2,y+cell/2+5); } continue; }
+      const t=tiles[(i+j)%3];
+      g.save(); g.globalAlpha=.26; g.translate(x+cell/2,y+cell/2); if((i*7+j*3)%4===1) g.scale(-1,1); if((i+j*5)%5===2) g.scale(1,-1); g.drawImage(t,-cell/2,-cell/2,cell,cell); g.restore();
+    }
+    g.strokeStyle='rgba(255,0,0,.4)'; g.lineWidth=1; const hz=H*.55, vx=W/2+Math.sin(frame/90)*W*.08;
+    g.setLineDash(rot>0?[Math.max(2,40-rot*38),rot*14]:[]);
+    g.beginPath();
+    for(let i=-12;i<=12;i++){ const x0=vx+i*W*.09; g.moveTo(vx,hz); g.lineTo(x0+(x0-vx)*3,H); g.moveTo(vx,hz); g.lineTo(x0+(x0-vx)*3,0); }
+    for(let n=0;n<14;n++){ const yy=hz+Math.pow(n/14,2.2)*(H-hz)+(frame*1.2)%((H-hz)/14); if(yy<H){ g.moveTo(0,yy); g.lineTo(W,yy);} }
+    g.moveTo(0,hz); g.lineTo(W,hz); g.stroke(); g.setLineDash([]);
+    g.strokeStyle='rgba(60,60,255,.8)'; const a=frame/70, b=frame/110, s=Math.min(W,H)*.09, cxp=W*.5, cyp=hz-s*1.6;
+    const P=[]; for(let i=0;i<8;i++){ let x=(i&1?1:-1),y=(i&2?1:-1),z=(i&4?1:-1);
+      let x1=x*Math.cos(a)-z*Math.sin(a), z1=x*Math.sin(a)+z*Math.cos(a); let y1=y*Math.cos(b)-z1*Math.sin(b); z1=y*Math.sin(b)+z1*Math.cos(b);
+      const f=2.6/(3.6+z1); P.push([cxp+x1*s*f,cyp+y1*s*f]); }
+    g.beginPath(); for(let i=0;i<8;i++) for(let j=i+1;j<8;j++){ const d=i^j; if(d===1||d===2||d===4){ if(rot>0&&hash('e'+i+j+(rot*20|0))<rot*.8) continue; g.moveTo(P[i][0],P[i][1]); g.lineTo(P[j][0],P[j][1]); } } g.stroke();
+    if(frame%40<2){ g.fillStyle='rgba(255,0,0,.12)'; g.fillRect(0,0,W,H); }
+    const gr=g.createRadialGradient(W/2,H/2,H*.2,W/2,H/2,H*.9); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'rgba(0,0,0,.88)'); g.fillStyle=gr; g.fillRect(0,0,W,H);
+  }
+  setInterval(draw,66);
+  const kick=()=>{ [...vids,...$$('video')].forEach(v=>{ const p=v.play(); if(p&&p.catch) p.catch(()=>{}); }); };
+  kick(); addEventListener('pointerdown',kick,{once:true});
+
+  // ---------- TICKER ----------
+  const TK=[['FEEL',0.99],['MEM',49.99],['TUES',12.00],['CHLD',0.00],['LOVE',0.04],['PCP',19.99],['LSD',9.99],['USA',1776.00],['GOD',0.01],['LAD',25.00],['TEETH',3.50],['REP',0.00]];
+  function tick(){ let s=''; for(const t of TK){ const d=(Math.random()-.48)*(t[1]*.08+.01); t[1]=Math.max(0,t[1]+d); const up=d>=0; s+=`${t[0]} ${t[1].toFixed(2)} <u>${up?'▲':'▼'}${Math.abs(d).toFixed(2)}</u> &nbsp;¤&nbsp; `; } $('#tick').innerHTML=s+s; }
+  tick(); setInterval(tick,2500);
+
+  // ---------- VISIT VALUATION ----------
+  let val=0.0043; const vEl=$('#val');
+  setInterval(()=>{ val+=0.0001+rot*0.0002; vEl.textContent='$'+val.toFixed(4); },1000);
+  $('#sell').onclick=()=>{ say('SOLD — $0.00 credited to your account'); flash(.6); val=0; vEl.textContent='$0.0000'; };
+
+  // ---------- POPUP ADS ----------
+  const ADS=[
+    ['Advertisement','HOT SINGLES IN YOUR AREA','are waiting. they have been waiting since 2007.','Your area is 4,000 square miles of corn. They are in it.'],
+    ['Advertisement','ANGEL DUST® — FAMILY SIZE','3 easy payments of $19.99. operators are standing by.','Not evaluated by anyone. Results not typical.'],
+    ['Advertisement','YOUR CHILDHOOD — RESTOCKED','limited quantities. while supplies last.','May differ from original. See Recall Notices.'],
+    ['Advertisement','REVISIT KIT: ONE TUESDAY, 2007','relive it. again. again. again. $49.99','Memory not included. Memory sold separately. Memory discontinued.'],
+    ['Advertisement','WE BUY TEETH','top dollar. bring your own.','Teeth must be attached at time of appraisal.'],
+    ['Advertisement','ASK YOUR DOCTOR','if PCP is right for you.','Side effects may include side effects. Your doctor is also on it.'],
+    ['Advertisement','SCRATCH & WIN','everyone is a winner.','Odds of winning: 1 in 1. Odds of winning anything: 0 in 1.'],
+    ['Advertisement','XXX ¤ LIVE ¤ UNCENSORED','1-900-555-0199. $3.99/min.','First minute free. The first minute is silence.'],
+    ['Congratulations','YOU ARE THE 1,000,000TH VISITOR','you have won a feeling.','Feeling will be delivered shortly. Shortly is not defined.'],
+    ['Warning','YOUR COMPUTER MAY BE INFECTED','with a feeling. click to remove.','Removal is permanent. The feeling is not.'],
+    ['Advertisement','FREEDOM™ — NOW IN RED','zero down. zero APR. zero.','Unauthorized freedom will be prosecuted.'],
+    ['Advertisement','COMBO #4','burger, fries, dissociative. $6.99','Limited time. All time is limited.'],
+    ['Advertisement','JESUS SAVES','terms apply.','Salvation subject to availability. Parking is not.'],
+    ['Advertisement','ACID BY THE SHEET','buy 9, get the 10th free.','Sheets are non-transferable. Tabs do not expire. You will.'],
+    ['Notice','A REPRESENTATIVE','will be with you shortly.','Shortly is not defined in these terms.'],
+    ['Political Advertisement','HE VOTED AGAINST YOUR FEELINGS','paid for by Americans for America.','Not authorized by any candidate. No candidate exists.'],
+    ['Advertisement','NO CREDIT CHECK','cash today. 2,000% APR.','Licensed in your state. Your state has been notified.'],
+    ['Advertisement','BAIL BONDS — 24 HRS','we come to you.','We are already here.'],
+  ];
+  let pops=0, total=0; const MAXP=mobile?5:9, MAXT=40;
+  function popup(force){
+    if(pops>=MAXP||total>=MAXT) return; pops++; total++;
+    const a=ADS[Math.floor(Math.random()*ADS.length)];
+    const d=document.createElement('div'); d.className='pop';
+    const x=20+Math.random()*Math.max(10,innerWidth-300), y=60+Math.random()*Math.max(10,innerHeight-240);
+    d.style.left=x+'px'; d.style.top=y+'px';
+    d.innerHTML=`<div class="tb"><span>${a[0]}</span><button>×</button></div><div class="in"><b>${a[1]}</b><i>${a[2]}</i><small>${a[3]}</small><span class="buy">BUY NOW</span></div>`;
+    d.querySelector('button').onclick=()=>{ d.remove(); pops--; feed(.05); flash(.5); popup(); popup(); };
+    d.querySelector('.buy').onclick=()=>{ say('ADDED TO CART. THERE IS NO CART.'); feed(.05); };
+    document.body.appendChild(d);
+  }
+  setTimeout(()=>popup(),9000);
+  setInterval(()=>{ if(Math.random()<.35+rot) popup(); },35000);
+
+  // cookie notice
+  (function(){ const d=document.createElement('div'); d.className='pop ck';
+    d.innerHTML=`<div class="tb"><span>Cookie Notice</span><span></span></div><div class="in">This portal uses cookies. By continuing you agree to be a cookie. Your visit has already been valued. See Terms of Service §10.<div class="btns"><button>ACCEPT</button><button>ACCEPT</button></div></div>`;
+    d.querySelectorAll('button').forEach(b=>b.onclick=()=>{ d.remove(); flash(.5); feed(.05); setTimeout(()=>popup(),1500); });
+    document.body.appendChild(d); })();
+
+  // ---------- LIVE SUPPORT ----------
+  let q=2; const QM=['Connecting you to a representative…','Please hold.','Your call is important to us.','A representative will be with you shortly.','Still connecting…','Thank you for your patience.','Do not hang up.'];
+  setInterval(()=>{ q+=Math.random()<.7?1:0; $('#chatq').textContent='You are number '+q+' in line.'; if(Math.random()<.3) $('#chatmsg').textContent=QM[Math.floor(Math.random()*QM.length)]; },4000);
+  $('#chatin').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); e.target.value=''; $('#chatmsg').textContent='A representative has read your message.'; q+=3; feed(.05); } });
+  $('#chatx').onclick=()=>{ $('#chat').style.display='none'; popup(); popup(); };
+
+  // ---------- INLINE ADS IN THE COPY ----------
+  const INAD=['[AD] HOT SINGLES — BUY NOW','[AD] ANGEL DUST $19.99','[SPONSORED]','[AD] ACT NOW','[AD] 0% APR','[AD] AS SEEN ON TV','[AD] FEELINGS $0.99','[AD] CALL 1-900-555-0199','[AD] YOUR CHILDHOOD — RESTOCKED'];
+  let inads=0;
+  function inject(){ if(inads>=10) return; const ps=$$('.body p[data-rot]'); const p=ps[Math.floor(Math.random()*ps.length)]; const walk=document.createTreeWalker(p,NodeFilter.SHOW_TEXT); const ns=[]; let n; while(n=walk.nextNode()) if(n.textContent.length>40&&!(n.parentNode.classList&&n.parentNode.classList.contains('inad'))) ns.push(n);
+    if(!ns.length) return; const t=ns[Math.floor(Math.random()*ns.length)]; const o=t._o||t.textContent; const sp=[]; for(let i=10;i<o.length-10;i++) if(o[i]===' ') sp.push(i); if(!sp.length) return; const idx=sp[Math.floor(Math.random()*sp.length)];
+    const right=t.splitText(idx); t._o=o.slice(0,idx); right._o=o.slice(idx); t.textContent=t._o; right.textContent=right._o;
+    const s=document.createElement('span'); s.className='inad'; s.textContent=' '+INAD[Math.floor(Math.random()*INAD.length)]+' '; p.insertBefore(s,right); inads++; }
+  setInterval(()=>{ if(rot>0.03&&Math.random()<.5) inject(); },20000);
 
   // ---------- TICK ----------
   setInterval(()=>{
     heat*=0.92;
     if(rot>0||heat>0){ rotText();
-      for(const [cv] of imgs) if(Math.random()<rot*.6+heat*.3) damage(cv,rot*.4+heat*.2);
-      if(Math.random()<rot*.5) dead(Math.random()*innerWidth,Math.random()*innerHeight,1);
+      for(const [cv] of imgs) if(Math.random()<rot*.5+heat*.3) damage(cv,rot*.4+heat*.2);
+      if(Math.random()<rot*.4) dead(Math.random()*innerWidth,Math.random()*innerHeight,1);
+      if(Math.random()<rot*.4) deadCells.add(Math.floor(Math.random()*cols*rows));
     }
     $('#rotpct').textContent='0x'+(rot*255|0).toString(16).padStart(2,'0').toUpperCase();
-    $$('.rot-read').forEach(e=>e.textContent=(rot*100|0)+'% rot');
-    store.set(rot);
+    store.set('rot4',rot);
   },400);
 
-  // ---------- WINDOWS ----------
-  let z=10; const tasks=$('#tasks');
-  function focus(w){ $$('.win').forEach(x=>x.classList.remove('active')); w.classList.add('active'); w.style.zIndex=++z; $$('#tasks button').forEach(b=>b.classList.toggle('cur',b.dataset.w===w.id)); }
-  function open(id){ const w=document.getElementById(id); if(!w) return; feed(.08);
-    if(!w.classList.contains('on')){ w.classList.add('on');
-      if(id!=='w-view'&&!tasks.querySelector('[data-w="'+id+'"]')){ const b=document.createElement('button'); b.className='bv'; b.dataset.w=id; b.textContent=w.querySelector('.t').textContent.trim().split(' ')[0]; b.onclick=()=>{ if(w.classList.contains('on')&&w.classList.contains('active')){w.classList.remove('on');b.classList.remove('cur')} else {w.classList.add('on');focus(w)} }; tasks.appendChild(b);} }
-    focus(w); $('#smenu').classList.remove('on'); }
-  function close(w){ w.classList.remove('on'); const b=tasks.querySelector('[data-w="'+w.id+'"]'); if(b) b.remove(); }
-  $$('[data-open]').forEach(el=>el.addEventListener('click',()=>open(el.dataset.open)));
-  $$('.win').forEach(w=>{ w.addEventListener('pointerdown',()=>focus(w));
-    w.querySelector('.cls').onclick=e=>{e.stopPropagation();close(w)};
-    const m=w.querySelector('.min'); if(m) m.onclick=e=>{e.stopPropagation();w.classList.remove('on')};
-    const tb=w.querySelector('.tb'); let sx,sy,ox,oy,drag=false;
-    tb.addEventListener('pointerdown',e=>{ if(e.target.tagName==='BUTTON'||innerWidth<=600) return; drag=true; sx=e.clientX;sy=e.clientY; const r=w.getBoundingClientRect(); ox=r.left;oy=r.top; w.style.transform='none'; tb.setPointerCapture(e.pointerId); });
-    tb.addEventListener('pointermove',e=>{ if(!drag) return; w.style.left=(ox+e.clientX-sx)+'px'; w.style.top=(oy+e.clientY-sy)+'px'; });
-    tb.addEventListener('pointerup',()=>drag=false);
-  });
-
-  // viewer
-  $$('.work').forEach(el=>el.addEventListener('click',()=>{ $('#vt').textContent=el.dataset.t; loadInto(vc,el.dataset.src,720); open('w-view'); }));
-
-  // prints
-  $$('.print .btn').forEach(b=>b.addEventListener('click',()=>{ const t='print request: '+b.dataset.p+' / 12x12 matte'; try{navigator.clipboard.writeText(t)}catch(e){} const s=$('#pstat'); s.dataset.orig='copied. paste it to @live.and.die.'; }));
-
-  // start
-  $('#start').onclick=e=>{e.stopPropagation(); $('#smenu').classList.toggle('on')};
-  document.addEventListener('click',e=>{ if(!e.target.closest('#smenu,#start')) $('#smenu').classList.remove('on'); });
-
-  // clock
-  const ck=$('#clock'); const tick=()=>{ const d=new Date(); ck.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }; tick(); setInterval(tick,10000);
-
-  if(innerWidth>700) setTimeout(()=>open('w-about'),300);
+  // ---------- LIGHTBOX / ORDER ----------
+  const lb=$('#lb'), toast=$('#toast'); let tt;
+  function say(t){ toast.textContent=t; toast.style.display='block'; clearTimeout(tt); tt=setTimeout(()=>toast.style.display='none',2800); }
+  $$('.work').forEach(el=>el.addEventListener('click',e=>{ e.preventDefault();
+    if(el.dataset.p){ const t='order: '+el.dataset.p+' / 12x12 matte hard copy / $25'; try{navigator.clipboard.writeText(t).catch(()=>{})}catch(x){} say('ORDER LINE COPIED — paste it in a DM to @live.and.die'); flash(.6); return; }
+    $('#vt').textContent=el.dataset.t; $('#vm').textContent=el.dataset.m; loadInto(vc,el.dataset.src,720); lb.classList.add('on'); feed(.05); }));
+  const close=()=>lb.classList.remove('on');
+  $('#lbx').onclick=close; lb.addEventListener('click',e=>{ if(e.target===lb) close(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
 })();
 </script>
 </body>
