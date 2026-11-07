@@ -1,0 +1,26 @@
+/* LIVE.AND.DIE — the old-internet look (option C, "all gate"): a tiled starfield, centered Times, <hr> rules,
+   plain underlined links. Almost no CSS on purpose: just the background, readable phone sizes, AA-contrast
+   link colours on black (#9a9aff 6.9:1, visited #c99aff 8.5:1), and <blink> brought back. */
+body{background:#000 url(/img/stars.png);color:#fff;font:17px/1.5 "Times New Roman",Times,"Liberation Serif",serif;margin:0;padding:12px}
+a{color:#9a9aff} a:visited{color:#c99aff} a:hover{color:#ff0000}
+hr{border:0;border-top:2px groove #8888aa;width:80%;margin:24px auto}
+img{max-width:100%;height:auto}
+.wrap{max-width:660px;margin:0 auto}
+p,li{text-align:left}
+ul{padding-left:22px;margin:8px 0}
+li{margin:4px 0}
+.blink{animation:b 1s steps(1) infinite}@keyframes b{50%{visibility:hidden}}
+.fine{font-size:13px;color:#dcdcdc}
+.red{color:#ff0000}
+.vid{position:relative;width:100%;aspect-ratio:16/9;border:2px solid #8888aa;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+table.art{border-collapse:separate;border-spacing:8px;width:100%}
+table.art td{text-align:center;vertical-align:top;font-size:14px;width:33%}
+table.art img{border:2px solid #8888aa;width:100%;max-width:150px;display:block;margin:0 auto 3px}
+table.cat{border-collapse:collapse;width:100%;font-size:15px;background:#000}
+table.cat td,table.cat th{border:1px solid #8888aa;padding:4px 6px;text-align:left;vertical-align:top}
+table.cat th{color:#ff0000}
+.ad{display:block;margin:0 auto}
+.rent{border:3px double #ff0000;padding:10px;max-width:468px;margin:0 auto;color:#ff0000}
+.rent a,.rent a:visited{color:#ff0000;text-decoration:none}
+@media(max-width:480px){body{padding:8px;font-size:16px}table.cat{font-size:14px}table.art td{font-size:13px}}
