@@ -72,7 +72,7 @@ for (const [size, file] of [[48, "favicon.png"], [180, "apple-touch-icon.png"]])
   for (let i = 0; i < 8; i++) for (let j = i + 1; j < 8; j++) { const d = i ^ j; if (d === 1 || d === 2 || d === 4) c.line(P[i][0], P[i][1], P[j][0], P[j][1], BLUE, 0.7, 2); }
   const t = "LIVE.AND.DIE", sc = 14;
   title(c, t, Math.round((W - tw(t, sc)) / 2) - 14, 230, sc, 10, 4);
-  const sub = "FEELINGS · MEMORIES · RELATED CONSUMABLES", s2 = 4;
+  const sub = "MUSIC · VIDEO · VISUAL ART · COMMISSIONS", s2 = 4;
   c.rect(Math.round((W - tw(sub, s2)) / 2) - 12, 372, tw(sub, s2) + 24, 7 * s2 + 14, BLK);
   text(c, sub, Math.round((W - tw(sub, s2)) / 2), 379, s2, LBLUE);
   const url = "LIVEANDDIE.XYZ", s3 = 4;
