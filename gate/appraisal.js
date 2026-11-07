@@ -154,7 +154,8 @@
   }
   function accept() {
     close();
-    if (window.GateMosh) window.GateMosh.shock(innerWidth / 2, innerHeight / 2, 3);
+    if (window.GateStars) window.GateStars.burst(innerWidth / 2, innerHeight / 2, 3);   // a burst of stars behind the closing form
+    else if (window.GateMosh) window.GateMosh.shock(innerWidth / 2, innerHeight / 2, 3);
   }
   function finish() {
     wait.remove();

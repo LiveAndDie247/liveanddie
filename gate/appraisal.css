@@ -1,7 +1,7 @@
 /* gate-kit · FORM 7-A · DEVICE APPRAISAL — the one pop-up. Black panel, thin border, Times. */
 #appraisal{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.86);overflow-y:auto;overscroll-behavior:contain;
   padding:12px 8px 28px;font:16px/1.4 "Times New Roman",Times,"Liberation Serif",serif;color:#fff;text-align:left}
-#appraisal .ap{max-width:560px;margin:0 auto;background:#000;border:1px solid #8888aa;padding:12px 12px 14px}
+#appraisal .ap{max-width:560px;margin:0 auto;background:#000;border:3px ridge #8888aa;outline:1px solid #000;padding:12px 12px 14px}
 #appraisal .ap:focus{outline:none}
 #appraisal .co{font:13px/1.3 "Courier New",monospace;color:#dcdcdc;text-align:center;letter-spacing:.04em}
 #appraisal h2{margin:4px 0 2px;font-size:22px;line-height:1.15;color:#ff0000;text-align:center;font-weight:bold}

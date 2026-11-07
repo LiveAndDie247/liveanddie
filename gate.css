@@ -1,7 +1,10 @@
-/* LIVE.AND.DIE — the old-internet look (option C, "all gate"): a tiled starfield, centered Times, <hr> rules,
-   plain underlined links. Almost no CSS on purpose: just the background, readable phone sizes, AA-contrast
-   link colours on black (#9a9aff 6.9:1, visited #c99aff 8.5:1), and <blink> brought back. */
-body{background:#000 url(/img/stars.png);color:#fff;font:17px/1.5 "Times New Roman",Times,"Liberation Serif",serif;margin:0;padding:12px}
+/* LIVE.AND.DIE — the old-internet look ("all gate"): blinking GIF stars, centered Times, bevelled table
+   borders like <table border=1>, ridges, doubles, marching ants, <hr> rules, plain underlined links.
+   Still very little CSS on purpose: the sky, readable phone sizes, AA-contrast link colours on black
+   (#9a9aff 6.9:1, visited #c99aff 8.5:1), <blink> brought back, and the border kit. */
+body{background:#000 url(/img/stars.gif);background-size:240px 240px;image-rendering:pixelated;color:#fff;font:17px/1.5 "Times New Roman",Times,"Liberation Serif",serif;margin:0;padding:12px}
+@media(prefers-reduced-motion:reduce){body{background-image:url(/img/stars.png)}}
+img,video,iframe{image-rendering:auto}
 a{color:#9a9aff} a:visited{color:#c99aff} a:hover{color:#ff0000}
 hr{border:0;border-top:2px groove #8888aa;width:80%;margin:24px auto}
 img{max-width:100%;height:auto}
@@ -10,17 +13,41 @@ p,li{text-align:left}
 ul{padding-left:22px;margin:8px 0}
 li{margin:4px 0}
 .blink{animation:b 1s steps(1) infinite}@keyframes b{50%{visibility:hidden}}
-.fine{font-size:13px;color:#dcdcdc}
+.fine{font-size:13px;color:#dcdcdc;border-top:1px dotted #8888aa;padding-top:5px;margin-top:10px}
 .red{color:#ff0000}
-.vid{position:relative;width:100%;aspect-ratio:16/9;border:2px solid #8888aa;background:#000}
+
+/* ---- the border kit ---- */
+.frame{border:4px ridge #8888aa;padding:4px}                       /* the page: a ridge, then a thin line */
+.frame .in{border:1px solid #55556e;padding:6px 10px 10px}
+.ants{height:6px;background:url(/gif/ants.gif) repeat-x;image-rendering:pixelated;margin:6px 0}   /* animated marching ants */
+.mast{border:3px double #8888aa;padding:14px 8px 12px;margin:4px 0}
+.open{border:3px double #ff0000;padding:8px 6px;margin:14px 0 10px;animation:bord 1s steps(1) infinite}
+@keyframes bord{50%{border-color:#9a9aff}}
+.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:10px 0 4px}        /* bevel buttons */
+.nav a{border:2px outset #8888aa;background:#000;padding:3px 10px;font-size:15px;text-decoration:none}
+.nav a:hover,.nav a:active{border-style:inset;background:#0b0b1e}
+table.sec{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;margin:18px 0 0;background:transparent}
+table.sec>tbody>tr>th{border:1px inset #8888aa;border-bottom:2px groove #8888aa;background:#000;padding:8px 6px;color:#ff0000;font-size:24px;font-weight:bold;text-align:center;line-height:1.2}
+table.sec>tbody>tr>th img{display:inline;vertical-align:middle;margin:0 8px 0 0}
+table.sec>tbody>tr>td{border:1px inset #8888aa;padding:10px 8px 12px;text-align:center}
+.adbox{border:1px dashed #8888aa;padding:6px 6px 5px;margin:14px auto 0;max-width:482px;background:#000}
+.adbox small{display:block;font:11px/1 "Courier New",monospace;color:#8888aa;letter-spacing:.25em;text-align:center;margin:0 0 5px}
+.ad{display:block;margin:0 auto;border:1px solid #44445a}
+img[border]{border:3px ridge #8888aa}                              /* border=2 on a picture is a bevel frame */
+.vid{position:relative;width:100%;aspect-ratio:16/9;border:3px ridge #8888aa;background:#000}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 table.art{border-collapse:separate;border-spacing:8px;width:100%}
 table.art td{text-align:center;vertical-align:top;font-size:14px;width:33%}
-table.art img{border:2px solid #8888aa;width:100%;max-width:150px;display:block;margin:0 auto 3px}
-table.cat{border-collapse:collapse;width:100%;font-size:15px;background:#000}
-table.cat td,table.cat th{border:1px solid #8888aa;padding:4px 6px;text-align:left;vertical-align:top}
+table.art img{border:3px ridge #8888aa;width:100%;max-width:150px;display:block;margin:0 auto 3px}
+table.cat{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;font-size:15px;background:#000}
+table.cat td,table.cat th{border:1px inset #8888aa;padding:4px 6px;text-align:left;vertical-align:top}
 table.cat th{color:#ff0000}
-.ad{display:block;margin:0 auto}
+table.cat td:first-child{white-space:nowrap}
 .rent{border:3px double #ff0000;padding:10px;max-width:468px;margin:0 auto;color:#ff0000}
 .rent a,.rent a:visited{color:#ff0000;text-decoration:none}
-@media(max-width:480px){body{padding:8px;font-size:16px}table.cat{font-size:14px}table.art td{font-size:13px}}
+.foot{border:2px groove #8888aa;padding:10px 8px;margin:6px 0 0;font-size:13px}
+.side{display:none;position:fixed;top:12px;width:132px;z-index:1;border:3px ridge #8888aa;padding:3px;background:#000}   /* the margins, on a wide screen */
+.side.l{left:12px}.side.r{right:12px}
+.side img{display:block;width:120px;height:auto}
+@media(min-width:1000px){.side{display:block}}
+@media(max-width:480px){body{padding:6px;font-size:16px}.frame .in{padding:4px 6px 8px}table.sec>tbody>tr>td{padding:8px 5px 10px}table.sec>tbody>tr>th{font-size:21px}table.cat{font-size:14px}table.art td{font-size:13px}.nav a{padding:3px 7px;font-size:14px}}
