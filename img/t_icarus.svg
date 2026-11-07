@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <!-- ICARUS: red wireframe sun over a perspective sea, on black (drawn in the app's own style) -->
+  <rect width="192" height="192" fill="#000"/>
+  <g fill="none" stroke="#f00" stroke-width="1.5">
+    <circle cx="96" cy="70" r="34"/>
+    <circle cx="96" cy="70" r="24" opacity=".6"/>
+    <path d="M62 70h68M96 36v68M72 46l48 48M120 46l-48 48" opacity=".45"/>
+    <path d="M0 122h192"/>
+    <path d="M96 122L-60 192M96 122L-6 192M96 122L44 192M96 122L96 192M96 122L148 192M96 122L198 192M96 122L252 192" opacity=".8"/>
+    <path d="M0 132h192M0 146h192M0 166h192" opacity=".7"/>
+  </g>
+  <path d="M86 112l10-8 10 8-10-3z" fill="#f00"/>
+</svg>

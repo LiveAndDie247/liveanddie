@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <!-- HANDSYNTH: two tracked hands (blue left, red right) over a waveform, on black (the app's colours) -->
+  <rect width="192" height="192" fill="#000"/>
+  <g fill="none" stroke-width="1.5">
+    <g stroke="#1f8bff">
+      <path d="M40 120V84M40 84l-10-30M40 84l-2-36M40 84l8-34M40 84l16-26M40 120l-14-22"/>
+      <circle cx="40" cy="120" r="3" fill="#1f8bff"/><circle cx="30" cy="54" r="2.5" fill="#1f8bff"/><circle cx="38" cy="48" r="2.5" fill="#1f8bff"/><circle cx="48" cy="50" r="2.5" fill="#1f8bff"/><circle cx="56" cy="58" r="2.5" fill="#1f8bff"/>
+    </g>
+    <g stroke="#ff2238">
+      <path d="M152 120V84M152 84l10-30M152 84l2-36M152 84l-8-34M152 84l-16-26M152 120l14-22"/>
+      <circle cx="152" cy="120" r="3" fill="#ff2238"/><circle cx="162" cy="54" r="2.5" fill="#ff2238"/><circle cx="154" cy="48" r="2.5" fill="#ff2238"/><circle cx="144" cy="50" r="2.5" fill="#ff2238"/><circle cx="136" cy="58" r="2.5" fill="#ff2238"/>
+    </g>
+    <path d="M8 160l10-14 10 28 10-28 10 28 10-28 10 28 10-28 10 28 10-28 10 28 10-28 10 28 10-28 10 28 10-28 10 14" stroke="#e8eef8" opacity=".85"/>
+  </g>
+</svg>
