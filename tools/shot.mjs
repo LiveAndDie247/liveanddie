@@ -7,6 +7,9 @@
 //   --scroll      scroll to the bottom first so lazy-loaded things load (implied by --full)
 //   --wait=ms     extra settle time after the network goes quiet (default 1500)
 //   --at=sel      scroll that element to the top before the viewport shot (e.g. --at=#art)
+//   --js=expr     evaluate this in the page just before the shot and print the result (e.g. drive a scroll)
+//   --gl          render WebGL with SwiftShader (needed to see WebGL canvases)
+//   --after=ms    sleep this long after --js before the shot (default 0)
 // Console errors, uncaught exceptions, failed requests and HTTP 4xx/5xx go to stdout and to <out>.log.
 // Exit code 2 if there were any errors, so scripts can tell.
 import { spawn } from "node:child_process";
@@ -27,7 +30,9 @@ const UA = "Mozilla/5.0 (Linux; Android 16; SM-S948B) AppleWebKit/537.36 (KHTML,
 fs.mkdirSync(path.dirname(out), { recursive: true });
 
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), "shot-"));
-const chrome = spawn(CHROME, ["--headless", "--no-sandbox", "--disable-gpu", "--hide-scrollbars", "--mute-audio", "--no-first-run",
+// --gl: software WebGL that survives drawing to the screen (with --disable-gpu any WebGL present loses its context here)
+const GPU = flags.has("--gl") ? (process.env.SHOT_GL ? process.env.SHOT_GL.split(" ") : ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"]) : ["--disable-gpu"];
+const chrome = spawn(CHROME, ["--headless", "--no-sandbox", ...GPU, "--hide-scrollbars", "--mute-audio", "--no-first-run",
   "--autoplay-policy=no-user-gesture-required", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "about:blank"], { stdio: ["ignore", "ignore", "pipe"] });
 const wsUrl = await new Promise((res, rej) => {
   let buf = "";
@@ -97,6 +102,8 @@ if (scroll) {
 
 const at = args.find(a => a.startsWith("--at="))?.slice(5);   // --at=<css selector>: scroll it to the top before the shot
 if (at) { await evalJS(`document.querySelector(${JSON.stringify(at)})?.scrollIntoView({block:"start"})`); await sleep(1200); }
+const js = args.find(a => a.startsWith("--js="))?.slice(5);
+if (js) { const r = await (async () => { try { return (await cmd("Runtime.evaluate", { expression: js, returnByValue: true, awaitPromise: true })).result.value; } catch (e) { return "js error: " + e.message; } })(); console.log("js:", JSON.stringify(r)); await sleep(+(args.find(a => a.startsWith("--after="))?.split("=")[1] ?? 0)); }
 const shot = async (file, params) => fs.writeFileSync(file, Buffer.from((await cmd("Page.captureScreenshot", { format: "png", ...params })).data, "base64"));
 await shot(out, {});
 const files = [out];
