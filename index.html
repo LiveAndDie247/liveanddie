@@ -423,8 +423,9 @@
 
   // ---------- IMAGE WEAR (four reds) ----------
   const imgs=new Map();
-  function vb(cx,size,mode){ const id=cx.getImageData(0,0,size,size),d=id.data; for(let i=0;i<d.length;i+=4){ const l=d[i]*.3+d[i+1]*.59+d[i+2]*.11; let v=l<40?0:(l<100?0x55:(l<170?0xAA:0xFF)); if(mode===2) v=0xFF-v; if(mode===1){d[i]=0;d[i+1]=0;d[i+2]=v;} else {d[i]=v;d[i+1]=0;d[i+2]=0;} } cx.putImageData(id,0,0); }
-  function loadInto(cv,src,size){ const im=new Image(); im.onload=()=>{ cv.width=size;cv.height=size; const cx=cv.getContext('2d'); cx.drawImage(im,0,0,size,size); vb(cx,size,0); imgs.set(cv,{cx,size}); }; im.src=src; }
+  // pre: the image is already in the four reds (the i_ thumbnails), so read the red channel, not luminance
+  function vb(cx,size,mode,pre){ const id=cx.getImageData(0,0,size,size),d=id.data; for(let i=0;i<d.length;i+=4){ const l=pre?d[i]:d[i]*.3+d[i+1]*.59+d[i+2]*.11; let v=l<40?0:(l<100?0x55:(l<170?0xAA:0xFF)); if(mode===2) v=0xFF-v; if(mode===1){d[i]=0;d[i+1]=0;d[i+2]=v;} else {d[i]=v;d[i+1]=0;d[i+2]=0;} } cx.putImageData(id,0,0); }
+  function loadInto(cv,src,size,pre){ const im=new Image(); im.onload=()=>{ cv.width=size;cv.height=size; const cx=cv.getContext('2d'); cx.drawImage(im,0,0,size,size); vb(cx,size,0,pre); imgs.set(cv,{cx,size}); }; im.src=src; }
   function damage(cv,amt){ const s=imgs.get(cv); if(!s) return; const {cx,size}=s; const n=Math.ceil(amt*12);
     for(let k=0;k<n;k++){ const r=Math.random();
       if(r<.5){ const y=Math.random()*size|0,h=1+Math.random()*(4+amt*30)|0,dx=(Math.random()-.5)*size*amt*.8|0; cx.drawImage(cv,0,y,size,h,dx,y,size,h); }
@@ -436,7 +437,7 @@
     if(t.tagName==='VIDEO'){ if(e.isIntersecting){ if(!t.getAttribute('src')&&t.dataset.src) t.src=t.dataset.src; const p=t.play(); if(p&&p.catch) p.catch(()=>{}); } else if(t.getAttribute('src')) t.pause(); }
     else if(e.isIntersecting&&t._load){ t._load(); t._load=null; lazy.unobserve(t); } } },{rootMargin:'300px 0px'});
   $$('.work').forEach(w=>{ if(w.querySelector('video')||!w.dataset.th) return; const cv=document.createElement('canvas'); cv.setAttribute('role','img'); cv.setAttribute('aria-label',w.dataset.alt||w.dataset.t||''); w.prepend(cv);
-    w._load=()=>loadInto(cv,w.dataset.th,200); lazy.observe(w);
+    w._load=()=>loadInto(cv,w.dataset.th,200,true); lazy.observe(w);
     w.addEventListener('pointermove',()=>{ damage(cv,.05+rot*.3); feed(.003); },{passive:true}); });
   $$('.page video').forEach(v=>lazy.observe(v));
   const vc=$('#vc'); vc.addEventListener('pointermove',()=>damage(vc,.03+rot*.2),{passive:true});
