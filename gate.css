@@ -51,3 +51,4 @@ table.cat td:first-child{white-space:nowrap}
 .side img{display:block;width:120px;height:auto}
 @media(min-width:1000px){.side{display:block}}
 @media(max-width:480px){body{padding:6px;font-size:16px}.frame .in{padding:4px 6px 8px}table.sec>tbody>tr>td{padding:8px 5px 10px}table.sec>tbody>tr>th{font-size:21px}table.cat{font-size:14px}table.art td{font-size:13px}.nav a{padding:3px 7px;font-size:14px}}
+table.art4{table-layout:fixed}table.art4 td{width:25%;font-size:12px;overflow-wrap:anywhere}table.art4 img{width:100%;max-width:140px;aspect-ratio:1;object-fit:cover}
