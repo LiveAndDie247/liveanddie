@@ -143,7 +143,7 @@ body.lock{overflow:hidden}
       if (!ps.length) return "";
       return `<a name="y${y}" id="y${y}"></a><table class="sec" cellspacing="0" cellpadding="0">
         <tr><th>${y} <font size="3" color="#8888aa">· ${ps.length}</font></th></tr><tr><td><div class="grid">` +
-        ps.map(p => `<button data-no="${p.no}" aria-label="${esc(p.no + " " + p.title)}"><span class="th"><img src="/archive/${p.media[0].thumb}" loading="lazy" alt="">${p.vid ? "<i>VID</i>" : p.media.length > 1 ? `<i>${p.media.length}</i>` : ""}</span><span class="t">${esc(p.title)}</span><span class="n">${p.no}</span></button>`).join("") +
+        ps.map(p => `<button data-no="${p.no}" aria-label="${esc(p.no + " " + p.title)}"><span class="th"><img src="/archive/${p.media[0].thumb}" loading="lazy" alt="">${p.song ? "<i>♪</i>" : p.vid ? "<i>VID</i>" : p.media.length > 1 ? `<i>${p.media.length}</i>` : ""}</span><span class="t">${esc(p.title)}</span><span class="n">${p.no}</span></button>`).join("") +
         `</div></td></tr></table>`;
     }).join("");
   }
@@ -161,6 +161,7 @@ body.lock{overflow:hidden}
     V("vm").innerHTML = m.video
       ? `<video src="/archive/${m.loop}" poster="/archive/${m.thumb}" autoplay muted loop playsinline></video>`
       : `<img src="/archive/${m.img}" alt="${esc(p.title)}">`;
+    if (m.audio) V("vm").innerHTML += `<audio src="/archive/${m.audio}" controls autoplay style="width:100%;margin:2px 0 4px"></audio><div style="font-size:13px"><a href="/music/">» every song, in order «</a></div>`;
     V("vd").innerHTML = p.media.length > 1 ? p.media.map((_, k) => `<button data-s="${k}" class="${k === s ? "on" : ""}">${k === s ? "■" : "□"}</button>`).join("") : "";
     V("vh").textContent = p.title;
     V("vmeta").textContent = [p.no, p.date, p.medium].filter(Boolean).join(" · ");

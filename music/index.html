@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MUSIC — LIVE.AND.DIE PRODUCTIONS</title>
+<meta name="description" content="LIVE.AND.DIE music: every song, playable. Plus SAM 遗事 CARLY / / CARLY 遗事 SAM on Bandcamp.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="LIVE.AND.DIE — MUSIC">
+<meta property="og:image" content="https://liveanddie.xyz/img/og.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/gate.css?v=4">
+<style>
+.deck{border:3px outset #8888aa;background:#000;margin:14px 0 0}
+.deck .bar{background:#000080;color:#fff;font:bold 14px "Courier New",monospace;padding:4px 8px;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deck .scr{position:relative;aspect-ratio:1;max-height:56vh;margin:8px auto 4px;border:3px ridge #8888aa;background:#0b0b1e}
+.deck .scr video,.deck .scr img{width:100%;height:100%;object-fit:cover;display:block}
+.deck h2{color:#ff0000;font-size:21px;margin:4px 8px 0;line-height:1.2}
+.deck .meta{font:13px "Courier New",monospace;color:#8888aa;margin:2px 0 6px}
+.deck .pos{display:flex;align-items:center;gap:8px;margin:4px 10px;font:12px "Courier New",monospace;color:#8888aa}
+.deck input[type=range]{flex:1;accent-color:#ff0000}
+.deck .keys{display:flex;justify-content:center;gap:6px;margin:6px 8px 10px}
+.deck .keys button{font:bold 18px "Courier New",monospace;min-width:56px;min-height:44px;background:#c0c0c0;color:#000;border:3px outset #fff;cursor:pointer}
+.deck .keys button:active{border-style:inset}
+.deck .keys button.on{background:#ff0000;color:#000}
+table.trk{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;font-size:15px;background:#000}
+table.trk td,table.trk th{border:1px inset #8888aa;padding:5px 6px;text-align:left;vertical-align:middle}
+table.trk th{color:#ff0000}
+table.trk tr.t{cursor:pointer}
+table.trk tr.t:hover td{background:#0b0b1e}
+table.trk tr.on td{background:#1a0000;color:#ff0000}
+table.trk td.n{font:12px "Courier New",monospace;color:#8888aa;white-space:nowrap;width:1%}
+table.trk td.d{font:12px "Courier New",monospace;color:#8888aa;white-space:nowrap;width:1%}
+table.trk tr.off td{opacity:.45}
+</style>
+</head>
+<body>
+<div class="side l" aria-hidden="true"><img src="/gif/sky1.gif" width="120" height="600" alt=""></div>
+<div class="side r" aria-hidden="true"><img src="/gif/sky2.gif" width="120" height="600" alt=""></div>
+<div class="wrap">
+<div class="frame"><div class="in">
+<center>
+<a name="top" id="top"></a>
+<div class="ants"></div>
+<div class="mast">
+<img src="/gif/cd.gif" width="40" height="40" alt=""><br><br>
+<font color="#ff0000" size="6"><b>MUSIC</b></font><br>
+<i id="count">Every song, playable.</i><br>
+<font size="2"><a href="/">« LIVE.AND.DIE PRODUCTIONS</a> · <a href="/archive/">archive</a></font>
+</div>
+<div class="ants"></div>
+
+<div class="deck" id="deck">
+<div class="bar" id="bar">▶ LIVE.AND.DIE · PLAYER</div>
+<div class="scr" id="scr"><img src="/img/cover.jpg" alt=""></div>
+<h2 id="h">Press play</h2>
+<div class="meta" id="meta">plays straight through, like a tape</div>
+<div class="pos"><span id="t0">0:00</span><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Position"><span id="t1">0:00</span></div>
+<div class="keys">
+<button id="prev" aria-label="Previous">|◀</button>
+<button id="play" aria-label="Play">▶</button>
+<button id="next" aria-label="Next">▶|</button>
+<button id="shuf" aria-label="Shuffle">⤮</button>
+</div>
+</div>
+<audio id="au" preload="none"></audio>
+
+<table class="sec" cellspacing="0" cellpadding="0">
+<tr><th><img src="/gif/cd.gif" width="40" height="40" alt="">TRACKS</th></tr>
+<tr><td>
+<table class="trk" id="trk"><tr><th>#</th><th>title</th><th>date</th></tr></table>
+<p class="fine">In the order they were posted. Videos for every track are in the <a href="/archive/">archive</a>.</p>
+</td></tr></table>
+
+<table class="sec" cellspacing="0" cellpadding="0">
+<tr><th><img src="/gif/new.gif" width="32" height="32" alt="">ON BANDCAMP</th></tr>
+<tr><td>
+<a href="https://ladproductions.bandcamp.com/album/sam-carly-carly-sam" target="_blank" rel="noopener"><img src="/img/cover.jpg" width="220" height="220" border="2" alt="SAM 遗事 CARLY / / CARLY 遗事 SAM cover"></a><br>
+<b>SAM 遗事 CARLY / / CARLY 遗事 SAM</b> · album · 2026<br>
+<font size="4"><a href="https://ladproductions.bandcamp.com/album/sam-carly-carly-sam" target="_blank" rel="noopener"><b>» BUY / LISTEN ON BANDCAMP «</b></a></font>
+</td></tr></table>
+
+<div class="ants" style="margin-top:18px"></div>
+<div class="foot">
+© 2026 LIVE.AND.DIE PRODUCTIONS · <a href="/">home</a> · <a href="/archive/">archive</a> · <a href="/commissions/">commissions</a> · <a href="#top">back to top</a>
+</div>
+<div class="ants"></div>
+</center>
+</div></div>
+</div>
+
+<script>
+(async () => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const idx = await (await fetch("/archive/index.json")).json();
+  const n = idx.length;
+  idx.forEach((p, i) => p.no = "ARC-" + String(n - i).padStart(4, "0"));
+  const title = c => {
+    c = (c || "").trim();
+    const m = c.match(/^[“"]([^”"]+)[”"]/);
+    if (m) return m[1].trim();
+    const f = c.split("\n")[0].trim();
+    return f && f.length < 80 ? f : "untitled";
+  };
+  const tracks = idx.filter(p => p.song).reverse().map(p => {        // oldest first
+    const m = p.media.find(m => m.audio);
+    return { no: p.no, date: p.date, title: title(p.caption), audio: "/archive/" + m.audio, loop: "/archive/" + m.loop, thumb: "/archive/" + m.thumb };
+  });
+  $("count").textContent = `${tracks.length} songs, ${tracks[0].date.slice(0, 4)}–${tracks.at(-1).date.slice(0, 4)}. Plays straight through.`;
+  $("trk").insertAdjacentHTML("beforeend", tracks.map((t, i) =>
+    `<tr class="t" data-i="${i}"><td class="n">${String(i + 1).padStart(2, "0")}</td><td><b>${esc(t.title)}</b></td><td class="d">${t.date}</td></tr>`).join(""));
+
+  const au = $("au");
+  let cur = -1, order = tracks.map((_, i) => i), shuffled = false;
+  const fmt = s => isFinite(s) ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}` : "0:00";
+  function load(i, autoplay = true) {
+    cur = i; const t = tracks[i];
+    au.src = t.audio;
+    $("scr").innerHTML = `<video src="${t.loop}" poster="${t.thumb}" autoplay muted loop playsinline></video>`;
+    $("h").textContent = t.title;
+    $("meta").textContent = `${String(i + 1).padStart(2, "0")} / ${tracks.length} · ${t.date} · ${t.no}`;
+    $("bar").textContent = `▶ NOW PLAYING · ${t.title}`;
+    document.querySelectorAll("#trk tr.t").forEach(r => r.classList.toggle("on", +r.dataset.i === i));
+    if (autoplay) au.play().catch(() => {});
+    if ("mediaSession" in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: t.title, artist: "LIVE.AND.DIE", artwork: [{ src: t.thumb, sizes: "300x300", type: "image/jpeg" }] });
+  }
+  const step = d => { const k = order.indexOf(cur); load(order[(k + d + order.length) % order.length]); };
+  $("trk").addEventListener("click", e => { const r = e.target.closest("tr.t"); if (r) load(+r.dataset.i); });
+  $("play").onclick = () => { if (cur < 0) load(order[0]); else au.paused ? au.play() : au.pause(); };
+  $("next").onclick = () => step(1); $("prev").onclick = () => au.currentTime > 3 ? (au.currentTime = 0) : step(-1);
+  $("shuf").onclick = () => {
+    shuffled = !shuffled; $("shuf").classList.toggle("on", shuffled);
+    order = tracks.map((_, i) => i);
+    if (shuffled) for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+  };
+  au.addEventListener("play", () => $("play").textContent = "❚❚");
+  au.addEventListener("pause", () => $("play").textContent = "▶");
+  au.addEventListener("ended", () => step(1));
+  au.addEventListener("error", () => {                         // this track's audio isn't uploaded yet: skip it
+    if (cur < 0) return;
+    document.querySelector(`#trk tr.t[data-i="${cur}"]`)?.classList.add("off");
+    $("meta").textContent = "audio not uploaded yet · skipping";
+    setTimeout(() => step(1), 900);
+  });
+  au.addEventListener("timeupdate", () => { $("t0").textContent = fmt(au.currentTime); $("t1").textContent = fmt(au.duration); if (au.duration) $("seek").value = 1000 * au.currentTime / au.duration; });
+  $("seek").addEventListener("input", e => { if (au.duration) au.currentTime = au.duration * e.target.value / 1000; });
+  if ("mediaSession" in navigator) { navigator.mediaSession.setActionHandler("nexttrack", () => step(1)); navigator.mediaSession.setActionHandler("previoustrack", () => step(-1)); }
+})();
+</script>
+<script src="/gate/stars-bg.js" defer></script>
+</body>
+</html>
