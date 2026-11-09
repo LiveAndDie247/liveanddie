@@ -112,9 +112,11 @@ body.lock{overflow:hidden}
 <script>
 (async () => {
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const all = await (await fetch("/archive/index.json")).json();       // newest first
-  // number oldest-first: ARC-0001 is the first post
-  all.forEach((p, i) => { p.no = "ARC-" + String(all.length - i).padStart(4, "0"); p.vid = p.media.some(m => m.video); });
+  const raw = await (await fetch("/archive/index.json")).json();       // newest first
+  // numbers stay fixed (oldest-first over everything, so links never break); hidden pieces are left out.
+  // /archive/?all shows them too.
+  raw.forEach((p, i) => { p.no = "ARC-" + String(raw.length - i).padStart(4, "0"); p.vid = p.media.some(m => m.video); });
+  const all = /[?&]all\b/.test(location.search) ? raw : raw.filter(p => !p.hide);
 
   // captions are mostly: "Title" (2026, DIGITAL)\n more text
   for (const p of all) {
