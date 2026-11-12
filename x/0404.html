@@ -12,8 +12,9 @@ a{color:inherit;text-decoration:none;cursor:default}
 .scan{pointer-events:none;position:fixed;inset:0;z-index:8;opacity:.45;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 1px,transparent 1px 3px)}
 .fl{position:fixed;inset:0;background:#ff0000;pointer-events:none;z-index:10;opacity:0}
 video{position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;filter:contrast(3)}
+.wm{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.35;background:url(../img/wm.svg) 0 0/220px auto repeat}
 </style></head><body>
-<video src="../img/vhsloop.mp4" muted loop autoplay playsinline></video><a class="h" href="2373.html" style="left:10vw;top:6vh;width:20vw;height:19vh"></a><a class="h" href="9784.html" style="left:10vw;top:40vh;width:7vw;height:17vh"></a>
+<video src="../img/vhsloop.mp4" muted loop autoplay playsinline></video><div class="wm"></div><a class="h" href="2373.html" style="left:10vw;top:6vh;width:20vw;height:19vh"></a><a class="h" href="9784.html" style="left:10vw;top:40vh;width:7vw;height:17vh"></a>
 <div class="scan"></div><div class="fl" id="fl"></div>
 <script src="x.js"></script>
 <script>document.querySelector("video").play().catch(function(){});</script>

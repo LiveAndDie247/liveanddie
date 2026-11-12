@@ -12,8 +12,9 @@ a{color:inherit;text-decoration:none;cursor:default}
 .scan{pointer-events:none;position:fixed;inset:0;z-index:8;opacity:.45;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 1px,transparent 1px 3px)}
 .fl{position:fixed;inset:0;background:#ff0000;pointer-events:none;z-index:10;opacity:0}
 video{position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;filter:contrast(3)}
+.wm{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.35;background:url(../img/wm.svg) 0 0/220px auto repeat}
 </style></head><body>
-<video src="../img/samcarly.mp4" muted loop autoplay playsinline></video><a class="h" href="9010.html" style="left:37vw;top:15vh;width:18vw;height:17vh"></a><a class="h" href="1268.html" style="left:24vw;top:32vh;width:19vw;height:6vh"></a><a class="h" href="8206.html" style="left:70vw;top:50vh;width:21vw;height:22vh"></a>
+<video src="../img/samcarly.mp4" muted loop autoplay playsinline></video><div class="wm"></div><a class="h" href="9010.html" style="left:37vw;top:15vh;width:18vw;height:17vh"></a><a class="h" href="1268.html" style="left:24vw;top:32vh;width:19vw;height:6vh"></a><a class="h" href="8206.html" style="left:70vw;top:50vh;width:21vw;height:22vh"></a>
 <div class="scan"></div><div class="fl" id="fl"></div>
 <script src="x.js"></script>
 <script>document.querySelector("video").play().catch(function(){});</script>

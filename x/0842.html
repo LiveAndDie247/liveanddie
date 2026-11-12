@@ -12,8 +12,9 @@ a{color:inherit;text-decoration:none;cursor:default}
 .scan{pointer-events:none;position:fixed;inset:0;z-index:8;opacity:.45;background:repeating-linear-gradient(0deg,rgba(0,0,0,.4) 0 1px,transparent 1px 3px)}
 .fl{position:fixed;inset:0;background:#ff0000;pointer-events:none;z-index:10;opacity:0}
 video{position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;filter:saturate(0) contrast(2)}
+.wm{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.35;background:url(../img/wm.svg) 0 0/220px auto repeat}
 </style></head><body>
-<video src="../img/loop.mp4" muted loop autoplay playsinline></video><a class="h" href="2373.html" style="left:75vw;top:70vh;width:10vw;height:10vh"></a><a class="h" href="2659.html" style="left:44vw;top:32vh;width:16vw;height:13vh"></a><a class="h" href="1824.html" style="left:13vw;top:56vh;width:22vw;height:20vh"></a>
+<video src="../img/loop.mp4" muted loop autoplay playsinline></video><div class="wm"></div><a class="h" href="2373.html" style="left:75vw;top:70vh;width:10vw;height:10vh"></a><a class="h" href="2659.html" style="left:44vw;top:32vh;width:16vw;height:13vh"></a><a class="h" href="1824.html" style="left:13vw;top:56vh;width:22vw;height:20vh"></a>
 <div class="scan"></div><div class="fl" id="fl"></div>
 <script src="x.js"></script>
 <script>document.querySelector("video").play().catch(function(){});</script>
