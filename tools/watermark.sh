@@ -7,8 +7,9 @@
 #   tools/watermark.sh --sample DIR f… write watermarked copies to DIR (repo untouched)
 #   tools/watermark.sh --list          show which files count as art
 #
-# Art = images in img/ (jpg/jpeg/png/webp/gif) except site decoration: the dim background stills
-# (img/bg/), stars.png, og.png (share card), t_* tool icons. Everything in gif/ is decoration.
+# Art = images in img/ and archive/m/ (jpg/jpeg/png/webp/gif) except site decoration: stars.*,
+# og.png (share card), t_* tool icons. Everything in gif/ is decoration. Metadata (EXIF, GPS,
+# camera, profiles) is stripped from every file it writes.
 # The untouched original of each file is copied to ~/liveanddie-originals/<same path> before the
 # first change, and never overwritten.
 #
@@ -23,16 +24,25 @@ FONT="Times-BoldItalic"
 OPACITY=35
 
 art_files() {
-  find img -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \) \
-    ! -name 'stars.png' ! -name 'og.png' ! -name 't_*' | sort
+  find img archive/m -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \) \
+    ! -name 'stars.*' ! -name 'og.png' ! -name 't_*' | sort
 }
 
 is_marked() { [ "$(magick identify -format '%c' "$1[0]" 2>/dev/null)" = "$TAG" ]; }
 
 # watermark <in> <out>
 watermark() {
-  local in="$1" out="$2" w h big small stroke sstroke diag cell row field
+  local in="$1" out="$2" w h field
   read -r w h < <(magick identify -format '%w %h\n' "$in[0]")
+  field="$CACHE/${w}x${h}.png"
+  if [ ! -s "$field" ]; then make_field "$w" "$h" "$field"; fi
+  magick "$in" -strip "$field" -gravity center -compose over -composite \
+    -set comment "$TAG" -quality 86 -sampling-factor 4:2:0 -interlace JPEG "$out"
+}
+
+# make_field <w> <h> <out.png>: the transparent watermark layer for one image size
+make_field() {
+  local w="$1" h="$2" field="$3" big small stroke sstroke diag cell row
   # sized from the width: the title is ~1/11 of the piece wide per letter-height, so it reads on a
   # 360px thumbnail (≈32px type) and stays proportional at full size
   big=$(( w / 11 )); [ "$big" -lt 26 ] && big=26
@@ -40,7 +50,7 @@ watermark() {
   stroke=$(( big / 16 )); [ "$stroke" -lt 2 ] && stroke=2
   sstroke=$(( stroke * 6 / 10 )); [ "$sstroke" -lt 1 ] && sstroke=1
   diag=$(magick xc: -format "%[fx:ceil(hypot($w,$h))+$big*4]" info:)
-  cell=$(mktemp --suffix=.png); row=$(mktemp --suffix=.png); field=$(mktemp --suffix=.png)
+  cell=$(mktemp --suffix=.png); row=$(mktemp --suffix=.png)
   # one cell: two centred lines of outlined red text, trimmed, with breathing room around it
   magick -background none -font "$FONT" -fill '#ff0000' -stroke black \
     \( -pointsize "$big" -strokewidth "$stroke" label:'LIVE.AND.DIE' \) \
@@ -53,11 +63,10 @@ watermark() {
   magick -size "${diag}x${diag}" tile:"$row" -background none -rotate -30 \
     -gravity center -crop "${w}x${h}+0+0" +repage \
     -channel A -evaluate multiply "0.$OPACITY" +channel "$field"
-  magick "$in" "$field" -gravity center -compose over -composite \
-    -set comment "$TAG" -quality 90 "$out"
-  rm -f "$cell" "$row" "$field"
+  rm -f "$cell" "$row"
 }
 
+CACHE=$(mktemp -d); trap 'rm -rf "$CACHE"' EXIT
 mode=run
 if [ "${1:-}" = "--list" ]; then art_files; exit 0; fi
 if [ "${1:-}" = "--sample" ]; then mode=sample; outdir="$2"; shift 2; mkdir -p "$outdir"; fi
