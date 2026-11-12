@@ -4,18 +4,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MUSIC — LIVE.AND.DIE PRODUCTIONS</title>
-<meta name="description" content="LIVE.AND.DIE music: every song, playable. Plus SAM 遗事 CARLY / / CARLY 遗事 SAM on Bandcamp.">
+<meta name="description" content="Every LIVE.AND.DIE song, playable in the browser, plus the SAM 遗事 CARLY / / CARLY 遗事 SAM album on Bandcamp.">
 <meta name="theme-color" content="#000000">
-<meta property="og:title" content="LIVE.AND.DIE — MUSIC">
+<link rel="canonical" href="https://liveanddie.xyz/music/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LIVE.AND.DIE">
+<meta property="og:title" content="MUSIC — LIVE.AND.DIE PRODUCTIONS">
+<meta property="og:description" content="Every LIVE.AND.DIE song, playable in the browser, plus the SAM 遗事 CARLY / / CARLY 遗事 SAM album on Bandcamp.">
+<meta property="og:url" content="https://liveanddie.xyz/music/">
 <meta property="og:image" content="https://liveanddie.xyz/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LIVE.AND.DIE PRODUCTIONS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MUSIC — LIVE.AND.DIE PRODUCTIONS">
+<meta name="twitter:description" content="Every LIVE.AND.DIE song, playable in the browser, plus the SAM 遗事 CARLY / / CARLY 遗事 SAM album on Bandcamp.">
+<meta name="twitter:image" content="https://liveanddie.xyz/img/og.png">
 <link rel="icon" type="image/png" href="/favicon.png">
-<link rel="stylesheet" href="/gate.css?v=4">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/gate.css?v=5">
 <style>
 .deck{border:3px outset #8888aa;background:#000;margin:14px 0 0}
 .deck .bar{background:#000080;color:#fff;font:bold 14px "Courier New",monospace;padding:4px 8px;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .deck .scr{position:relative;aspect-ratio:1;max-height:56vh;margin:8px auto 4px;border:3px ridge #8888aa;background:#0b0b1e}
 .deck .scr video,.deck .scr img{width:100%;height:100%;object-fit:cover;display:block}
-.deck h2{color:#ff0000;font-size:21px;margin:4px 8px 0;line-height:1.2}
+.deck h2{color:#ff0000;font-size:18px;overflow-wrap:anywhere;margin:4px 8px 0;line-height:1.2}
 .deck .meta{font:13px "Courier New",monospace;color:#8888aa;margin:2px 0 6px}
 .deck .pos{display:flex;align-items:center;gap:8px;margin:4px 10px;font:12px "Courier New",monospace;color:#8888aa}
 .deck input[type=range]{flex:1;accent-color:#ff0000}
@@ -23,7 +36,9 @@
 .deck .keys button{font:bold 18px "Courier New",monospace;min-width:56px;min-height:44px;background:#c0c0c0;color:#000;border:3px outset #fff;cursor:pointer}
 .deck .keys button:active{border-style:inset}
 .deck .keys button.on{background:#ff0000;color:#000}
-table.trk{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;font-size:15px;background:#000}
+table.trk{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;table-layout:fixed;font-size:13px;background:#000}
+table.trk td{overflow-wrap:anywhere}
+table.trk th:first-child{width:2.4em}table.trk th:last-child{width:6.5em}
 table.trk td,table.trk th{border:1px inset #8888aa;padding:5px 6px;text-align:left;vertical-align:middle}
 table.trk th{color:#ff0000}
 table.trk tr.t{cursor:pointer}
@@ -52,7 +67,7 @@ table.trk tr.off td{opacity:.45}
 
 <div class="deck" id="deck">
 <div class="bar" id="bar">▶ LIVE.AND.DIE · PLAYER</div>
-<div class="scr" id="scr"><img src="/img/cover.jpg" alt=""></div>
+<div class="scr ovl" id="scr"><img src="/img/cover.jpg" alt=""></div>
 <h2 id="h">Press play</h2>
 <div class="meta" id="meta">plays straight through, like a tape</div>
 <div class="pos"><span id="t0">0:00</span><input type="range" id="seek" min="0" max="1000" value="0" aria-label="Position"><span id="t1">0:00</span></div>

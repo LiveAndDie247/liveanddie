@@ -2,7 +2,7 @@
    borders like <table border=1>, ridges, doubles, marching ants, <hr> rules, plain underlined links.
    Still very little CSS on purpose: the sky, readable phone sizes, AA-contrast link colours on black
    (#9a9aff 6.9:1, visited #c99aff 8.5:1), <blink> brought back, and the border kit. */
-body{background:#000 url(/img/stars.gif);background-size:240px 240px;image-rendering:pixelated;color:#fff;font:17px/1.5 "Times New Roman",Times,"Liberation Serif",serif;margin:0;padding:12px}
+body{background:#000 url(/img/stars.gif);background-size:240px 240px;image-rendering:pixelated;color:#fff;font:14px/1.35 "Times New Roman",Times,"Liberation Serif",serif;margin:0;padding:12px}
 @media(prefers-reduced-motion:reduce){body{background-image:url(/img/stars.png)}}
 img,video,iframe{image-rendering:auto}
 a{color:#9a9aff} a:visited{color:#c99aff} a:hover{color:#ff0000}
@@ -20,14 +20,14 @@ li{margin:4px 0}
 .frame{border:4px ridge #8888aa;padding:4px}                       /* the page: a ridge, then a thin line */
 .frame .in{border:1px solid #55556e;padding:6px 10px 10px}
 .ants{height:6px;background:url(/gif/ants.gif) repeat-x;image-rendering:pixelated;margin:6px 0}   /* animated marching ants */
-.mast{border:3px double #8888aa;padding:14px 8px 12px;margin:4px 0}
+.mast{border:3px double #8888aa;padding:8px 8px 8px;margin:4px 0}
 .open{border:3px double #ff0000;padding:8px 6px;margin:14px 0 10px;animation:bord 1s steps(1) infinite}
 @keyframes bord{50%{border-color:#9a9aff}}
 .nav{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:10px 0 4px}        /* bevel buttons */
-.nav a{border:2px outset #8888aa;background:#000;padding:3px 10px;font-size:15px;text-decoration:none}
+.nav a{border:2px outset #8888aa;background:#000;padding:2px 8px;font-size:13px;text-decoration:none}
 .nav a:hover,.nav a:active{border-style:inset;background:#0b0b1e}
 table.sec{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;margin:18px 0 0;background:transparent}
-table.sec>tbody>tr>th{border:1px inset #8888aa;border-bottom:2px groove #8888aa;background:#000;padding:8px 6px;color:#ff0000;font-size:24px;font-weight:bold;text-align:center;line-height:1.2}
+table.sec>tbody>tr>th{border:1px inset #8888aa;border-bottom:2px groove #8888aa;background:#000;padding:5px 6px;color:#ff0000;font-size:20px;font-weight:bold;font-style:italic;text-align:center;line-height:1.2}
 table.sec>tbody>tr>th img{display:inline;vertical-align:middle;margin:0 8px 0 0}
 table.sec>tbody>tr>td{border:1px inset #8888aa;padding:10px 8px 12px;text-align:center}
 .adbox{border:1px dashed #8888aa;padding:6px 6px 5px;margin:14px auto 0;max-width:482px;background:#000}
@@ -39,8 +39,8 @@ img[border]{border:3px ridge #8888aa}                              /* border=2 o
 table.art{border-collapse:separate;border-spacing:8px;width:100%}
 table.art td{text-align:center;vertical-align:top;font-size:14px;width:33%}
 table.art img{border:3px ridge #8888aa;width:100%;max-width:150px;display:block;margin:0 auto 3px}
-table.cat{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;font-size:15px;background:#000}
-table.cat td,table.cat th{border:1px inset #8888aa;padding:4px 6px;text-align:left;vertical-align:top}
+table.cat{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;font-size:13px;background:#000}
+table.cat td,table.cat th{border:1px inset #8888aa;padding:2px 5px;text-align:left;vertical-align:top}
 table.cat th{color:#ff0000}
 table.cat td:first-child{white-space:nowrap}
 .rent{border:3px double #ff0000;padding:10px;max-width:468px;margin:0 auto;color:#ff0000}
@@ -50,5 +50,20 @@ table.cat td:first-child{white-space:nowrap}
 .side.l{left:12px}.side.r{right:12px}
 .side img{display:block;width:120px;height:auto}
 @media(min-width:1000px){.side{display:block}}
-@media(max-width:480px){body{padding:6px;font-size:16px}.frame .in{padding:4px 6px 8px}table.sec>tbody>tr>td{padding:8px 5px 10px}table.sec>tbody>tr>th{font-size:21px}table.cat{font-size:14px}table.art td{font-size:13px}.nav a{padding:3px 7px;font-size:14px}}
+@media(max-width:480px){body{padding:6px;font-size:14px}.frame .in{padding:4px 6px 8px}table.sec>tbody>tr>td{padding:8px 5px 10px}table.sec>tbody>tr>th{font-size:18px}table.cat{font-size:13px}table.art td{font-size:13px}.nav a{padding:2px 6px;font-size:13px}}
 table.art4{table-layout:fixed}table.art4 td{width:25%;font-size:12px;overflow-wrap:anywhere}table.art4 img{width:100%;max-width:140px;aspect-ratio:1;object-fit:cover}
+
+/* titles: bold italic serif, hard black outline, blue offset shadow; never big blocky display type */
+.mast font[size="6"],.mast font[size="5"],.open font[size="5"],table.sec>tbody>tr>th,h1,h2{font-style:italic;font-weight:bold;
+  text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,-2px 0 0 #000,2px 0 0 #000,0 2px 0 #000,3px 3px 0 #3a3aff}
+.mast font[size="6"]{font-size:26px;line-height:1.15;letter-spacing:.02em}
+.open font[size="5"]{font-size:19px}
+.mast i{font-size:13px}
+font[size="4"]{font-size:15px}font[size="5"]{font-size:17px}
+table.sec>tbody>tr>td{text-align:center}
+p{margin:6px 0}
+table{max-width:100%}
+.ovl{position:relative;display:block}
+.ovl::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background:url(/img/wm.svg) 0 0/220px auto repeat}
+table.sec>tbody>tr>th,h2,.open font[size="5"]{text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,2px 2px 0 #3a3aff}
+table.sec>tbody>tr>th font{text-shadow:none}

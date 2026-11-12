@@ -4,13 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ARCHIVE — LIVE.AND.DIE PRODUCTIONS</title>
-<meta name="description" content="The LIVE.AND.DIE archive: every piece since 2019. Digital art, video, collage, music. Prints and commissions by DM.">
+<meta name="description" content="The LIVE.AND.DIE archive: digital art, video, collage and music since 2019. Prints of any still, $25.">
 <meta name="theme-color" content="#000000">
-<meta property="og:title" content="LIVE.AND.DIE — THE ARCHIVE">
-<meta property="og:description" content="Every piece since 2019.">
+<link rel="canonical" href="https://liveanddie.xyz/archive/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LIVE.AND.DIE">
+<meta property="og:title" content="ARCHIVE — LIVE.AND.DIE PRODUCTIONS">
+<meta property="og:description" content="The LIVE.AND.DIE archive: digital art, video, collage and music since 2019. Prints of any still, $25.">
+<meta property="og:url" content="https://liveanddie.xyz/archive/">
 <meta property="og:image" content="https://liveanddie.xyz/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LIVE.AND.DIE PRODUCTIONS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ARCHIVE — LIVE.AND.DIE PRODUCTIONS">
+<meta name="twitter:description" content="The LIVE.AND.DIE archive: digital art, video, collage and music since 2019. Prints of any still, $25.">
+<meta name="twitter:image" content="https://liveanddie.xyz/img/og.png">
 <link rel="icon" type="image/png" href="/favicon.png">
-<link rel="stylesheet" href="/gate.css?v=4">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/gate.css?v=5">
 <style>
 /* archive-only additions to the border kit */
 .years{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:8px 0}
@@ -28,27 +40,28 @@
 .grid .t{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .grid .n{color:#8888aa;font:10px "Courier New",monospace}
 @media(max-width:480px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-/* the viewer: a popup window from 1999 */
-#v{position:fixed;inset:0;z-index:50;background:rgba(0,0,10,.92);display:none;overflow-y:auto;padding:10px}
+/* the viewer: an in-page window (no pop-ups), opens above the grid */
+#v{display:none;margin:14px 0 0;scroll-margin-top:8px}
 #v.on{display:block}
-#v .win{max-width:620px;margin:0 auto;border:3px outset #8888aa;background:#000}
+#v .win{max-width:620px;margin:0 auto;border:3px outset #8888aa;background:#000;text-align:center}
 #v .bar{display:flex;align-items:center;gap:6px;background:#000080;color:#fff;font:bold 14px "Courier New",monospace;padding:3px 4px 3px 8px}
 #v .bar span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #v .bar button{font:bold 14px "Courier New",monospace;min-width:34px;min-height:30px;background:#c0c0c0;color:#000;border:2px outset #fff;cursor:pointer}
 #v .bar button:active{border-style:inset}
 #v .body{padding:10px;text-align:center}
+#v .media .ovl{display:inline-block;max-width:100%;margin:0 auto 6px}
+#v .media .ovl video{margin:0}
 #v .media img,#v .media video{max-width:100%;max-height:68vh;border:3px ridge #8888aa;display:block;margin:0 auto 6px;background:#0b0b1e}
 #v .dots{font:13px "Courier New",monospace;color:#8888aa;margin:2px 0 6px}
 #v .dots button{all:unset;cursor:pointer;padding:0 4px}
 #v .dots button.on{color:#ff0000}
-#v h2{color:#ff0000;font-size:22px;margin:6px 0 2px;line-height:1.2}
+#v h2{color:#ff0000;font-size:18px;margin:6px 0 2px;line-height:1.2}
 #v .meta{font:13px "Courier New",monospace;color:#8888aa}
-#v .cap{text-align:left;white-space:pre-wrap;font-size:15px;margin:10px 0;border-top:1px dotted #8888aa;padding-top:8px}
-#v .buy{border:3px double #ff0000;padding:8px;margin:10px 0 4px;font-size:15px}
+#v .cap{text-align:left;white-space:pre-wrap;font-size:13px;margin:10px 0;border-top:1px dotted #8888aa;padding-top:8px}
+#v .buy{border:3px double #ff0000;padding:6px;margin:10px 0 4px;font-size:13px}
 #v .nav2{display:flex;justify-content:space-between;gap:6px;margin-top:8px}
 #v .nav2 button{flex:1;font:bold 15px "Times New Roman",serif;background:#000;color:#9a9aff;border:2px outset #8888aa;padding:6px;cursor:pointer}
 #v .nav2 button:active{border-style:inset}
-body.lock{overflow:hidden}
 </style>
 </head>
 <body>
@@ -82,19 +95,7 @@ body.lock{overflow:hidden}
 <p class="fine">Tap any piece to open it. Prints of any still: 12 × 12 in, signed, $25. DM <a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">@live.and.die</a> with the number.</p>
 </td></tr></table>
 
-<div id="out"></div>
-
-<div class="ants" style="margin-top:18px"></div>
-<div class="foot">
-© 2026 LIVE.AND.DIE PRODUCTIONS · <a href="/">home</a> · <a href="/commissions/">commissions</a> · <a href="#top">back to top</a><br>
-<font color="#bbbbbb"><i>keywords: live.and.die archive digital art video collage datamosh noise prints</i></font>
-</div>
-<div class="ants"></div>
-</center>
-</div></div>
-</div>
-
-<div id="v" role="dialog" aria-modal="true" aria-label="Piece">
+<div id="v" role="region" aria-label="Piece">
 <div class="win">
 <div class="bar"><span id="vt">ARC-0000</span><button id="vx" aria-label="Close">×</button></div>
 <div class="body">
@@ -109,6 +110,18 @@ body.lock{overflow:hidden}
 </div>
 </div>
 
+<div id="out"></div>
+
+<div class="ants" style="margin-top:18px"></div>
+<div class="foot">
+© 2026 LIVE.AND.DIE PRODUCTIONS · <a href="/">home</a> · <a href="/commissions/">commissions</a> · <a href="#top">back to top</a><br>
+<font color="#bbbbbb"><i>keywords: live.and.die archive digital art video collage datamosh noise prints</i></font>
+</div>
+<div class="ants"></div>
+</center>
+</div></div>
+</div>
+
 <script>
 (async () => {
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -116,7 +129,7 @@ body.lock{overflow:hidden}
   // numbers stay fixed (oldest-first over everything, so links never break); hidden pieces are left out.
   // /archive/?all shows them too.
   raw.forEach((p, i) => { p.no = "ARC-" + String(raw.length - i).padStart(4, "0"); p.vid = p.media.some(m => m.video); });
-  const all = /[?&]all\b/.test(location.search) ? raw : raw.filter(p => !p.hide);
+  const all = raw.filter(p => !p.hide);
 
   // captions are mostly: "Title" (2026, DIGITAL)\n more text
   for (const p of all) {
@@ -161,7 +174,7 @@ body.lock{overflow:hidden}
     const p = shown[i], m = p.media[s];
     V("vt").textContent = `${p.no} · ${p.date}`;
     V("vm").innerHTML = m.video
-      ? `<video src="/archive/${m.loop}" poster="/archive/${m.thumb}" autoplay muted loop playsinline></video>`
+      ? `<span class="ovl"><video src="/archive/${m.loop}" poster="/archive/${m.thumb}" autoplay muted loop playsinline></video></span>`
       : `<img src="/archive/${m.img}" alt="${esc(p.title)}">`;
     if (m.audio) V("vm").innerHTML += `<audio src="/archive/${m.audio}" controls autoplay style="width:100%;margin:2px 0 4px"></audio><div style="font-size:13px"><a href="/music/">» every song, in order «</a></div>`;
     V("vd").innerHTML = p.media.length > 1 ? p.media.map((_, k) => `<button data-s="${k}" class="${k === s ? "on" : ""}">${k === s ? "■" : "□"}</button>`).join("") : "";
@@ -173,14 +186,13 @@ body.lock{overflow:hidden}
       ? `<b>Want one like this?</b> Moshes, visualizers and animated covers from $25.<br><a href="/commissions/">» commissions «</a> · <a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">full video on Instagram</a>`
       : `<b>PRINT:</b> 12 × 12 in, matte, signed. <font color="#ff0000"><b>$25</b></font>.<br>DM <a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">@live.and.die</a> with <b>${p.no}</b>.`;
     V("vp").disabled = i >= shown.length - 1; V("vn").disabled = i <= 0;
-    V("v").classList.add("on"); document.body.classList.add("lock");
+    V("v").classList.add("on"); V("v").scrollIntoView({ block: "start" });
     if (location.hash !== "#" + p.no.toLowerCase()) history.replaceState(null, "", "#" + p.no.toLowerCase());
   }
-  function close() { V("v").classList.remove("on"); document.body.classList.remove("lock"); V("vm").innerHTML = ""; history.replaceState(null, "", location.pathname); }
+  function close() { V("v").classList.remove("on"); V("vm").innerHTML = ""; history.replaceState(null, "", location.pathname); }
   out.addEventListener("click", e => { const b = e.target.closest("button[data-no]"); if (b) show(shown.findIndex(p => p.no === b.dataset.no)); });
   V("vd").addEventListener("click", e => { const b = e.target.closest("button[data-s]"); if (b) show(cur, +b.dataset.s); });
   V("vx").onclick = close;
-  V("v").addEventListener("click", e => { if (e.target.id === "v") close(); });
   V("vp").onclick = () => show(cur + 1); V("vn").onclick = () => show(cur - 1);
   V("rnd").onclick = () => show(Math.floor(Math.random() * shown.length));
   addEventListener("keydown", e => {
