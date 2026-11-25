@@ -39,7 +39,7 @@ export function record(SH, getCanvas, getOverlay, opt = {}) {
   const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
   const gc = document.createElement("canvas"); gc.width = GW; gc.height = GH; const gx = gc.getContext("2d", { willReadFrequently: true });
   const stream = c.captureStream(30);
-  try { const au = SH.au; if (au && au.src && !au.paused && au.captureStream) au.captureStream().getAudioTracks().forEach(t => stream.addTrack(t)); } catch (e) {}
+  try { if (opt.audioTrack) stream.addTrack(opt.audioTrack); else { const au = SH.au; if (au && au.src && !au.paused && au.captureStream) au.captureStream().getAudioTracks().forEach(t => stream.addTrack(t)); } } catch (e) {}
   const mime = ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"].find(t => { try { return MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
   if (!mime) throw new Error("no recorder");
   const mr = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 4e6 }), chunks = [], frames = [];

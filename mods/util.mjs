@@ -70,3 +70,14 @@ export function audioTap(SH) {
   an.fftSize = 512; src.connect(an); an.connect(AC.destination); if (AC.state === "suspended") AC.resume().catch(() => {});
   return (SH._tap = { AC, src, an });
 }
+// 16-bit PCM WAV from Float32 channel arrays, with an optional INFO chunk (title / artist credit)
+export function wavBlob(chans, sr, info) {
+  const n = chans[0].length, C = chans.length; let infoBytes = null;
+  if (info) { const parts = []; for (const k in info) { const s = String(info[k]); const b = new Uint8Array(8 + s.length + 1 + ((s.length + 1) % 2)); for (let i = 0; i < 4; i++) b[i] = k.charCodeAt(i); new DataView(b.buffer).setUint32(4, s.length + 1, true); for (let i = 0; i < s.length; i++) b[8 + i] = s.charCodeAt(i) & 127; parts.push(b); } const len = parts.reduce((a, b) => a + b.length, 4); infoBytes = new Uint8Array(8 + len); infoBytes.set([76, 73, 83, 84]); new DataView(infoBytes.buffer).setUint32(4, len, true); infoBytes.set([73, 78, 70, 79], 8); let o = 12; parts.forEach(b => { infoBytes.set(b, o); o += b.length; }); }
+  const dataLen = n * C * 2, total = 44 + dataLen + (infoBytes ? infoBytes.length : 0), ab = new ArrayBuffer(total), v = new DataView(ab);
+  const ws = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  ws(0, "RIFF"); v.setUint32(4, total - 8, true); ws(8, "WAVE"); ws(12, "fmt "); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, C, true); v.setUint32(24, sr, true); v.setUint32(28, sr * C * 2, true); v.setUint16(32, C * 2, true); v.setUint16(34, 16, true); ws(36, "data"); v.setUint32(40, dataLen, true);
+  let o = 44; for (let i = 0; i < n; i++) for (let c = 0; c < C; c++) { const x = Math.max(-1, Math.min(1, chans[c][i])); v.setInt16(o, x * 0x7fff, true); o += 2; }
+  if (infoBytes) new Uint8Array(ab).set(infoBytes, o);
+  return new Blob([ab], { type: "audio/wav" });
+}

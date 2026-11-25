@@ -570,6 +570,12 @@
   L("life", "/mods/world.mjs", "game of life seeded from an artwork", "life [id]");
   L("motion", "/mods/motion.mjs", "tilt parallax + shake-to-reboot on/off", "motion <on|off>");
   L("haptics", "/mods/motion.mjs", "vibrate on kick drums (android) on/off", "haptics <on|off>");
+  L("remix", "/mods/sound.mjs", "live remix deck for any track", "remix <n>");
+  L("spectro spectrogram", "/mods/sound.mjs", "scrolling ascii spectrogram of a track", "spectro <n>");
+  L("hum", "/mods/sound.mjs", "hum a melody; the terminal plays it back and prints the notes");
+  L("voice", "/mods/sound.mjs", "speak commands (\"play one\", \"open the archive\")", "voice <on|off>");
+  L("say speak", "/mods/sound.mjs", "read text aloud in a robot voice", "say <text>");
+  L("dream", "/mods/dream.mjs", "an endless generative ascii film cut to the music", "dream [--record]");
 
   var SAC = null;
   function sndOn() { try { return localStorage.getItem("lad_sound") === "1"; } catch (e) { return false; } }
@@ -633,6 +639,7 @@
   }
   // PWA: register the service worker on the live host (not localhost, to keep dev fresh)
   if ("serviceWorker" in navigator && !/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) { try { navigator.serviceWorker.register("/sw.js"); } catch (e) {} }
+  window.SH.submit = submit;
   window.SH.softBoot = function () { out.innerHTML = ""; promptEl.style.display = "none"; boot(); };
   // ambient motion (tilt parallax, shake, haptics): a tiny module, fetched after the shell is up, touch devices only
   if (("ontouchstart" in window || navigator.maxTouchPoints > 0) && !reduce) setTimeout(function () { loadMod("/mods/motion.mjs").catch(function () {}); }, 3000);
