@@ -35,6 +35,9 @@ body{color:var(--red);font:16px/1.25 var(--mono);letter-spacing:0;
 a,a:visited{color:var(--blue);text-decoration:none;cursor:pointer}
 a:hover,a:active{background:var(--blue);color:#000}
 a.cmd::before{content:""}
+.pr{color:var(--blue)}
+.bar[data-seek]{cursor:pointer}
+body.nocrt::after{display:none}
 #prompt{display:flex;align-items:baseline;gap:0}
 #prompt .ps1{color:var(--blue);white-space:pre}
 #prompt form{flex:1;display:flex;min-width:0}
@@ -70,9 +73,23 @@ body::after{content:"";position:fixed;inset:0;z-index:30;pointer-events:none;
 <div id="prompt" style="display:none"><span class="ps1">visitor@live.and.die:~$ </span><form autocomplete="off"><input id="cmd" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="terminal input" enterkeyhint="go"></form><span class="cur" id="cur"></span></div>
 </div>
 <nav id="cmdbar" aria-label="commands">
-<button data-cmd="help">help</button><button data-cmd="ls">ls</button><button data-cmd="music">music</button><button data-cmd="art">art</button><button data-cmd="commissions">commissions</button><button data-cmd="links">links</button></nav>
+<button data-cmd="&#9;">tab</button><button data-cmd="help">help</button><button data-cmd="ls">ls</button><button data-cmd="music">music</button><button data-cmd="art">art</button><button data-cmd="neofetch">neofetch</button><button data-cmd="top">top</button><button data-cmd="theme">theme</button><button data-cmd="commissions">commissions</button><button data-cmd="links">links</button><button data-cmd="clear">clear</button></nav>
 <div id="viewer" aria-hidden="true"><div class="top"><a id="vclose" href="#">[ x ] close</a> <span id="vttl" class="dim"></span></div><div class="pic"><span class="ovl"><img id="vimg" alt=""></span></div></div>
 <audio id="au" preload="none"></audio>
+<noscript><div style="padding:12px;color:#ff3030;font-family:'Courier New',monospace">
+<h1>LIVE.AND.DIE PRODUCTIONS</h1>
+<p>Music, video and visual art. Commissions open from $25. This site is a terminal and needs JavaScript; here are the links:</p>
+<ul>
+<li><a href="https://instagram.com/live.and.die" style="color:#4070ff">Instagram @live.and.die</a> - orders and contact</li>
+<li><a href="https://www.youtube.com/@live.and.die333" style="color:#4070ff">YouTube @live.and.die333</a></li>
+<li><a href="https://ladproductions.bandcamp.com" style="color:#4070ff">Bandcamp</a></li>
+<li><a href="https://ko-fi.com/liveanddie" style="color:#4070ff">Ko-fi</a></li>
+<li><a href="https://liveanddie247.github.io/icarus/" style="color:#4070ff">ICARUS</a>, <a href="https://liveanddie247.github.io/mosh/" style="color:#4070ff">MOSH</a>, <a href="https://liveanddie247.github.io/handsynth/" style="color:#4070ff">HANDSYNTH</a></li>
+<li><a href="/archive/" style="color:#4070ff">Archive</a> (602 pieces), <a href="/music/" style="color:#4070ff">Music</a>, <a href="/commissions/" style="color:#4070ff">Commissions</a></li>
+</ul>
+<p>Commissions: visualizers, animated covers and music video moshes from $25. DM to order.</p>
+</div></noscript>
 <script src="/portal.js" defer></script>
+<script src="/portal-apps.js" defer></script>
 </body>
 </html>
