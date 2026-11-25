@@ -365,6 +365,7 @@
       im.onload = function () {
         try { raw(imgToAscii(im, { mode: mode, cols: Math.min(46, Math.floor(innerWidth / 8) - 2) })); } catch (e) { line("(preview unavailable)", "dim"); }
         line(p.no + "  " + p.title + "  " + (p.medium || (p.date || "").slice(0, 4)));
+        if (p.x) line("note: " + p.x, "dim");
         line("{{view " + p.no + "|[ view full ]}}  {{mosh " + p.no + "|[ mosh ]}}  {{open " + p.no + " --braille|[ braille ]}}  {{share|[ share ]}}");
         openData[p.no] = { full: full, ttl: p.no + "  " + p.title }; lastShareable = "open " + p.no; newPrompt();
       };
@@ -576,6 +577,8 @@
   L("voice", "/mods/sound.mjs", "speak commands (\"play one\", \"open the archive\")", "voice <on|off>");
   L("say speak", "/mods/sound.mjs", "read text aloud in a robot voice", "say <text>");
   L("dream", "/mods/dream.mjs", "an endless generative ascii film cut to the music", "dream [--record]");
+  L("decode", "/mods/sig.mjs", "decode base64 / hex / rot13 / binary text", "decode <text>");
+  ["signal", "stego", "unlock"].forEach(function (n) { L(n, "/mods/sig.mjs", "", "", true); });
 
   var SAC = null;
   function sndOn() { try { return localStorage.getItem("lad_sound") === "1"; } catch (e) { return false; } }
@@ -640,6 +643,19 @@
   // PWA: register the service worker on the live host (not localhost, to keep dev fresh)
   if ("serviceWorker" in navigator && !/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) { try { navigator.serviceWorker.register("/sw.js"); } catch (e) {} }
   window.SH.submit = submit;
+  // for the curious: a note in the devtools console, and (once earned) a cursor that blinks in morse
+  try { console.log("%c live.and.die %c\n you opened the hood. good.\n signal 1 of 6 - key: STATIC\n in the terminal, type:  signal static", "background:#ff3030;color:#000;font:bold 14px monospace", "color:#4070ff;font:12px monospace"); } catch (e) {}
+  (function () {
+    var cur = $("cur"), busy = false;
+    setInterval(function () {
+      var m = null; try { m = localStorage.getItem("lad_sig_m"); } catch (e) {}
+      var d = new Date(); if (!m || !cur || busy || d.getMinutes() % 3 !== 0 || d.getSeconds() > 2) return;
+      busy = true; var seq = [], U = 230, i = 0;
+      (m + "    " + m).split("").forEach(function (c) { if (c === ".") seq.push([1, U], [0, U]); else if (c === "-") seq.push([1, U * 3], [0, U]); else seq.push([0, U * 2]); });
+      cur.style.animation = "none";
+      (function step() { if (i >= seq.length) { cur.style.animation = ""; cur.style.opacity = ""; busy = false; return; } cur.style.opacity = seq[i][0] ? "1" : "0"; setTimeout(step, seq[i++][1]); })();
+    }, 1000);
+  })();
   window.SH.softBoot = function () { out.innerHTML = ""; promptEl.style.display = "none"; boot(); };
   // ambient motion (tilt parallax, shake, haptics): a tiny module, fetched after the shell is up, touch devices only
   if (("ontouchstart" in window || navigator.maxTouchPoints > 0) && !reduce) setTimeout(function () { loadMod("/mods/motion.mjs").catch(function () {}); }, 3000);

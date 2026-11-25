@@ -69,9 +69,10 @@ async function spectro(SH, a) {
   const lay = () => { const z = S.size(); R.resize(z.w, z.h); W = px.width = R.st.cols; H = px.height = R.st.rows; img = pcx.createImageData(W, H); for (let i = 3; i < img.data.length; i += 4) img.data[i] = 255; };
   lay(); addEventListener("resize", lay);
   const wasLoop = au.loop; au.loop = loop; au.src = url; au.play().catch(() => {});
-  const freq = new Uint8Array(tap.an.frequencyBinCount), FMAX = 6000; let raf = 0, acc = 0, last = performance.now();
+  const an = tap.an, was = { f: an.fftSize, s: an.smoothingTimeConstant }; an.fftSize = 1024; an.smoothingTimeConstant = 0.05;      // crisp columns
+  const freq = new Uint8Array(an.frequencyBinCount), FMAX = 6000; let raf = 0, acc = 0, last = performance.now();
   S.btn("[ pause ]", b => { if (au.paused) { au.play().catch(() => {}); b.textContent = "[ pause ]"; } else { au.pause(); b.textContent = "[ play ]"; } });
-  S.onClose(() => { cancelAnimationFrame(raf); removeEventListener("resize", lay); au.pause(); au.loop = wasLoop; R.destroy(); });
+  S.onClose(() => { cancelAnimationFrame(raf); removeEventListener("resize", lay); au.pause(); au.loop = wasLoop; an.fftSize = was.f; an.smoothingTimeConstant = was.s; R.destroy(); });
   au.addEventListener("error", () => { if (!S.closed) S.close("spectro: no such track."); }, { once: true });
   function frame(t) {
     raf = requestAnimationFrame(frame); acc += t - last; last = t;
@@ -82,7 +83,7 @@ async function spectro(SH, a) {
         const row = y * W * 4; d.copyWithin(row, row + 4, row + W * 4);
         const f1 = FMAX * (1 - (y + 1) / H), f2 = FMAX * (1 - y / H); let m = 0;
         for (let b = Math.max(1, Math.floor(f1 / nyq * bins)); b <= Math.min(bins - 1, Math.ceil(f2 / nyq * bins)); b++) if (freq[b] > m) m = freq[b];
-        const v = Math.max(0, (m - 70) / 185), i = row + (W - 1) * 4;
+        const v = Math.max(0, Math.min(1, (m - 105) / 140)), i = row + (W - 1) * 4;
         if (v > 0.72) { d[i] = 60 * v; d[i + 1] = 110 * v; d[i + 2] = 255 * v; } else { d[i] = 255 * v; d[i + 1] = 40 * v; d[i + 2] = 40 * v; }
       }
       pcx.putImageData(img, 0, 0); R.draw(px, W, H);
