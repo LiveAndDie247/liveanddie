@@ -1,5 +1,5 @@
 // cam / vid / snap on the GPU ascii engine. Extra cam modes are separate modules, imported only when asked for.
-import { createAscii } from "./gl.mjs";
+import { createAscii, crop } from "./gl.mjs";
 import { stage, fit, getCam, stopStream, loadImg, download, pieceURL } from "./util.mjs";
 
 const MODE_FILES = { hands: "./cam-hands.mjs", synth: "./cam-hands.mjs", ghost: "./cam-fx.mjs", slitscan: "./cam-fx.mjs", into: "./cam-into.mjs", dance: "./cam-dance.mjs" };
@@ -12,7 +12,7 @@ function parse(a) {
     if (t === "--record") o.record = true;
     else if (t === "--mosh") { o.mode = "into"; }
     else if (t === "--into") { o.mode = "into"; if (a[i + 1] && !a[i + 1].startsWith("--")) o.id = a[++i].toUpperCase(); }
-    else if (t === "--text") { const w = []; while (a[i + 1] && !a[i + 1].startsWith("--")) w.push(a[++i]); o.text = w.join(" ").replace(/^["'“]|["'”]$/g, "") || "live.and.die"; }
+    else if (t === "--text") { const w = []; while (a[i + 1] && !a[i + 1].startsWith("--")) w.push(a[++i]); o.text = (w.join(" ").replace(/^["'\u201C]+|["'\u201D]+$/g, "") || "live.and.die").slice(0, 120) + " "; }
     else if (t.startsWith("--") && MODE_FILES[t.slice(2)]) o.mode = t.slice(2);
     else if (t.startsWith("--")) o.bad = t;
   }
@@ -36,7 +36,9 @@ async function session(SH, o, source) {
   function lay() { const z = S.size(); R.resize(z.w, z.h); overlay.width = R.st.cols * 8; overlay.height = R.st.rows * 16; overlay.style.width = overlay.width + "px"; overlay.style.height = overlay.height + "px"; }
   lay(); addEventListener("resize", lay);
   let raf = 0, frames = 0, t0 = performance.now(), fps = 0, paused = false, wantSnap = false, mode = null, rec = null, tick = 0, hudNote = "";
-  const ctx = { SH, S, get R() { return R; }, v: source.el, overlay, ox, o, note: t => { hudNote = t; } };
+  const ctx = { SH, S, get R() { return R; }, v: source.el, overlay, ox, o, note: t => { hudNote = t; },
+    // tracker coords (0..1 in the video frame) -> overlay pixels, honouring the cover-crop and the mirror
+    map(u, v) { const el = source.el, c = crop(el.videoWidth || 4, el.videoHeight || 3, R.st.cols * 8, R.st.rows * 16); let fx = (u - c[2]) / c[0]; const fy = (v - c[3]) / c[1]; if (source.mirror) fx = 1 - fx; return [fx * overlay.width, fy * overlay.height]; } };
   if (o.mode) {
     try { const m = await import(MODE_FILES[o.mode]); mode = await m.start(ctx, o); }
     catch (e) { SH.line("cam --" + o.mode + ": could not start (" + (e && e.message || "error") + "). showing plain cam.", "dim"); mode = null; }

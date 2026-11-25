@@ -20,7 +20,7 @@ function cssColor(name, fb) {
   const m = /^#?([0-9a-f]{6})$/i.exec(v); const h = m ? m[1] : fb.slice(1);
   return [parseInt(h.slice(0, 2), 16) / 255, parseInt(h.slice(2, 4), 16) / 255, parseInt(h.slice(4, 6), 16) / 255];
 }
-function crop(sw, sh, cw, ch) {                       // cover-fit: returns [sx, sy, ox, oy] in uv space
+export function crop(sw, sh, cw, ch) {                       // cover-fit: returns [sx, sy, ox, oy] in uv space
   const sa = sw / sh, ca = cw / ch;
   if (sa > ca) { const k = ca / sa; return [k, 1, (1 - k) / 2, 0]; }
   const k = sa / ca; return [1, k, 0, (1 - k) / 2];
@@ -144,11 +144,12 @@ function cpuRenderer(canvas, st) {
           let red = r >= b; if (st.swap) red = !red; if ((red ? 0 : 1) !== pass) continue;
           let l = (0.299 * r + 0.587 * g + 0.114 * b) / 255 * st.gain; l = Math.max(0, Math.min(1, (l - 0.5) * st.contrast + 0.5));
           let ch;
-          if (st.text) { if (l < 0.22) continue; ch = st.chars[(x + y * st.cols) % N]; }
+          if (st.text) { if (l < 0.16) continue; ch = st.chars[(x + y * st.cols) % N]; cx.globalAlpha = l < 0.4 ? 0.35 : l < 0.65 ? 0.65 : 1; }
           else { ch = st.chars[Math.round(l * (N - 1))]; if (ch === " ") continue; }
           cx.fillText(ch, x * CW, y * CH);
         }
       }
+      cx.globalAlpha = 1;
       return true;
     },
     destroy() {}
