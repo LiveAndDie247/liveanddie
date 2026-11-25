@@ -24,28 +24,30 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/gate.css?v=5">
 <style>
-.deck{border:3px outset #8888aa;background:#000;margin:14px 0 0}
-.deck .bar{background:#000080;color:#fff;font:bold 14px "Courier New",monospace;padding:4px 8px;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.deck .scr{position:relative;aspect-ratio:1;max-height:56vh;margin:8px auto 4px;border:3px ridge #8888aa;background:#0b0b1e}
+.deck{border:1px solid var(--red);background:rgba(0,0,0,.72);margin:14px 0 0}
+.deck .bar{background:transparent;border-bottom:1px solid var(--red-deep);color:var(--blue-lnk);font:bold 14px var(--mono);padding:5px 8px;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deck .scr{position:relative;aspect-ratio:1;max-height:56vh;margin:8px auto 4px;border:1px solid var(--red);background:#000}
 .deck .scr video,.deck .scr img{width:100%;height:100%;object-fit:cover;display:block}
-.deck h2{color:#ff0000;font-size:18px;overflow-wrap:anywhere;margin:4px 8px 0;line-height:1.2}
-.deck .meta{font:13px "Courier New",monospace;color:#8888aa;margin:2px 0 6px}
-.deck .pos{display:flex;align-items:center;gap:8px;margin:4px 10px;font:12px "Courier New",monospace;color:#8888aa}
-.deck input[type=range]{flex:1;accent-color:#ff0000}
+.deck h2{color:var(--red);font-size:18px;overflow-wrap:anywhere;margin:4px 8px 0;line-height:1.2}
+.deck .meta{font:13px var(--mono);color:var(--blue-lnk);margin:2px 0 6px}
+.deck .pos{display:flex;align-items:center;gap:8px;margin:4px 10px;font:12px var(--mono);color:var(--blue-lnk)}
+.deck input[type=range]{flex:1;accent-color:var(--red);height:3px}
 .deck .keys{display:flex;justify-content:center;gap:6px;margin:6px 8px 10px}
-.deck .keys button{font:bold 18px "Courier New",monospace;min-width:56px;min-height:44px;background:#c0c0c0;color:#000;border:3px outset #fff;cursor:pointer}
-.deck .keys button:active{border-style:inset}
-.deck .keys button.on{background:#ff0000;color:#000}
-table.trk{border:2px outset #8888aa;border-collapse:separate;border-spacing:0;width:100%;table-layout:fixed;font-size:13px;background:#000}
+.deck .keys button{font:bold 16px var(--mono);min-width:56px;min-height:44px;background:#000;color:var(--red);border:1px solid var(--red);cursor:pointer}
+.deck .keys button::before{content:"[";color:var(--blue)}.deck .keys button::after{content:"]";color:var(--blue)}
+.deck .keys button:hover,.deck .keys button:active{background:var(--blue);color:#fff}
+.deck .keys button:hover::before,.deck .keys button:hover::after,.deck .keys button.on::before,.deck .keys button.on::after{color:#fff}
+.deck .keys button.on{background:var(--red);color:#000}
+table.trk{border:1px solid var(--red);border-collapse:separate;border-spacing:0;width:100%;table-layout:fixed;font-size:13px;background:rgba(0,0,0,.6)}
 table.trk td{overflow-wrap:anywhere}
 table.trk th:first-child{width:2.4em}table.trk th:last-child{width:6.5em}
-table.trk td,table.trk th{border:1px inset #8888aa;padding:5px 6px;text-align:left;vertical-align:middle}
-table.trk th{color:#ff0000}
+table.trk td,table.trk th{border:1px solid var(--red-deep);padding:5px 6px;text-align:left;vertical-align:middle}
+table.trk th{color:var(--blue);font-weight:bold}
 table.trk tr.t{cursor:pointer}
-table.trk tr.t:hover td{background:#0b0b1e}
-table.trk tr.on td{background:#1a0000;color:#ff0000}
-table.trk td.n{font:12px "Courier New",monospace;color:#8888aa;white-space:nowrap;width:1%}
-table.trk td.d{font:12px "Courier New",monospace;color:#8888aa;white-space:nowrap;width:1%}
+table.trk tr.t:hover td{background:rgba(26,77,255,.18)}
+table.trk tr.on td{background:rgba(255,26,26,.16);color:var(--red)}
+table.trk td.n{font:12px var(--mono);color:var(--blue-lnk);white-space:nowrap;width:1%}
+table.trk td.d{font:12px var(--mono);color:var(--blue-lnk);white-space:nowrap;width:1%}
 table.trk tr.off td{opacity:.45}
 </style>
 </head>

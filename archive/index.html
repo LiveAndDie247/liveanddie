@@ -24,44 +24,47 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/gate.css?v=5">
 <style>
-/* archive-only additions to the border kit */
+/* archive-only additions to the ASCII kit */
 .years{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin:8px 0}
-.years a{border:2px outset #8888aa;background:#000;padding:3px 9px;font-size:15px;text-decoration:none}
-.years a.on{border-style:inset;color:#ff0000}
-.filt{font-size:14px;margin:6px 0 2px}
+.years a{border:1px solid var(--red);background:#000;padding:3px 9px;font-size:14px;color:var(--red);text-decoration:none}
+.years a::before{content:"[";color:var(--blue)}.years a::after{content:"]";color:var(--blue)}
+.years a.on,.years a:hover{background:var(--blue);color:#fff}
+.years a.on::before,.years a.on::after,.years a:hover::before,.years a:hover::after{color:#fff}
+.filt{font-size:13px;margin:6px 0 2px;color:var(--blue-lnk)}
 .filt label{margin:0 6px;white-space:nowrap}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-.grid button{all:unset;cursor:pointer;display:block;min-width:0;text-align:center;font-size:12px;line-height:1.25;color:#dcdcdc}
-.grid button:focus-visible{outline:2px solid #ff0000}
-.grid .th{position:relative;display:block;aspect-ratio:1;border:3px ridge #8888aa;background:#0b0b1e;overflow:hidden;margin-bottom:2px}
+.grid button{all:unset;cursor:pointer;display:block;min-width:0;text-align:center;font:12px var(--mono);line-height:1.25;color:var(--red-dim)}
+.grid button:focus-visible{outline:1px solid var(--blue)}
+.grid .th{position:relative;display:block;aspect-ratio:1;border:1px solid var(--red);background:#000;overflow:hidden;margin-bottom:2px}
 .grid .th img{width:100%;height:100%;object-fit:cover;display:block}
-.grid .th i{position:absolute;right:2px;bottom:2px;font:bold 10px/1 "Courier New",monospace;color:#000;background:#ff0000;padding:1px 3px;font-style:normal}
-.grid button:hover .th{border-color:#ff0000}
+.grid .th i{position:absolute;right:2px;bottom:2px;font:bold 10px/1 var(--mono);color:#000;background:var(--red);padding:1px 3px;font-style:normal}
+.grid button:hover .th{border-color:var(--blue)}
 .grid .t{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.grid .n{color:#8888aa;font:10px "Courier New",monospace}
+.grid .n{color:var(--blue-lnk);font:10px var(--mono)}
 @media(max-width:480px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 /* the viewer: an in-page window (no pop-ups), opens above the grid */
 #v{display:none;margin:14px 0 0;scroll-margin-top:8px}
 #v.on{display:block}
-#v .win{max-width:620px;margin:0 auto;border:3px outset #8888aa;background:#000;text-align:center}
-#v .bar{display:flex;align-items:center;gap:6px;background:#000080;color:#fff;font:bold 14px "Courier New",monospace;padding:3px 4px 3px 8px}
+#v .win{max-width:620px;margin:0 auto;border:1px solid var(--red);background:rgba(0,0,0,.82);text-align:center}
+#v .bar{display:flex;align-items:center;gap:6px;background:transparent;border-bottom:1px solid var(--red-deep);color:var(--blue-lnk);font:bold 14px var(--mono);padding:4px 4px 4px 8px}
 #v .bar span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#v .bar button{font:bold 14px "Courier New",monospace;min-width:34px;min-height:30px;background:#c0c0c0;color:#000;border:2px outset #fff;cursor:pointer}
-#v .bar button:active{border-style:inset}
+#v .bar button{font:bold 15px var(--mono);min-width:34px;min-height:30px;background:#000;color:var(--red);border:1px solid var(--red);cursor:pointer}
+#v .bar button:hover{background:var(--blue);color:#fff}
 #v .body{padding:10px;text-align:center}
 #v .media .ovl{display:inline-block;max-width:100%;margin:0 auto 6px}
 #v .media .ovl video{margin:0}
-#v .media img,#v .media video{max-width:100%;max-height:68vh;border:3px ridge #8888aa;display:block;margin:0 auto 6px;background:#0b0b1e}
-#v .dots{font:13px "Courier New",monospace;color:#8888aa;margin:2px 0 6px}
+#v .media img,#v .media video{max-width:100%;max-height:68vh;border:1px solid var(--red);display:block;margin:0 auto 6px;background:#000}
+#v .dots{font:13px var(--mono);color:var(--blue-lnk);margin:2px 0 6px}
 #v .dots button{all:unset;cursor:pointer;padding:0 4px}
-#v .dots button.on{color:#ff0000}
-#v h2{color:#ff0000;font-size:18px;margin:6px 0 2px;line-height:1.2}
-#v .meta{font:13px "Courier New",monospace;color:#8888aa}
-#v .cap{text-align:left;white-space:pre-wrap;font-size:13px;margin:10px 0;border-top:1px dotted #8888aa;padding-top:8px}
-#v .buy{border:3px double #ff0000;padding:6px;margin:10px 0 4px;font-size:13px}
+#v .dots button.on{color:var(--red)}
+#v h2{color:var(--red);font-size:18px;margin:6px 0 2px;line-height:1.2}
+#v .meta{font:13px var(--mono);color:var(--blue-lnk)}
+#v .cap{text-align:left;white-space:pre-wrap;font-size:13px;margin:10px 0;border-top:1px dashed var(--red-deep);padding-top:8px}
+#v .buy{border:1px solid var(--red);padding:6px;margin:10px 0 4px;font-size:13px}
 #v .nav2{display:flex;justify-content:space-between;gap:6px;margin-top:8px}
-#v .nav2 button{flex:1;font:bold 15px "Times New Roman",serif;background:#000;color:#9a9aff;border:2px outset #8888aa;padding:6px;cursor:pointer}
-#v .nav2 button:active{border-style:inset}
+#v .nav2 button{flex:1;font:bold 14px var(--mono);background:#000;color:var(--red);border:1px solid var(--red);padding:6px;cursor:pointer}
+#v .nav2 button::before{content:"";}
+#v .nav2 button:hover{background:var(--blue);color:#fff}
 </style>
 </head>
 <body>
@@ -85,7 +88,7 @@
 <label><input type="radio" name="f" value="all" checked> all</label>
 <label><input type="radio" name="f" value="still"> stills</label>
 <label><input type="radio" name="f" value="video"> video</label>
-<label><button id="rnd" style="font:inherit;background:#000;color:#9a9aff;border:2px outset #8888aa;padding:1px 8px;cursor:pointer">random</button></label>
+<label><button id="rnd" style="font:inherit;background:#000;color:var(--red);border:1px solid var(--red);padding:1px 8px;cursor:pointer">random</button></label>
 </div>
 
 <table class="sec" cellspacing="0" cellpadding="0">
@@ -157,7 +160,7 @@
       const ps = shown.filter(p => p.date.startsWith(y));
       if (!ps.length) return "";
       return `<a name="y${y}" id="y${y}"></a><table class="sec" cellspacing="0" cellpadding="0">
-        <tr><th>${y} <font size="3" color="#8888aa">· ${ps.length}</font></th></tr><tr><td><div class="grid">` +
+        <tr><th>${y} <font size="3" color="#6b86ff">· ${ps.length}</font></th></tr><tr><td><div class="grid">` +
         ps.map(p => `<button data-no="${p.no}" aria-label="${esc(p.no + " " + p.title)}"><span class="th"><img src="/archive/${p.media[0].thumb}" loading="lazy" alt="">${p.song ? "<i>♪</i>" : p.vid ? "<i>VID</i>" : p.media.length > 1 ? `<i>${p.media.length}</i>` : ""}</span><span class="t">${esc(p.title)}</span><span class="n">${p.no}</span></button>`).join("") +
         `</div></td></tr></table>`;
     }).join("");
