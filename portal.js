@@ -579,6 +579,9 @@
   L("dream", "/mods/dream.mjs", "an endless generative ascii film cut to the music", "dream [--record]");
   L("scan qr", "/mods/bridge.mjs", "scan a QR code with the camera (prints unlock a page)");
   L("poster print", "/mods/bridge.mjs", "printable hi-res ascii poster of a piece (png/pdf)", "poster <id>");
+  L("git", "/mods/tricks.mjs", "the site's real commit history, live from github", "git log | git show <hash>");
+  L("fork", "/mods/tricks.mjs", "open a second shell in its own pane", "fork [off]");
+  L("hack", "/mods/tricks.mjs", "a hollywood hacking minigame");
   L("decode", "/mods/sig.mjs", "decode base64 / hex / rot13 / binary text", "decode <text>");
   ["signal", "stego", "unlock"].forEach(function (n) { L(n, "/mods/sig.mjs", "", "", true); });
 
@@ -659,6 +662,8 @@
     }, 1000);
   })();
   window.SH.softBoot = function () { out.innerHTML = ""; promptEl.style.display = "none"; boot(); };
+  // ambient browser tricks (title marquee, favicon cursor, windows that find each other): tiny, after the shell is up
+  setTimeout(function () { loadMod("/mods/chrome.mjs").catch(function () {}); }, 2200);
   // ambient motion (tilt parallax, shake, haptics): a tiny module, fetched after the shell is up, touch devices only
   if (("ontouchstart" in window || navigator.maxTouchPoints > 0) && !reduce) setTimeout(function () { loadMod("/mods/motion.mjs").catch(function () {}); }, 3000);
   boot();
