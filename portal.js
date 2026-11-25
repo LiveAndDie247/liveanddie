@@ -255,7 +255,7 @@
 
   // ===================================================================== built-in commands (phase 0/1)
   var FILES = {};
-  FILES["about.txt"] = ["LIVE.AND.DIE PRODUCTIONS", "Music, video and visual art. Commissions open.", "", "High contrast, no midtones.", "Made from found tape, scans, magazines and television.", "Made by hand in editing software. Nothing is AI-generated.", "Music: noise, industrial, IDM, vapornoise.", "", "font: Web437 IBM VGA 8x16 - Ultimate Oldschool PC Font Pack", "by VileR, [[https://int10h.org/oldschool-pc-fonts/|int10h.org]] - CC BY-SA 4.0."].join("\n");
+  FILES["about.txt"] = ["LIVE.AND.DIE PRODUCTIONS", "Music, video and visual art. Commissions open.", "", "High contrast, no midtones.", "Made from found tape, scans, magazines and television.", "Made by hand in editing software. Nothing is AI-generated.", "Music: noise, industrial, IDM, vapornoise.", "", "font: Web437 IBM VGA 8x16 - Ultimate Oldschool PC Font Pack", "by VileR, [[https://int10h.org/oldschool-pc-fonts/|int10h.org]] - CC BY-SA 4.0.", "also runs on: MediaPipe (Google, Apache-2.0), Trystero (D. Motzenbecker, MIT),", "qrcode-generator (K. Arase, MIT), jsQR (C. Wolfe, Apache-2.0). all served from this site."].join("\n");
   FILES["commissions.txt"] = ["COMMISSIONS - now open.", "Visualizers, animated covers and music video moshes. From $25.", "Delivered in 3-5 days. Order by Instagram DM. Try {{order|order}} to build a request.", "", "STEP 1. DM [[" + IG + "|@live.and.die]]: what it's for, length/size, deadline.", "STEP 2. You get a quote. Prices start at $25. ({{price|price}} for an estimate.)", "STEP 3. Delivered in 3-5 days.", "", "All sales final. Not licensed for AI training."].join("\n");
   FILES["policies.txt"] = ["POLICIES", "All sales final.", "Commissions: turnaround 3-5 days.", "Prints ship within the US; international on request.", "Using existing work: ask by DM. Usually yes, with credit.", "Not licensed for AI training.", "This site sets no cookies and has no tracking."].join("\n");
   FILES["faq.txt"] = ["FAQ", "How do I order?   DM [[" + IG + "|@live.and.die]] on Instagram, or run {{order|order}}.", "How much?         From $25. {{price|price}} for a quick quote.", "How long?         3-5 days for most commissions.", "Can I use it?     Ask by DM. Usually yes, with credit.", "Why red?          House style. {{theme blue|theme blue}} if you must.", "How fast reply?   Usually {{finger live.and.die|shortly}}."].join("\n");
@@ -265,14 +265,18 @@
 
   cmd("help ? h", function () {
     line("live.and.die portal - command reference", "dim");
-    var groups = [["art", "art  open  view  mosh  glitch  invert  zoom  vid  slideshow  cam  ascii"],
+    var groups = [["art", "art  open  view  mosh  glitch  invert  zoom  vid  slideshow  ascii  poster"],
+      ["cam", "cam  snap  scan"],
+      ["3d", "walk  fluid  life  dream"],
       ["music", "music  play  pause  stop  next  prev  radio  tape  viz  vol  beat  synth"],
+      ["sound", "remix  spectro  hum  voice  say"],
+      ["people", "who  talk  party  jam  net"],
       ["make", "order  price  prints  commissions  links  install"],
-      ["play", "snake  tetris  rogue  adventure  startx"],
-      ["info", "neofetch  top  ps  tree  uptime  cal  date  finger  share"],
-      ["shell", "ls  cd  cat  find  grep  history  man  theme  crt  sound  clear"]];
+      ["play", "snake  tetris  rogue  adventure  hack  startx  fork"],
+      ["info", "neofetch  top  ps  tree  uptime  cal  date  git  share"],
+      ["shell", "ls  cd  cat  find  grep  history  man  decode  theme  crt  sound  motion  haptics  clear"]];
     groups.forEach(function (g) { line("  " + cell(g[0], 8) + g[1].replace(/(\w[\w-]*)/g, function (w) { return CMDS[resolve(w)] ? "{{" + w + "|" + w + "}}" : w; })); });
-    line("pipes work: {{art | grep 2026|art | grep 2026}}  -  'man <cmd>' for detail  -  tap blue words to run.", "dim");
+    line("cam has modes: {{man cam|man cam}}  -  pipes work, e.g.  art | grep 2026  -  'man <cmd>' for detail  -  tap blue words to run.", "dim");
   }, { help: "this command list", man: "help - list the public commands. Use 'man <cmd>' for details. Tap any blue word to run it." });
 
   cmd("man", function (a) {
