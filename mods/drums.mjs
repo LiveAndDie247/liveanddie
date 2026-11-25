@@ -7,4 +7,4 @@ export function hit(ctx, type, t, dest) {
   else if (type === 2) { const s = ctx.createBufferSource(); s.buffer = noise(ctx, 0.05); const f = ctx.createBiquadFilter(); f.type = "highpass"; f.frequency.value = 7000; s.connect(f); f.connect(g); g.gain.setValueAtTime(0.4, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.04); s.start(t); s.stop(t + 0.05); }
   else { for (let k = 0; k < 2; k++) { const s = ctx.createBufferSource(); s.buffer = noise(ctx, 0.1); const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1200; s.connect(f); f.connect(g); g.gain.setValueAtTime(0.5, t + k * 0.02); g.gain.exponentialRampToValueAtTime(0.001, t + k * 0.02 + 0.08); s.start(t + k * 0.02); s.stop(t + k * 0.02 + 0.09); } }
 }
-export function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }      // android haptics; silently nothing elsewhere
+export function buzz(ms) { try { if (navigator.vibrate && (!navigator.userActivation || navigator.userActivation.hasBeenActive)) navigator.vibrate(ms); } catch (e) {} }      // android haptics; silently nothing elsewhere
