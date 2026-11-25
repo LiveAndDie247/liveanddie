@@ -577,6 +577,8 @@
   L("voice", "/mods/sound.mjs", "speak commands (\"play one\", \"open the archive\")", "voice <on|off>");
   L("say speak", "/mods/sound.mjs", "read text aloud in a robot voice", "say <text>");
   L("dream", "/mods/dream.mjs", "an endless generative ascii film cut to the music", "dream [--record]");
+  L("scan qr", "/mods/bridge.mjs", "scan a QR code with the camera (prints unlock a page)");
+  L("poster print", "/mods/bridge.mjs", "printable hi-res ascii poster of a piece (png/pdf)", "poster <id>");
   L("decode", "/mods/sig.mjs", "decode base64 / hex / rot13 / binary text", "decode <text>");
   ["signal", "stego", "unlock"].forEach(function (n) { L(n, "/mods/sig.mjs", "", "", true); });
 

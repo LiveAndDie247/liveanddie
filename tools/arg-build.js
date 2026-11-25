@@ -79,7 +79,7 @@ const FONT = { A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"
 fs.readdirSync(P("arg")).filter(f => /^[0-9a-f]{12}\.html$/.test(f)).forEach(f => fs.unlinkSync(P("arg/" + f)));
 fs.writeFileSync(P("arg/" + C.trackToken + ".html"), `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>00</title><link rel="stylesheet" href="/gate/font.css"><link rel="icon" type="image/png" href="/favicon.png">
-<style>html,body{margin:0;background:#000;color:#ff3030;font:16px/1.3 "Web437 VGA","Courier New",monospace}body{padding:14px}a{color:#4070ff}audio{width:100%;margin:14px 0;filter:invert(1) hue-rotate(180deg)}.d{color:#802020}</style></head>
+<style>html,body{margin:0;background:#000;color:#ff3030;font:16px/1.3 "Web437 VGA","Courier New",monospace}body{padding:14px}pre{font:inherit;white-space:pre-wrap}a{color:#4070ff}audio{width:100%;margin:14px 0;filter:invert(1) hue-rotate(180deg)}.d{color:#802020}</style></head>
 <body><pre>track 00 // unlisted
 
 you found all six signals.

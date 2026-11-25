@@ -7,3 +7,5 @@
 - `trystero/` - Trystero 0.21.8 (torrent strategy, unbundled ES modules from `src/`). (c) Dan Motzenbecker, MIT.
   https://github.com/dmotz/trystero  Used by `who / talk / party / jam`: browser-to-browser WebRTC, signalled through
   public WebTorrent trackers. There is no live.and.die server.
+- `qr/qrcode.js` - qrcode-generator 1.4.4, (c) Kazuhiko Arase, MIT. https://github.com/kazuhikoarase/qrcode-generator  (used by `poster` and tools/make-print-codes.js)
+- `qr/jsQR.js` - jsQR 1.4.0, (c) Cosmo Wolfe, Apache License 2.0. https://github.com/cozmo/jsQR  (fallback reader for `scan` where BarcodeDetector is missing)
