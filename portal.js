@@ -560,6 +560,11 @@
   L("cam webcam", "/mods/cam.mjs", "your camera as live gpu ascii (on-device)", "cam [--hands|--synth|--ghost|--slitscan|--into <id>|--text \"..\"|--dance|--record]");
   L("snap", "/mods/cam.mjs", "save a PNG of the current ascii camera frame");
   L("vid video-ascii", "/mods/cam.mjs", "play a video piece as live gpu ascii", "vid <id>");
+  L("who w", "/mods/net.mjs", "list other visitors online right now (peer to peer)");
+  L("talk chat irc", "/mods/net.mjs", "live text chat with everyone on the site");
+  L("party", "/mods/net.mjs", "opt-in ascii cam room for up to 4 (only characters are sent)");
+  L("jam", "/mods/net.mjs", "everyone shares one live drum pattern");
+  L("net", "/mods/net.mjs", "network status / 'net off' to disconnect", "net [off]");
 
   var SAC = null;
   function sndOn() { try { return localStorage.getItem("lad_sound") === "1"; } catch (e) { return false; } }
