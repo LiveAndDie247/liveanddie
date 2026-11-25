@@ -2,273 +2,77 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LIVE.AND.DIE PRODUCTIONS — music, video and visual art</title>
-<meta name="description" content="LIVE.AND.DIE PRODUCTIONS. Music, video and visual art. Commissions open: visualizers, animated covers and music video moshes from $25.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>live.and.die portal</title>
+<meta name="description" content="LIVE.AND.DIE PRODUCTIONS. Music, video and visual art. Commissions open from $25. A terminal.">
 <meta name="theme-color" content="#000000">
-<link rel="canonical" href="https://liveanddie.xyz/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LIVE.AND.DIE">
-<meta property="og:title" content="LIVE.AND.DIE PRODUCTIONS — music, video and visual art">
-<meta property="og:description" content="LIVE.AND.DIE PRODUCTIONS. Music, video and visual art. Commissions open: visualizers, animated covers and music video moshes from $25.">
+<meta property="og:title" content="live.and.die portal">
+<meta property="og:description" content="Music, video and visual art. Commissions open from $25.">
 <meta property="og:url" content="https://liveanddie.xyz/">
 <meta property="og:image" content="https://liveanddie.xyz/img/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="LIVE.AND.DIE PRODUCTIONS">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="LIVE.AND.DIE PRODUCTIONS — music, video and visual art">
-<meta name="twitter:description" content="LIVE.AND.DIE PRODUCTIONS. Music, video and visual art. Commissions open: visualizers, animated covers and music video moshes from $25.">
 <meta name="twitter:image" content="https://liveanddie.xyz/img/og.png">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/gate.css?v=5">
+<style>
+@font-face{font-family:"Web437 VGA";src:url("/gate/fonts/Web437_IBM_VGA_8x16.woff") format("woff");font-weight:normal;font-style:normal;font-display:block}
+:root{--red:#ff3030;--blue:#4070ff;--dim:#802020;--mono:"Web437 VGA","Cascadia Mono","DejaVu Sans Mono",monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#000}
+body{color:var(--red);font:16px/1.25 var(--mono);letter-spacing:0;
+  -webkit-font-smoothing:none;font-smooth:never;text-rendering:optimizeSpeed;
+  overscroll-behavior:none;-webkit-text-size-adjust:100%}
+::selection{background:var(--blue);color:#000}
+#term{position:fixed;inset:0 0 var(--barh,44px) 0;overflow-y:auto;overflow-x:hidden;
+  padding:10px 10px 4px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+#out,#out .ln{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
+.logo,.art{white-space:pre!important;overflow-wrap:normal!important;word-break:normal!important;overflow-x:auto}
+.ln{margin:0}
+.dim{color:var(--dim)}
+.blue{color:var(--blue)}
+a,a:visited{color:var(--blue);text-decoration:none;cursor:pointer}
+a:hover,a:active{background:var(--blue);color:#000}
+a.cmd::before{content:""}
+#prompt{display:flex;align-items:baseline;gap:0}
+#prompt .ps1{color:var(--blue);white-space:pre}
+#prompt form{flex:1;display:flex;min-width:0}
+#cmd{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--red);
+  font:inherit;letter-spacing:0;caret-color:transparent;padding:0}
+.cur{display:inline-block;width:0.6em;height:1.05em;background:var(--blue);vertical-align:text-bottom;
+  animation:bl 1.06s steps(1) infinite;margin-left:1px}
+@keyframes bl{50%{opacity:0}}
+.logo{color:var(--red);white-space:pre;display:block;margin:0 0 2px}
+.art{line-height:1;white-space:pre;display:block;margin:2px 0}
+.art span{display:inline}
+.bar{color:var(--dim)}
+#cmdbar{position:fixed;left:0;right:0;bottom:0;height:var(--barh,44px);display:flex;gap:4px;
+  padding:5px 6px;background:#000;border-top:1px solid var(--dim);overflow-x:auto}
+#cmdbar button{flex:0 0 auto;font:inherit;background:#000;color:var(--blue);border:1px solid var(--dim);
+  padding:4px 8px;cursor:pointer;white-space:nowrap}
+#cmdbar button:active{background:var(--blue);color:#000}
+#viewer{position:fixed;inset:0;z-index:40;background:#000;display:none;flex-direction:column}
+#viewer.on{display:flex}
+#viewer .top{padding:8px 10px;border-bottom:1px solid var(--dim);color:var(--blue)}
+#viewer .top a{color:var(--blue)}
+#viewer .pic{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:8px}
+#viewer .pic .ovl{position:relative;display:inline-block;max-width:100%}
+#viewer .pic .ovl::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background:url(/img/wm.svg) 0 0/220px auto repeat}
+#viewer img{max-width:100%;max-height:100%;display:block;image-rendering:auto}
+body::after{content:"";position:fixed;inset:0;z-index:30;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.22) 2px 3px)}
+@media(prefers-reduced-motion:reduce){.cur{animation:none}body::after{display:none}}
+</style>
 </head>
 <body>
-<div class="side l" aria-hidden="true"><img src="/gif/sky1.gif" width="120" height="600" alt=""></div>
-<div class="side r" aria-hidden="true"><img src="/gif/sky2.gif" width="120" height="600" alt=""></div>
-<div class="wrap">
-<div class="frame"><div class="in">
-<center>
-
-<a name="top" id="top"></a>
-<div class="ants"></div>
-<div class="mast">
-<img src="/gif/globe.gif" width="64" height="64" alt=""><br><br>
-<font color="#ff0000" size="6"><b>LIVE.AND.DIE PRODUCTIONS</b></font><br>
-<i>Music, video and visual art. Commissions open.</i>
+<div id="term"><div id="out"></div>
+<div id="prompt" style="display:none"><span class="ps1">visitor@live.and.die:~$ </span><form autocomplete="off"><input id="cmd" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="terminal input" enterkeyhint="go"></form><span class="cur" id="cur"></span></div>
 </div>
-<div class="ants"></div>
-
-<div class="open">
-<font color="#ff0000" size="5"><b><span class="blink">COMMISSIONS NOW OPEN</span></b></font><br>
-<font color="#ff0000"><b>VISUALIZERS · ANIMATED COVERS · MUSIC VIDEO MOSHES · FROM $25</b></font>
-</div>
-
-<div class="nav">
-<a href="/archive/"><b>Archive</b></a> <a href="/music/"><b>Music</b></a> <a href="#orders">Commissions</a> <a href="#video">Video</a> <a href="#stock">Art</a> <a href="#hardcopy">Prints</a> <a href="#equipment">Tools</a>
-<a href="#standards">About</a> <a href="#terms">Policies</a> <a href="#recalls">News</a> <a href="#service">FAQ</a> <a href="#dealers">Links</a>
-</div>
-
-<table class="cat links" style="margin-top:8px"><tr><th colspan="2">FIND US</th></tr>
-<tr><td>Instagram</td><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener"><b>@live.and.die</b></a> · orders and contact</td></tr>
-<tr><td>YouTube</td><td><a href="https://www.youtube.com/@live.and.die333" target="_blank" rel="noopener"><b>@live.and.die333</b></a> · video</td></tr>
-<tr><td>Commissions</td><td><a href="/commissions/"><b>/commissions/</b></a> · from $25</td></tr>
-<tr><td>Apps</td><td><a href="https://liveanddie247.github.io/icarus/" target="_blank" rel="noopener"><b>ICARUS</b></a> · <a href="https://liveanddie247.github.io/mosh/" target="_blank" rel="noopener"><b>MOSH</b></a></td></tr>
-<tr><td>Music</td><td><a href="/music/"><b>play every song</b></a> · <a href="https://ladproductions.bandcamp.com" target="_blank" rel="noopener">Bandcamp</a></td></tr>
-<tr><td>Art</td><td><a href="/archive/"><b>the archive</b></a> · <a href="#art">selected work</a></td></tr>
-</table>
-
-<a name="archive" id="archive"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/radar.gif" width="40" height="40" alt="">THE ARCHIVE</th></tr>
-<tr><td>
-<font size="4"><b>602 pieces since 2019.</b></font> Newest first.<br><br>
-<table class="art art4"><tr><td><a href="/archive/#arc-0802"><img src="/archive/m/17982366066066459.jpg" width="150" height="150" loading="lazy" alt="acheyhole⅜"></a>ARC-0802<br>acheyhole⅜</td><td><a href="/archive/#arc-0801"><img src="/archive/m/17883417963625494.jpg" width="150" height="150" loading="lazy" alt="INFERNO"></a>ARC-0801<br>INFERNO</td><td><a href="/archive/#arc-0800"><img src="/archive/m/18108236387187822-t.jpg" width="150" height="150" loading="lazy" alt="Never"></a>ARC-0800<br>Never</td><td><a href="/archive/#arc-0799"><img src="/archive/m/18143521723565735.jpg" width="150" height="150" loading="lazy" alt="H949"></a>ARC-0799<br>H949</td></tr><tr><td><a href="/archive/#arc-0797"><img src="/archive/m/18060969875726833.jpg" width="150" height="150" loading="lazy" alt="Her.sloth"></a>ARC-0797<br>Her.sloth</td><td><a href="/archive/#arc-0796"><img src="/archive/m/17872193439546994-t.jpg" width="150" height="150" loading="lazy" alt="Post Chromatic Death Disorder"></a>ARC-0796<br>Post Chromatic Death Disorder</td><td><a href="/archive/#arc-0795"><img src="/archive/m/18220643068324376-t.jpg" width="150" height="150" loading="lazy" alt="Megalofacialcrisisysterio⅖"></a>ARC-0795<br>Megalofacialcrisisysterio⅖</td><td><a href="/archive/#arc-0794"><img src="/archive/m/18092978336590621.jpg" width="150" height="150" loading="lazy" alt="F*ck with me"></a>ARC-0794<br>F*ck with me</td></tr></table>
-<font size="4"><a href="/archive/"><b>» OPEN THE ARCHIVE «</b></a></font><br>
-<font size="2">every piece, by year · prints of any still, $25</font>
-</td></tr></table>
-
-<a name="audio" id="audio"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/cd.gif" width="40" height="40" alt="">MUSIC</th></tr>
-<tr><td>
-Releases. Available on Bandcamp.<br><br>
-<a href="https://ladproductions.bandcamp.com/album/sam-carly-carly-sam" target="_blank" rel="noopener"><img src="/img/cover.jpg" width="280" height="280" border="2" alt="Album cover for SAM 遗事 CARLY / / CARLY 遗事 SAM: a red-and-blue scan of a 2007 handheld game box"></a><br>
-<img src="/gif/new.gif" width="32" height="32" alt="new"> <b>SAM 遗事 CARLY / / CARLY 遗事 SAM</b> · album · 2026<br><br>
-<font size="4"><a href="/music/"><b>» PLAY EVERY SONG HERE «</b></a></font><br>
-<a href="https://ladproductions.bandcamp.com/album/sam-carly-carly-sam" target="_blank" rel="noopener">or buy it on Bandcamp</a><br><br>
-<table class="cat">
-<tr><th>#</th><th>title</th><th>format</th><th></th></tr>
-<tr><td>01</td><td><b>SAM 遗事 CARLY / / CARLY 遗事 SAM</b></td><td>album · 2026</td><td><a href="https://ladproductions.bandcamp.com/album/sam-carly-carly-sam" target="_blank" rel="noopener">listen</a></td></tr>
-<tr><td>02</td><td><b>untitled (mouth)</b></td><td>original audio</td><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">listen</a></td></tr>
-<tr><td>03</td><td><b>実在世界MIX</b></td><td>mix · 2026</td><td><a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">listen</a></td></tr>
-<tr><td>04</td><td><b>(untitled)</b></td><td>in production</td><td>soon</td></tr>
-</table>
-<p class="fine">Digital releases via Bandcamp.</p>
-</td></tr></table>
-
-<a name="orders" id="orders"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/xhair.gif" width="36" height="36" alt="">COMMISSIONS</th></tr>
-<tr><td>
-Visualizers, animated covers and music video moshes. From $25. Order by Instagram DM.<br><br>
-<table border="0" cellpadding="4"><tr>
-<td align="center"><a href="/play/?v=samcarly"><img src="/img/i_samcarly.jpg" width="100" height="100" border="2" loading="lazy" alt="Example: a music video mosh"></a><br><font size="2">music video mosh</font></td>
-<td align="center"><a href="/play/?v=loop"><img src="/img/i_mouth.jpg" width="100" height="100" border="2" loading="lazy" alt="Example: an animated cover"></a><br><font size="2">animated cover</font></td>
-<td align="center"><a href="/play/?v=vhsloop"><img src="/img/i_vhs.jpg" width="100" height="100" border="2" loading="lazy" alt="Example: a visualizer"></a><br><font size="2">visualizer</font></td>
-</tr></table>
-<font size="4"><a href="/commissions/"><b>» ORDER A COMMISSION «</b></a></font><br>
-or DM <a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">@live.and.die</a>
-<p class="fine">All sales final. Turnaround 3–5 days.</p>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_feel.gif" width="468" height="60" loading="lazy" alt="Advertisement: FEELINGS — BY THE UNIT — $0.99. I love feeling not you. BUY NOW."></div>
-
-<a name="video" id="video"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/static.gif" width="40" height="40" alt="">VIDEO</th></tr>
-<tr><td>
-Recent uploads.<br><br>
-<div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UUYtzGNBFAUfs9mM4MtO6ryg" title="LIVE AND DIE — recent uploads" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><br>
-<a href="https://www.youtube.com/@live.and.die333" target="_blank" rel="noopener">YouTube: live.and.die333</a><br>
-<a href="https://www.youtube.com/@schneiderproductions2006" target="_blank" rel="noopener">Full lengths: schneiderproductions2006</a>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_revisit.gif" width="468" height="60" loading="lazy" alt="Advertisement: REVISIT KIT: ONE TUESDAY, 2007. $49.99. BUY NOW."></div>
-
-<a name="stock" id="stock"></a><a name="art" id="art"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/cube.gif" width="40" height="40" alt="">ART</th></tr>
-<tr><td>
-Selected work, 2026. Prints available on request.<br><br>
-<table class="art"><tr>
-<td><a href="/play/?v=loop"><img src="/img/i_mouth.jpg" width="150" height="150" loading="lazy" alt="untitled (mouth): nine red mouths, a video loop"></a>LAD-0001<br>untitled (mouth)<br><a href="/x/9539.html"><font size="2">as seen on tv</font></a></td>
-<td><img src="/img/i_fwm.jpg" width="150" height="150" loading="lazy" alt="F*ck with me: a digital piece">LAD-0002<br>F*ck with me<br><font size="2" color="#ff0000">$25</font></td>
-<td><img src="/img/i_soul.jpg" width="150" height="150" loading="lazy" alt="soul ripped: cassette tape pulled out of a deck, black and white">LAD-0003<br>soul ripped</td>
-</tr><tr>
-<td><img src="/img/i_pcdd.jpg" width="150" height="150" loading="lazy" alt="Post Chromatic Death Disorder: a liquid figure">LAD-0004<br>Post Chromatic Death Disorder<br><font size="2" color="#ff0000">$25</font></td>
-<td><img src="/img/i_bikechain.jpg" width="150" height="150" loading="lazy" alt="bikechain: a line drawing of an upside-down figure in chains">LAD-0005<br>bikechain</td>
-<td><img src="/img/i_bakuro.jpg" width="150" height="150" loading="lazy" alt="曝露療法 (exposure therapy): a magazine-scan collage">LAD-0006<br>曝露療法</td>
-</tr><tr>
-<td><img src="/img/i_mix.jpg" width="150" height="150" loading="lazy" alt="実在世界MIX: layered found television">LAD-0007<br>実在世界MIX<br><font size="2" color="#ff0000">$25</font></td>
-<td><a href="/play/?v=vhsloop"><img src="/img/i_vhs.jpg" width="150" height="150" loading="lazy" alt="untitled (VHS): a figure in tape noise, a video loop"></a>LAD-0008<br>untitled (VHS)</td>
-<td><img src="/img/i_hero.jpg" width="150" height="150" loading="lazy" alt="untitled (VHS) II: a still from the same tape">LAD-0009<br>untitled (VHS) II</td>
-</tr><tr>
-<td><a href="/play/?v=samcarly"><img src="/img/i_samcarly.jpg" width="150" height="150" loading="lazy" alt="SAM 遗事 CARLY excerpt: datamoshed footage, a video loop"></a>LAD-0010<br>SAM 遗事 CARLY (excerpt)</td>
-<td colspan="2" valign="middle"><div class="rent"><a href="/x/4364.html"><b>THIS SPACE FOR RENT</b><br><font size="2">high traffic · low feelings</font></a></div></td>
-</tr></table>
-<p><b>CATALOGUE.</b></p>
-<table class="cat">
-<tr><th>SKU</th><th>title</th><th>details</th></tr>
-<tr><td>LAD-0001</td><td><b>untitled (mouth)</b></td><td>video loop, 1:1, original audio</td></tr>
-<tr><td>LAD-0002</td><td><b>F*ck with me</b></td><td>digital, multi-colour</td></tr>
-<tr><td>LAD-0003</td><td><b>soul ripped</b></td><td>digital, black and white</td></tr>
-<tr><td>LAD-0004</td><td><b>Post Chromatic Death Disorder</b></td><td>digital</td></tr>
-<tr><td>LAD-0005</td><td><b>bikechain</b></td><td>digital, line drawing</td></tr>
-<tr><td>LAD-0006</td><td><b>曝露療法</b></td><td>collage</td></tr>
-<tr><td>LAD-0007</td><td><b>実在世界MIX</b></td><td>video, found footage</td></tr>
-<tr><td>LAD-0008</td><td><b>untitled (VHS)</b></td><td>video loop</td></tr>
-<tr><td>LAD-0009</td><td><b>untitled (VHS) II</b></td><td>video</td></tr>
-<tr><td>LAD-0010</td><td><b>SAM 遗事 CARLY</b> (excerpt)</td><td>video, datamoshed</td></tr>
-</table>
-<p class="fine">Shown here in red; full-colour versions on Instagram.</p>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_singles.gif" width="468" height="60" loading="lazy" alt="Advertisement: HOT SINGLES IN YOUR AREA. They have been waiting since 2007. BUY NOW."></div>
-
-<a name="hardcopy" id="hardcopy"></a><a name="order" id="order"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/pyr.gif" width="40" height="40" alt="">PRINTS</th></tr>
-<tr><td>
-12 × 12 in, matte, signed. <font color="#ff0000"><b>$25</b></font> plus shipping. Order by Instagram DM with the SKU.
-<ul>
-<li>Any piece, including stills from the videos.</li>
-<li>18 × 18 and 24 × 24 in on request.</li>
-<li>Printed in full colour. Ships rolled, in a tube.</li>
-<li>Digital files are not sold.</li>
-</ul>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_dust.gif" width="468" height="60" loading="lazy" alt="Advertisement: ANGEL DUST® NOW IN FAMILY SIZE. 3 easy payments of $19.99, operators are standing by. BUY NOW."></div>
-
-<a name="equipment" id="equipment"></a><a name="tools" id="tools"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/octa.gif" width="40" height="40" alt="">TOOLS</th></tr>
-<tr><td>
-Free browser tools made in-house.<br><br>
-<table border="0" cellpadding="3"><tr><td align="left">
-<img src="/gif/spin.gif" width="16" height="16" alt=""> <a href="https://liveanddie247.github.io/mosh/" target="_blank" rel="noopener"><b>MOSH</b></a>: datamosh two video clips on your phone.<br>
-<img src="/gif/spin.gif" width="16" height="16" alt=""> <a href="https://liveanddie247.github.io/icarus/" target="_blank" rel="noopener"><b>ICARUS</b></a>: a tilt-controlled flight game.<br>
-<img src="/gif/spin.gif" width="16" height="16" alt=""> <a href="https://liveanddie247.github.io/handsynth/" target="_blank" rel="noopener"><b>HANDSYNTH</b></a>: a synth you play with your hands, through the camera.<br>
-<a href="/tools/">all tools »</a>
-</td></tr></table>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_freedom.gif" width="468" height="60" loading="lazy" alt="Advertisement: FREEDOM™, NOW AVAILABLE IN RED. Zero down. Zero APR. Zero. BUY NOW."></div>
-
-<a name="standards" id="standards"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/hex.gif" width="52" height="14" alt="">ABOUT THE WORK</th></tr>
-<tr><td>
-<p>High contrast, no midtones.<br>
-Made from found tape, scans, magazines and television.<br>
-Made by hand in editing software. Nothing is AI-generated.<br>
-Music: noise, industrial, IDM, vapornoise.</p>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_doctor.gif" width="468" height="60" loading="lazy" alt="Advertisement: ASK YOUR DOCTOR IF PCP IS RIGHT FOR YOU. Side effects may include side effects. BUY NOW."></div>
-
-<a name="terms" id="terms"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/radar.gif" width="40" height="40" alt="">POLICIES</th></tr>
-<tr><td>
-<p>All sales final.<br>
-Commissions: turnaround 3–5 days.<br>
-Prints ship within the US; international on request.<br>
-Using existing work: ask by DM. Usually yes, with credit.<br>
-Not licensed for AI training.<br>
-This site sets no cookies and has no tracking.</p>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_lawyer.gif" width="468" height="60" loading="lazy" alt="Advertisement: HAVE YOU OR A LOVED ONE BEEN A CHILD? You may be entitled to compensation. BUY NOW."></div>
-
-<a name="recalls" id="recalls"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/rings.gif" width="40" height="40" alt="">NEWS</th></tr>
-<tr><td>
-<ul>
-<li><b>08 Nov 2026.</b> <a href="/archive/">The Archive</a> opens: 602 pieces, 2019 to now.</li>
-<li><b>07 Nov 2026.</b> Site redesigned. Commissions open.</li>
-<li><b>06 Nov 2026.</b> Art catalogue and prints added.</li>
-<li><b>21 May 2026.</b> SAM 遗事 CARLY / / CARLY 遗事 SAM released on Bandcamp.</li>
-<li><b>2026.</b> Nine new pieces added to the catalogue.</li>
-</ul>
-</td></tr></table>
-
-<a name="service" id="service"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/pulse.gif" width="40" height="40" alt="">FAQ</th></tr>
-<tr><td>
-<p><b>How do I order?</b> Send a DM to <a href="https://instagram.com/live.and.die" target="_blank" rel="noopener">@live.and.die</a> on Instagram.<br>
-<b>How much is a commission?</b> From $25, depending on length and format.<br>
-<b>How long does it take?</b> 3–5 days for most commissions.<br>
-<b>Can I use your work?</b> Ask by DM. Usually yes, with credit.<br>
-<b>Why is everything red?</b> House style. Full-colour versions are on Instagram.<br>
-<b>How fast do you reply?</b> Usually <a href="/x/8168.html">shortly</a>.</p>
-</td></tr></table>
-
-<div class="adbox"><small>ADVERTISEMENT</small><img class="ad" src="/gif/ad_church.gif" width="468" height="60" loading="lazy" alt="Advertisement: JESUS SAVES (TERMS APPLY). Sundays 9 and 11, free parking, free coffee. BUY NOW."></div>
-
-<a name="dealers" id="dealers"></a><a name="links" id="links"></a>
-<table class="sec" cellspacing="0" cellpadding="0">
-<tr><th><img src="/gif/globe.gif" width="40" height="40" alt="">LINKS</th></tr>
-<tr><td>
-<table border="0" cellpadding="3"><tr><td align="left">
-<a href="https://ladproductions.bandcamp.com" target="_blank" rel="noopener"><b>Bandcamp</b></a>: music.<br>
-<a href="https://www.youtube.com/@live.and.die333" target="_blank" rel="noopener"><b>YouTube · live.and.die333</b></a>: video.<br>
-<a href="https://www.youtube.com/@schneiderproductions2006" target="_blank" rel="noopener"><b>YouTube · schneiderproductions2006</b></a>: full lengths.<br>
-<a href="https://instagram.com/live.and.die" target="_blank" rel="noopener"><b>Instagram</b></a>: @live.and.die. Orders and contact.<br>
-<a href="/archive/"><b>Archive</b></a>: every piece since 2019.<br>
-<a href="/music/"><b>Music</b></a>: every song, playable.<br>
-<a href="/commissions/"><b>Commissions</b></a>: from $25.<br>
-<a href="/tools/"><b>Tools</b></a>: free browser tools.<br>
-<a href="https://github.com/LiveAndDie247/liveanddie" target="_blank" rel="noopener"><b>Source</b></a>: this site's code.
-</td></tr></table>
-</td></tr></table>
-
-<div class="ants" style="margin-top:18px"></div>
-<div class="foot">
-<img src="/gif/digits.gif" width="64" height="20" alt="" style="display:inline"><br>
-© 2026 LIVE.AND.DIE PRODUCTIONS · All sales final · <a href="#top">back to top</a><br>
-Last updated 12 November 2026.<br><br>
-<font color="#bbbbbb"><i>keywords: live and die live.and.die liveanddie productions music noise industrial idm vapornoise video art datamosh visualizers animated covers music video mosh commissions prints sam carly mosh icarus handsynth</i></font>
-</div>
-<div class="ants"></div>
-
-</center>
-</div></div>
-</div>
-<script src="/gate/stars-bg.js" defer></script>
+<nav id="cmdbar" aria-label="commands">
+<button data-cmd="help">help</button><button data-cmd="ls">ls</button><button data-cmd="music">music</button><button data-cmd="art">art</button><button data-cmd="commissions">commissions</button><button data-cmd="links">links</button></nav>
+<div id="viewer" aria-hidden="true"><div class="top"><a id="vclose" href="#">[ x ] close</a> <span id="vttl" class="dim"></span></div><div class="pic"><span class="ovl"><img id="vimg" alt=""></span></div></div>
+<audio id="au" preload="none"></audio>
+<script src="/portal.js" defer></script>
 </body>
 </html>

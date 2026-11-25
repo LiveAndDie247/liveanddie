@@ -1,136 +1,138 @@
-/* LIVE.AND.DIE — ASCII skin (v7). One monospace font on pure black, two colours only:
-   blood red (#ff1a1a range, primary) and electric blue (#1a4dff range, accent/links/hover).
-   Frames, dividers, nav and headers are drawn from box-drawing + shade characters. Same layout
-   logic as the old heavensgate build, re-skinned. The reactive ASCII starfield is gate/stars-bg.js. */
+/* LIVE.AND.DIE — terminal/console skin (v7). A real IBM VGA bitmap font (self-hosted), pure black,
+   red + blue on a fixed character grid. Frames and rules are drawn from box characters by
+   gate/stars-bg.js. Font: "Web437 IBM VGA 8x16" from the Ultimate Oldschool PC Font Pack
+   (int10h.org), CC BY-SA 4.0 — credit is printed in the footer. */
+@font-face{
+  font-family:"Web437 VGA";
+  src:url("/gate/fonts/Web437_IBM_VGA_8x16.woff") format("woff");
+  font-weight:normal;font-style:normal;font-display:block;
+}
 :root{
-  --red:#ff1a1a; --red-dim:#d23636; --red-deep:#7a0f0f;
-  --blue:#1a4dff; --blue-lnk:#6b86ff; --blue-brite:#9fb0ff;
-  --mono:"Courier New","Cascadia Mono","DejaVu Sans Mono","Liberation Mono",monospace;
+  --red:#ff2a2a; --red-dim:#7a1414; --red-deep:#7a1414;
+  --blue:#3d6bff; --blue-lnk:#3d6bff; --blue-brite:#3d6bff;
+  --mono:"Web437 VGA","Cascadia Mono","DejaVu Sans Mono",monospace;
+  --col:44;                                        /* phone grid columns */
 }
 *{box-sizing:border-box}
 html{background:#000}
-body{background:transparent;color:var(--red);font:13px/1.4 var(--mono);margin:0;padding:10px;
-  -webkit-text-size-adjust:100%;text-shadow:0 0 1px rgba(255,26,26,.25)}
+html,body{margin:0;background:#000}
+body{
+  color:var(--red);
+  font:16px/1.15 var(--mono);
+  letter-spacing:0;
+  padding:0;
+  text-shadow:0 0 4px rgba(255,42,42,.45);         /* single, subtle CRT glow — never doubled */
+  -webkit-font-smoothing:none; -moz-osx-font-smoothing:unset; font-smooth:never;
+  text-rendering:optimizeSpeed;
+  image-rendering:pixelated;
+}
+::selection{background:var(--blue);color:#000;text-shadow:none}
 img,video,iframe{image-rendering:auto}
+img{max-width:100%;height:auto}
 a{color:var(--blue-lnk);text-decoration:none}
 a:visited{color:var(--blue-lnk)}
-a:hover,a:active{color:#fff;background:var(--blue);text-decoration:none}
-img{max-width:100%;height:auto}
-.wrap{max-width:680px;margin:0 auto}
-p,li{text-align:left}
-ul{padding-left:20px;margin:7px 0;list-style:none}
-ul li::before{content:"› ";color:var(--blue)}
-li{margin:3px 0}
-.fine{font-size:12px;color:var(--red-dim);border-top:1px dashed var(--red-deep);padding-top:5px;margin-top:10px}
+a:hover,a:active{color:#000;background:var(--blue);text-shadow:none}
+b,strong{font-weight:normal;color:var(--red)}
+i,em{font-style:normal}
+p,li{text-align:left;margin:4px 0}
+ul{padding-left:2ch;margin:6px 0;list-style:none}
+ul li::before{content:"- ";color:var(--blue)}
+li{margin:2px 0}
+hr{border:0;border-top:1px solid var(--red-deep);margin:12px 0}
 .red{color:var(--red)}
-center{display:block}
-
-/* ---------- blink / flicker / colour-swap (fast but readable) ---------- */
-.blink{animation:blink 1.1s steps(1) infinite}
+.blink{animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.flick{animation:flick 2.6s steps(1) infinite}
-@keyframes flick{0%,7%,9%,100%{opacity:1}8%{opacity:.25}53%{opacity:1}54%{opacity:.4}55%{opacity:1}}
-.swap{animation:swap 1.2s steps(1) infinite}
-@keyframes swap{50%{color:var(--blue)!important}}
+.flick,.swap{animation:none}                        /* terminal is calm: no flicker/colour-swap spam */
 
-/* ---------- the ASCII frame kit: all four corners from two pseudo-elements ---------- */
-.frame,.mast,.open,table.sec,.foot,.adbox,.rent,.vid{position:relative;border:1px solid var(--red);background:rgba(0,0,0,.72)}
-.frame::before,.mast::before,.open::before,table.sec::before,.foot::before,.adbox::before,.rent::before,.vid::before,
-.frame::after,.mast::after,.open::after,table.sec::after,.foot::after,.adbox::after,.rent::after,.vid::after{
-  content:"\250C\A\2514";white-space:pre;position:absolute;top:-1px;bottom:-1px;left:-1px;
-  display:flex;flex-direction:column;justify-content:space-between;color:var(--blue);
-  font:inherit;line-height:1;pointer-events:none;z-index:2}
-.frame::after,.mast::after,.open::after,table.sec::after,.foot::after,.adbox::after,.rent::after,.vid::after{
-  content:"\2510\A\2518";left:auto;right:-1px;text-align:right}
+/* ---------- the terminal window ---------- */
+.wrap{width:calc(var(--col)*1ch);max-width:100%;margin:0 auto;padding:2.2em 1ch 3em;position:relative;z-index:1}
+#termframe{position:fixed;inset:0;z-index:2;pointer-events:none;white-space:pre;
+  font:16px/1.15 var(--mono);color:var(--red-deep);text-shadow:0 0 3px rgba(122,20,20,.6);overflow:hidden}
+#termframe b{color:var(--red);font-weight:normal}
+#termframe .u{color:var(--blue)}
 
-.frame{padding:7px;border-color:var(--blue)}
-.frame::before,.frame::after{color:var(--red)}
-.frame .in{border:1px dashed var(--red-deep);padding:8px 10px 12px}
+/* scanlines + faint vignette (subtle) */
+body::after{content:"";position:fixed;inset:0;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.28) 2px 3px);mix-blend-mode:multiply}
 
-/* divider — a drawn rule of box characters */
-.ants{height:1.1em;overflow:hidden;white-space:nowrap;color:var(--blue);margin:7px 0;opacity:.9;font-size:12px;letter-spacing:1px}
-.ants::before{content:"+\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500\2500\2508\2500\2500+"}
+/* masthead: solid-red ASCII logo, no shadow behind it */
+.mast{padding:4px 0 6px;margin:0;text-align:center;border:0;background:none}
+.mast img{display:none}
+.mast font[size="6"]{display:block;font-size:16px;color:var(--red);letter-spacing:0}
+.mast i{display:block;font-size:16px;color:var(--blue-lnk);margin-top:2px}
+.asciilogo{display:block;margin:2px auto 4px;color:var(--red);text-shadow:0 0 4px rgba(255,42,42,.5);
+  font:16px/1.05 var(--mono);white-space:pre;overflow:hidden;text-align:left;width:max-content;max-width:100%}
 
-/* masthead */
-.mast{padding:10px 8px;margin:4px 0;text-align:center}
-.mast img{display:none}                         /* GIF icons replaced by the ASCII title/logo */
-.mast font[size="6"]{display:inline-block;font-size:15px;font-weight:bold;letter-spacing:1px;color:var(--red);
-  text-shadow:2px 2px 0 var(--blue)}
-.mast i{display:block;font-size:12px;color:var(--blue-lnk);font-style:normal;margin-top:4px}
-.asciilogo{display:block;margin:2px auto 6px;color:var(--red);text-shadow:2px 2px 0 var(--blue);
-  font:700 clamp(6px,2.4vw,11px)/1.02 var(--mono);white-space:pre;overflow-x:auto;overflow-y:hidden}
+/* the "commissions open" line — a command echo, not a card */
+.open{padding:2px 0;margin:10px 0;text-align:left;border:0;background:none;animation:none}
+.open::before{content:"$ ";color:var(--blue)}
+.open font[size="5"]{font-size:16px;color:var(--red)}
 
-/* the "open" callout */
-.open{padding:9px 7px;margin:13px 0 10px;text-align:center;border-color:var(--red);animation:ob 1.1s steps(1) infinite}
-@keyframes ob{50%{border-color:var(--blue)}}
-.open font[size="5"]{font-size:16px;font-weight:bold}
+/* nav → a file listing / command row */
+.nav{display:block;margin:8px 0 2px;line-height:1.5}
+.nav::before{content:"visitor@live.and.die:~$ ls";color:var(--red);display:block}
+.nav a{color:var(--blue-lnk);padding:0 1ch 0 0;font-size:16px;white-space:nowrap}
+.nav a::after{content:"/";color:var(--red-deep)}
+.nav a:hover{color:#000;background:var(--blue)}
+.nav a:hover::after{color:#000}
 
-/* nav table — bracketed monospace buttons */
-.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:3px 5px;margin:10px 0 4px}
-.nav a{color:var(--red);padding:2px 4px;font-size:13px;white-space:nowrap}
-.nav a::before{content:"[ ";color:var(--blue)}
-.nav a::after{content:" ]";color:var(--blue)}
-.nav a:hover,.nav a:active{color:#fff;background:transparent}
-.nav a:hover::before,.nav a:hover::after{color:#fff}
-
-/* section tables */
-table.sec{border-collapse:separate;border-spacing:0;width:100%;margin:16px 0 0}
-table.sec>tbody>tr>th{border:0;border-bottom:1px solid var(--red-deep);background:transparent;padding:6px 6px 5px;
-  color:var(--red);font-size:16px;font-weight:bold;letter-spacing:1px;text-align:center;line-height:1.2}
+/* sections: command line (th) + output (td). no boxes. */
+table.sec{border:0;border-collapse:collapse;width:100%;margin:16px 0 0;background:none}
+table.sec>tbody>tr>th{border:0;background:none;padding:10px 0 2px;color:var(--red);font-size:16px;
+  font-weight:normal;letter-spacing:0;text-align:left;line-height:1.3}
 table.sec>tbody>tr>th img{display:none}
-table.sec>tbody>tr>th::before{content:"\2593\2592\2591 ";color:var(--blue)}
-table.sec>tbody>tr>th::after{content:" \2591\2592\2593";color:var(--blue)}
-table.sec>tbody>tr>td{border:0;padding:10px 8px 12px;text-align:center}
+table.sec>tbody>tr>th::before{content:"$ ";color:var(--blue)}
+table.sec>tbody>tr>td{border:0;padding:2px 0 8px;text-align:left}
 
-/* fake ads — kept as content; just an ASCII-labelled box */
-.adbox{padding:6px 6px 5px;margin:14px auto 0;max-width:486px}
-.adbox small{display:block;font:11px/1 var(--mono);color:var(--blue);letter-spacing:.25em;text-align:center;margin:0 0 5px}
-.adbox small::before{content:"\2591\2591 "}.adbox small::after{content:" \2591\2591"}
-.ad{display:block;margin:0 auto;border:1px solid var(--red-deep)}
+/* fake ads — kept; shown as a labelled transmission, no card */
+.adbox{border:0;padding:4px 0;margin:12px 0 0;max-width:100%;background:none}
+.adbox small{display:block;font:16px/1.15 var(--mono);color:var(--blue);letter-spacing:0;text-align:left;margin:0 0 3px}
+.adbox small::before{content:"-- "}.adbox small::after{content:" --"}
+.ad{display:block;margin:0 auto;border:1px solid var(--red-deep);max-width:100%}
 
-img[border]{border:1px solid var(--red)}
-.vid{aspect-ratio:16/9;border:1px solid var(--red)}
+img[border]{border:1px solid var(--red-deep)}
+.vid{position:relative;aspect-ratio:16/9;border:1px solid var(--red-deep);background:#000}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
-/* art / catalogue tables */
-table.art{border-collapse:separate;border-spacing:7px;width:100%}
-table.art td{text-align:center;vertical-align:top;font-size:12px;width:33%}
-table.art img{border:1px solid var(--red);width:100%;max-width:150px;display:block;margin:0 auto 3px}
-table.art4{table-layout:fixed}table.art4 td{width:25%;font-size:11px;overflow-wrap:anywhere}
+/* art / catalogue */
+table.art{border-collapse:collapse;width:100%}
+table.art td{text-align:center;vertical-align:top;font-size:16px;width:33%;padding:4px}
+table.art img{border:1px solid var(--red-deep);width:100%;max-width:150px;display:block;margin:0 auto 3px}
+table.art4{table-layout:fixed}table.art4 td{width:25%;font-size:16px;overflow-wrap:anywhere}
 table.art4 img{width:100%;max-width:140px;aspect-ratio:1;object-fit:cover}
-table.cat{border:1px solid var(--red-deep);border-collapse:separate;border-spacing:0;width:100%;font-size:12px;background:rgba(0,0,0,.6)}
-table.cat td,table.cat th{border:1px solid var(--red-deep);padding:2px 5px;text-align:left;vertical-align:top}
-table.cat th{color:var(--blue);font-weight:bold}
+table.cat{border:1px solid var(--red-deep);border-collapse:collapse;width:100%;font-size:16px;background:none}
+table.cat td,table.cat th{border:1px solid var(--red-deep);padding:1px 1ch;text-align:left;vertical-align:top}
+table.cat th{color:var(--blue);font-weight:normal}
 table.cat td:first-child{white-space:nowrap}
 
-/* "space for rent" */
-.rent{padding:10px;max-width:468px;margin:0 auto;color:var(--red);text-align:center}
-.rent a,.rent a:visited{color:var(--red)}
-.rent a:hover{color:#fff;background:var(--blue)}
+.rent{border:1px solid var(--red-deep);padding:8px;max-width:100%;margin:0 auto;color:var(--red);text-align:center}
+.rent a,.rent a:visited{color:var(--blue-lnk)}
 
-/* footer + keywords */
-.foot{padding:10px 8px;margin:14px 0 0;font-size:12px;color:var(--red-dim);text-align:center}
-.foot i{color:var(--blue);opacity:.65;font-style:normal}
+.foot{border:0;border-top:1px solid var(--red-deep);padding:8px 0 0;margin:14px 0 0;font-size:16px;color:var(--red-dim);text-align:left}
+.foot i{color:var(--red-dim);font-style:normal}
+.foot .fontcredit{display:block;color:var(--red-deep);margin-top:6px;font-size:16px}
+.foot .fontcredit a{color:var(--blue-lnk)}
 
-/* fixed side rails on desktop — ASCII columns */
-.side{display:none;position:fixed;top:12px;width:auto;z-index:1;color:var(--blue);opacity:.5;
-  font-size:11px;line-height:1.05;white-space:pre}
-.side img{display:none}
-.side.l{left:8px}.side.r{right:8px}
-@media(min-width:1040px){.side{display:block}}
+.fine{font-size:16px;color:var(--red-dim);border-top:1px solid var(--red-deep);padding-top:4px;margin-top:8px}
+
+.side{display:none}
 
 /* watermark overlay (kept) */
 .ovl{position:relative;display:block}
 .ovl::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background:url(/img/wm.svg) 0 0/220px auto repeat;z-index:1}
 
-/* phone first */
-@media(max-width:480px){
-  body{padding:6px;font-size:13px}
-  .frame{padding:5px}
-  .frame .in{padding:6px 7px 10px}
-  table.sec>tbody>tr>td{padding:8px 5px 10px}
-  table.sec>tbody>tr>th{font-size:14px}
-  .nav a{font-size:12px}
-  table.art td{font-size:11px}
-}
-@media(prefers-reduced-motion:reduce){.blink,.flick,.swap,.open{animation:none}}
+/* block cursor at the end of the stream */
+.termcursor{display:inline-block;width:1ch;height:1.05em;vertical-align:text-bottom;background:var(--blue);
+  animation:curblink 1.06s steps(1) infinite;margin-left:2px}
+@keyframes curblink{50%{opacity:0}}
+
+/* input prompt */
+#termprompt{display:flex;align-items:baseline;gap:1ch;margin:12px 0 0;font:16px/1.15 var(--mono)}
+#termprompt .ps1{color:var(--blue);white-space:nowrap}
+#termprompt input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--red);
+  font:16px/1.15 var(--mono);letter-spacing:0;text-shadow:inherit;caret-color:var(--blue)}
+
+/* desktop: 80 columns */
+@media(min-width:720px){:root{--col:80}}
+
+@media(prefers-reduced-motion:reduce){.blink,.termcursor{animation:none}body::after{display:none}}

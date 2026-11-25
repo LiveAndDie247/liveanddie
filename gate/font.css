@@ -1,0 +1,3 @@
+/* self-hosted VGA bitmap font for the /x/ layer (which doesn't load gate.css).
+   Web437 IBM VGA 8x16 — Ultimate Oldschool PC Font Pack, int10h.org, CC BY-SA 4.0. */
+@font-face{font-family:"Web437 VGA";src:url("/gate/fonts/Web437_IBM_VGA_8x16.woff") format("woff");font-weight:normal;font-style:normal;font-display:block}
