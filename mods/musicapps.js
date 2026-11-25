@@ -10,8 +10,9 @@
     return AC;
   }
   function tapSource() {
+    if (SH._tap) { AC = SH._tap.AC; srcNode = SH._tap.src; analyser = SH._tap.an; if (AC.state === "suspended") AC.resume(); return; }   // shared with the phase 9+ modules
     audio(); if (srcNode) return;
-    try { srcNode = AC.createMediaElementSource(au); analyser = AC.createAnalyser(); analyser.fftSize = 256; srcNode.connect(analyser); analyser.connect(AC.destination); } catch (e) {}
+    try { srcNode = AC.createMediaElementSource(au); analyser = AC.createAnalyser(); analyser.fftSize = 512; srcNode.connect(analyser); analyser.connect(AC.destination); SH._tap = { AC: AC, src: srcNode, an: analyser }; } catch (e) {}
   }
 
   // ---- volume / repeat / queue

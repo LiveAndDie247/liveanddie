@@ -565,6 +565,11 @@
   L("party", "/mods/net.mjs", "opt-in ascii cam room for up to 4 (only characters are sent)");
   L("jam", "/mods/net.mjs", "everyone shares one live drum pattern");
   L("net", "/mods/net.mjs", "network status / 'net off' to disconnect", "net [off]");
+  L("walk gallery3d", "/mods/world.mjs", "walk a first-person ascii gallery of the archive");
+  L("fluid", "/mods/world.mjs", "stir an artwork like liquid", "fluid [id]");
+  L("life", "/mods/world.mjs", "game of life seeded from an artwork", "life [id]");
+  L("motion", "/mods/motion.mjs", "tilt parallax + shake-to-reboot on/off", "motion <on|off>");
+  L("haptics", "/mods/motion.mjs", "vibrate on kick drums (android) on/off", "haptics <on|off>");
 
   var SAC = null;
   function sndOn() { try { return localStorage.getItem("lad_sound") === "1"; } catch (e) { return false; } }
@@ -628,5 +633,8 @@
   }
   // PWA: register the service worker on the live host (not localhost, to keep dev fresh)
   if ("serviceWorker" in navigator && !/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) { try { navigator.serviceWorker.register("/sw.js"); } catch (e) {} }
+  window.SH.softBoot = function () { out.innerHTML = ""; promptEl.style.display = "none"; boot(); };
+  // ambient motion (tilt parallax, shake, haptics): a tiny module, fetched after the shell is up, touch devices only
+  if (("ontouchstart" in window || navigator.maxTouchPoints > 0) && !reduce) setTimeout(function () { loadMod("/mods/motion.mjs").catch(function () {}); }, 3000);
   boot();
 })();

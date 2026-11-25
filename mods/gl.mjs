@@ -107,6 +107,16 @@ function glRenderer(canvas, gl, st) {
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       return true;
     },
+    // draw a white frame and read it back: catches contexts that exist but render nothing
+    probe() {
+      try {
+        api.resize(64, 32); const id = new ImageData(4, 4); id.data.fill(255);
+        if (!api.draw(id, 4, 4)) return false;
+        const w = canvas.width, h = canvas.height, px = new Uint8Array(w * h * 4); gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        let lit = 0; for (let i = 0; i < px.length; i += 4) if (px[i] > 100 || px[i + 2] > 100) lit++;
+        return lit > 20 && !gl.isContextLost();
+      } catch (e) { return false; }
+    },
     destroy() { try { const e = gl.getExtension("WEBGL_lose_context"); if (e) e.loseContext(); } catch (e) {} }
   };
   return api;
@@ -160,10 +170,22 @@ function cpuRenderer(canvas, st) {
 export async function createAscii(opts = {}) {
   await ensureFont();
   const st = { cols: 40, rows: 30, chars: Array.from(opts.chars || RAMP), text: !!opts.text, mirror: !!opts.mirror, glitch: 0, swap: false, invert: false, contrast: 1.4, gain: 1, nocrop: false, A: [1, .19, .19], B: [.25, .44, 1] };
+  let impl = null, lastW = 320, lastH = 240;
   if (!opts.forceCanvas) {
     const canvas = document.createElement("canvas");
     let gl = null; try { gl = canvas.getContext("webgl2", { antialias: false, alpha: false, powerPreference: "high-performance" }); } catch (e) {}
-    if (gl) { try { return glRenderer(canvas, gl, st); } catch (e) { /* fall through to canvas */ } }
+    if (gl) { try { impl = glRenderer(canvas, gl, st); if (!impl.probe()) { impl.destroy(); impl = null; } } catch (e) { impl = null; } }
   }
-  return cpuRenderer(document.createElement("canvas"), st);
+  if (!impl) impl = cpuRenderer(document.createElement("canvas"), st);
+  function toCpu() {                                   // GPU context died mid-flight: carry on in 2D, same element slot
+    const old = impl.canvas; impl = cpuRenderer(document.createElement("canvas"), st);
+    impl.canvas.style.cssText = old.style.cssText; if (old.parentNode) old.replaceWith(impl.canvas); impl.resize(lastW, lastH);
+  }
+  return {
+    st, get canvas() { return impl.canvas; }, get gpu() { return impl.gpu; }, lost: false,
+    setChars(c, t) { impl.setChars(c, t); },
+    resize(w, h) { lastW = w; lastH = h; impl.resize(w, h); },
+    draw(src, sw, sh) { if (impl.gpu && impl.lost) toCpu(); return impl.draw(src, sw, sh); },
+    destroy() { impl.destroy(); }
+  };
 }

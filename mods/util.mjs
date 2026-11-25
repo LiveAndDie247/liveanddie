@@ -63,3 +63,10 @@ export async function getMotion(SH, why) {       // iOS needs an explicit ask; A
 export function stopStream(s) { if (s) s.getTracks().forEach(t => t.stop()); }
 export const sleep = ms => new Promise(r => setTimeout(r, ms));
 export function pieceURL(p, full) { const m = p.media[0]; return "/archive/" + (full ? (m.img || m.thumb) : (m.thumb || m.img)); }
+// one shared analyser on the <audio> element (an element can only be tapped once, so every module uses this)
+export function audioTap(SH) {
+  if (SH._tap) { if (SH._tap.AC.state === "suspended") SH._tap.AC.resume().catch(() => {}); return SH._tap; }
+  const AC = new (window.AudioContext || window.webkitAudioContext)(), src = AC.createMediaElementSource(SH.au), an = AC.createAnalyser();
+  an.fftSize = 512; src.connect(an); an.connect(AC.destination); if (AC.state === "suspended") AC.resume().catch(() => {});
+  return (SH._tap = { AC, src, an });
+}
