@@ -277,6 +277,7 @@
 
   cmd("man", function (a) {
     var n = resolve(a[0]); if (!n) { line("What manual page do you want? (try: man ls)", "dim"); return; }
+    if (CMDS[n].lazy) { loadMod(CMDS[n].lazy).then(function () { run("man " + n); newPrompt(); }, function () { line("man: offline", "dim"); newPrompt(); }); return true; }
     var c = CMDS[n]; line("NAME", "dim"); line("    " + c.name + " - " + (c.help || "(no description)"));
     line("SYNOPSIS", "dim"); line("    " + (c.usage || c.name));
     line("DESCRIPTION", "dim"); (c.man || c.help || "No manual entry.").split("\n").forEach(function (l) { line("    " + l); });
@@ -475,7 +476,6 @@
   // ---- themes / crt
   cmd("theme", function (a) { var n = (a[0] || "").toLowerCase(); if (!n) { line("themes: red blue amber green paper   (current: " + (localStorage.getItem("lad_theme") || "red") + ")"); return; } if (applyTheme(n)) line("theme set: " + n, "blue"); else line("theme: unknown '" + n + "'", "dim"); }, { help: "switch colour theme", usage: "theme <red|blue|amber|green|paper>" });
   cmd("crt", function (a) { var on = (a[0] || "on") !== "off"; setCrt(on); line("crt " + (on ? "on" : "off"), "dim"); }, { help: "scanlines on/off", usage: "crt <on|off>" });
-  cmd("sound", function (a) { var on = a[0] === "on"; try { localStorage.setItem("lad_sound", on ? "1" : "0"); } catch (e) {} line("sound " + (on ? "on (typing/boot)" : "off"), "dim"); }, { help: "typing/boot sounds on/off" });
 
   // ---- price / order / prints (phase 4 teasers, full in later file)
   cmd("price", function (a) {
@@ -506,6 +506,68 @@
   function cols() { return Math.max(20, Math.floor(innerWidth / 8)); }
   function rowsN() { return Math.max(10, Math.floor(innerHeight / 16)); }
   window.SH = { cmd: cmd, line: line, pre: pre, raw: raw, fmt: fmt, esc: esc, newPrompt: newPrompt, loadArc: loadArc, findPiece: findPiece, imgToAscii: imgToAscii, term: term, out: out, input: input, viewer: viewer, run: run, cell: cell, strw: strw, trunc: trunc, padw: padw, scroll: scroll, au: au, promptEl: promptEl, THEMES: THEMES, applyTheme: applyTheme, CMDS: CMDS, read: read, app: app, cols: cols, rowsN: rowsN, RAMP: RAMP, showViewer: showViewer, openData: openData, IG: IG, KOFI: KOFI, XDOORS: XDOORS, setShare: function (s) { lastShareable = s; }, LAUNCH: LAUNCH };
+
+  // ===================================================================== lazy modules
+  // Heavy features live in /mods and are fetched only when their command first runs.
+  var MODS = {};
+  function loadMod(url) {
+    if (MODS[url]) return MODS[url];
+    var p;
+    if (/\.mjs$/.test(url)) p = import(url).then(function (m) { return m && m.default ? m.default(window.SH) : null; });
+    else p = new Promise(function (res, rej) { var s = document.createElement("script"); s.src = url; s.onload = function () { res(); }; s.onerror = function () { rej(new Error("load")); }; document.head.appendChild(s); });
+    MODS[url] = p; p.catch(function () { delete MODS[url]; });
+    return p;
+  }
+  function lazy(names, url, meta) {
+    var primary = names.split(" ")[0];
+    cmd(names, function stub(a, o) {
+      loadMod(url).then(function () {
+        var c = CMDS[primary];
+        if (!c || c.lazy) { line(primary + ": module did not register", "dim"); newPrompt(); return; }
+        var r; try { r = c.fn(a, o || {}); } catch (e) { line(primary + ": " + (e && e.message || "failed"), "dim"); }
+        if (r !== true) newPrompt();
+      }, function () { line(primary + ": could not load (offline?)", "dim"); newPrompt(); });
+      return true;
+    }, meta);
+    CMDS[primary].lazy = url;
+  }
+  window.SH.loadMod = loadMod; window.SH.lazy = lazy;
+  var L = function (n, u, h, us, hid) { lazy(n, u, { help: h, usage: us, hidden: !!hid }); };
+  // phase 2-7 (classic scripts)
+  L("invert", "/mods/art.js", "render a piece inverted", "invert <id>");
+  L("zoom", "/mods/art.js", "zoom into a piece", "zoom <id>");
+  L("glitch", "/mods/art.js", "datamosh-style glitch of a piece", "glitch <id>");
+  L("mosh", "/mods/art.js", "ascii datamosh: one piece melts into the next", "mosh <id>");
+  L("slideshow slides", "/mods/art.js", "fullscreen ascii slideshow of the archive");
+  L("ascii", "/mods/art.js", "turn your own image into live.and.die ascii");
+  L("vol volume", "/mods/musicapps.js", "set volume 0-10", "vol <0-10>");
+  L("repeat loop", "/mods/musicapps.js", "toggle repeat");
+  L("queue q", "/mods/musicapps.js", "show the play queue");
+  L("viz", "/mods/musicapps.js", "ascii spectrum under the player", "viz [on|off]");
+  L("tape", "/mods/musicapps.js", "slow + pitch the song down like a dying cassette", "tape [off]");
+  L("beat drums", "/mods/musicapps.js", "16-step drum sequencer", "beat [pattern] [--export]");
+  L("synth piano", "/mods/musicapps.js", "play notes (keyboard or tappable keys)");
+  L("order", "/mods/money.js", "build a commission request + copy it for the DM");
+  L("ads", "/mods/money.js", "the sponsors");
+  L("install pwa", "/mods/money.js", "install live.and.die as an app (works offline)");
+  L("snake", "/mods/games.js", "snake (swipe/arrows, q to quit)");
+  L("tetris", "/mods/games.js", "tetris (swipe/arrows, q to quit)");
+  L("rogue dungeon", "/mods/games.js", "a tiny roguelike; loot is songs; clear it for a code");
+  L("adventure zork", "/mods/games.js", "a text adventure that maps onto the /x/ layer");
+  L("startx wm tmux", "/mods/wm.js", "tiling window manager: player, art, shell, processes");
+  ["sudo", "rm delete", "exit logout quit", "vim vi nano emacs", "ping", "traceroute tracert", "moshsay"].forEach(function (n) { L(n, "/mods/eggs.js", "", "", true); });
+  // phase 9+ (ES modules)
+  L("cam webcam", "/mods/cam.mjs", "your camera as live gpu ascii (on-device)", "cam [--hands|--synth|--ghost|--slitscan|--into <id>|--text \"..\"|--dance|--record]");
+  L("snap", "/mods/cam.mjs", "save a PNG of the current ascii camera frame");
+  L("vid video-ascii", "/mods/cam.mjs", "play a video piece as live gpu ascii", "vid <id>");
+
+  var SAC = null;
+  function sndOn() { try { return localStorage.getItem("lad_sound") === "1"; } catch (e) { return false; } }
+  function sctx() { if (!SAC) try { SAC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} if (SAC && SAC.state === "suspended") SAC.resume(); return SAC; }
+  function blip(f0, f1, dur, type, vol) { if (!sndOn()) return; var c = sctx(); if (!c) return; var o = c.createOscillator(), g = c.createGain(); o.type = type; o.frequency.setValueAtTime(f0, c.currentTime); if (f1) o.frequency.linearRampToValueAtTime(f1, c.currentTime + dur); g.gain.setValueAtTime(vol, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0005, c.currentTime + dur); o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + dur + 0.01); }
+  input.addEventListener("keydown", function (e) { if (e.key && e.key.length === 1) blip(1400 + Math.random() * 400, 0, 0.03, "square", 0.04); });
+  cmd("sound", function (a) { var on = a[0] === "on"; try { localStorage.setItem("lad_sound", on ? "1" : "0"); } catch (e) {} line("sound " + (on ? "on - typing clicks + disk seek" : "off"), "dim"); if (on) blip(120, 900, 0.3, "sawtooth", 0.05); }, { help: "typing/boot sounds on/off", usage: "sound <on|off>" });
+  addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); window.SH.deferredPrompt = e; });
 
   // ===================================================================== idle screensaver (donut)
   var idleT = 0, saver = null;
