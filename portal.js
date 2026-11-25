@@ -265,11 +265,12 @@
 
   cmd("help ? h", function () {
     line("live.and.die portal - command reference", "dim");
-    var groups = [["browse", "ls  cd  cat  tree  find  open  view  art  music  links  about"],
-      ["play", "play  pause  stop  next  prev  radio  slideshow"],
-      ["make", "order  price  prints  commissions  cam  ascii  beat  synth"],
-      ["fun", "snake  tetris  rogue  adventure  neofetch  top  theme  startx"],
-      ["shell", "man  history  alias  env  which  grep  uptime  neofetch  clear  install"]];
+    var groups = [["art", "art  open  view  mosh  glitch  invert  zoom  vid  slideshow  cam  ascii"],
+      ["music", "music  play  pause  stop  next  prev  radio  tape  viz  vol  beat  synth"],
+      ["make", "order  price  prints  commissions  links  install"],
+      ["play", "snake  tetris  rogue  adventure  startx"],
+      ["info", "neofetch  top  ps  tree  uptime  cal  date  finger  share"],
+      ["shell", "ls  cd  cat  find  grep  history  man  theme  crt  sound  clear"]];
     groups.forEach(function (g) { line("  " + cell(g[0], 8) + g[1].replace(/(\w[\w-]*)/g, function (w) { return CMDS[resolve(w)] ? "{{" + w + "|" + w + "}}" : w; })); });
     line("pipes work: {{art | grep 2026|art | grep 2026}}  -  'man <cmd>' for detail  -  tap blue words to run.", "dim");
   }, { help: "this command list", man: "help - list the public commands. Use 'man <cmd>' for details. Tap any blue word to run it." });

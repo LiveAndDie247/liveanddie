@@ -65,12 +65,16 @@ body.nocrt::after{display:none}
 #viewer .pic .ovl::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background:url(/img/wm.svg) 0 0/220px auto repeat}
 #viewer img{max-width:100%;max-height:100%;display:block;image-rendering:auto}
 body::after{content:"";position:fixed;inset:0;z-index:30;pointer-events:none;
-  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.22) 2px 3px)}
-@media(prefers-reduced-motion:reduce){.cur{animation:none}body::after{display:none}}
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0 2px,rgba(0,0,0,.22) 2px 3px);animation:flick 7s steps(1) infinite}
+@keyframes flick{0%,97%,100%{opacity:1}98%{opacity:.82}99%{opacity:.94}}
+body::before{content:"";position:fixed;inset:0;z-index:29;pointer-events:none;
+  background:radial-gradient(ellipse 120% 120% at 50% 50%,transparent 62%,rgba(0,0,0,.55) 100%)}
+body.nocrt::before,body.nocrt::after{display:none}
+@media(prefers-reduced-motion:reduce){.cur{animation:none}body::after{display:none;animation:none}}
 </style>
 </head>
 <body>
-<div id="term"><div id="out"></div>
+<div id="term"><div id="out" role="log" aria-live="polite" aria-label="terminal output"></div>
 <div id="prompt" style="display:none"><span class="ps1">visitor@live.and.die:~$ </span><form autocomplete="off"><input id="cmd" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="terminal input" enterkeyhint="go"></form><span class="cur" id="cur"></span></div>
 </div>
 <nav id="cmdbar" aria-label="commands">

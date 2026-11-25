@@ -650,3 +650,17 @@
   // reboot hook used by rm/exit -> re-run the welcome banner
   SH.reboot = function () { var ev = document.createElement("div"); SH.line("LIVE.AND.DIE BIOS v7.0  reboot OK", "dim"); SH.run("neofetch"); };
 })();
+
+/* ===================== phase 8: polish (sound) ===================== */
+(function () {
+  "use strict";
+  var SH = window.SH; if (!SH) return;
+  var AC = null;
+  function soundOn() { try { return localStorage.getItem("lad_sound") === "1"; } catch (e) { return false; } }
+  function ctx() { if (!AC) try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} if (AC && AC.state === "suspended") AC.resume(); return AC; }
+  function click() { if (!soundOn()) return; var c = ctx(); if (!c) return; var o = c.createOscillator(), g = c.createGain(); o.type = "square"; o.frequency.value = 1400 + Math.random() * 400; g.gain.setValueAtTime(0.04, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0005, c.currentTime + 0.03); o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 0.035); }
+  function seek() { if (!soundOn()) return; var c = ctx(); if (!c) return; var o = c.createOscillator(), g = c.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(120, c.currentTime); o.frequency.linearRampToValueAtTime(900, c.currentTime + 0.25); g.gain.setValueAtTime(0.05, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0005, c.currentTime + 0.3); o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + 0.32); }
+  if (SH.input) SH.input.addEventListener("keydown", function (e) { if (e.key && e.key.length === 1) click(); });
+  // re-register 'sound' so toggling on gives instant feedback
+  SH.cmd("sound", function (a) { var on = a[0] === "on"; try { localStorage.setItem("lad_sound", on ? "1" : "0"); } catch (e) {} SH.line("sound " + (on ? "on - typing clicks + disk seek" : "off"), "dim"); if (on) { seek(); } }, { help: "typing/boot sounds on/off", usage: "sound <on|off>" });
+})();
