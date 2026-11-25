@@ -40,7 +40,8 @@
   function raw(node) { var d = document.createElement("div"); d.className = "ln"; d.appendChild(node); out.appendChild(d); return d; }
   function scroll() { term.scrollTop = term.scrollHeight; }
   function echo(cmd) { var d = document.createElement("div"); d.className = "ln"; d.innerHTML = '<span class="pr">' + esc(prompt1()) + "</span>" + esc(cmd); out.appendChild(d); }
-  function prompt1() { return "visitor@live.and.die:~$ "; }
+  var ps1 = null, reader = null;
+  function prompt1() { return ps1 || "visitor@live.and.die:~$ "; }
 
   // ===================================================================== archive data
   var ARC = null, ARCP = null;
@@ -67,14 +68,16 @@
   var RAMP = " .:-=+*#%@";
   function imgToAscii(img, opts) {
     opts = opts || {}; var mode = opts.mode || "ascii", cols = opts.cols || 42;
+    var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
     // sample to a work canvas, auto-crop dark border
-    var sw = 120, sh = Math.max(8, Math.round(sw * img.naturalHeight / img.naturalWidth));
+    var sw = 120, sh = Math.max(8, Math.round(sw * ih / iw));
     var c0 = document.createElement("canvas"); c0.width = sw; c0.height = sh;
     var x0 = c0.getContext("2d"); x0.drawImage(img, 0, 0, sw, sh);
     var d0 = x0.getImageData(0, 0, sw, sh).data;
     var minx = sw, miny = sh, maxx = 0, maxy = 0, any = false;
     for (var y = 0; y < sh; y++) for (var x = 0; x < sw; x++) { var i = (y * sw + x) * 4; if (d0[i] + d0[i + 1] + d0[i + 2] > 42) { any = true; if (x < minx) minx = x; if (x > maxx) maxx = x; if (y < miny) miny = y; if (y > maxy) maxy = y; } }
     if (!any) { minx = 0; miny = 0; maxx = sw - 1; maxy = sh - 1; }
+    if (opts.nocrop) { minx = 0; miny = 0; maxx = sw - 1; maxy = sh - 1; }
     var cw = maxx - minx + 1, ch = maxy - miny + 1;
     var rows, W = cols, H;
     var pre = document.createElement("pre"); pre.className = "art";
@@ -177,6 +180,7 @@
     promptEl.style.display = "none"; echo(cmdline);
     var t = cmdline.trim();
     if (t) { if (!(opts && opts.silent)) { history.push(cmdline); saveHist(); } hist = history.length; lastShareable = t; }
+    if (reader) { var r = reader; var keep = r(cmdline); if (!keep) { reader = null; ps1 = null; } newPrompt(); return; }
     if (!t) { newPrompt(); return; }
     // !n history recall
     if (/^!\d+$/.test(t)) { var n = parseInt(t.slice(1), 10); var h = history[n - 1]; if (h) { submit(h); } else { line("!" + n + ": event not found", "dim"); newPrompt(); } return; }
@@ -483,7 +487,23 @@
 
   // ===================================================================== run helper (for internal calls)
   function run(cmdline) { var parts = cmdline.split(/\s+/), n = resolve(parts[0]); if (!n) { line(parts[0] + ": command not found", "dim"); return false; } return CMDS[n].fn(parts.slice(1), {}) === true; }
-  window.SH = { cmd: cmd, line: line, pre: pre, raw: raw, fmt: fmt, esc: esc, newPrompt: newPrompt, loadArc: loadArc, findPiece: findPiece, imgToAscii: imgToAscii, term: term, out: out, input: input, viewer: viewer, run: run, cell: cell, strw: strw, scroll: scroll, au: au, promptEl: promptEl, THEMES: THEMES, applyTheme: applyTheme, CMDS: CMDS };
+  // interactive line reader: SH.read(label, onLine) -> onLine(text) returns true to keep reading
+  function read(label, onLine) { ps1 = label; reader = onLine; promptEl.style.display = "none"; newPrompt(); }
+  // fullscreen app overlay for games/apps: returns {el, close}. onKey(key,e), onSwipe(dir)
+  function app(onKey, onSwipe) {
+    var el = document.createElement("pre"); el.className = "appscr"; el.tabIndex = 0;
+    el.style.cssText = "position:fixed;inset:0;z-index:38;margin:0;background:#000;color:var(--red);white-space:pre;overflow:hidden;font:16px/1 'Web437 VGA',monospace;padding:8px;outline:0";
+    document.body.appendChild(el); el.focus();
+    function kd(e) { if (onKey) onKey(e.key, e); if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].indexOf(e.key) >= 0) e.preventDefault(); }
+    addEventListener("keydown", kd);
+    var sx = 0, sy = 0;
+    el.addEventListener("touchstart", function (e) { var t = e.touches[0]; sx = t.clientX; sy = t.clientY; }, { passive: true });
+    el.addEventListener("touchend", function (e) { var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; if (Math.abs(dx) < 24 && Math.abs(dy) < 24) { if (onKey) onKey("Tap"); return; } if (Math.abs(dx) > Math.abs(dy)) onSwipe && onSwipe(dx > 0 ? "right" : "left"); else onSwipe && onSwipe(dy > 0 ? "down" : "up"); }, { passive: true });
+    return { el: el, close: function () { removeEventListener("keydown", kd); el.remove(); newPrompt(); } };
+  }
+  function cols() { return Math.max(20, Math.floor(innerWidth / 8)); }
+  function rowsN() { return Math.max(10, Math.floor(innerHeight / 16)); }
+  window.SH = { cmd: cmd, line: line, pre: pre, raw: raw, fmt: fmt, esc: esc, newPrompt: newPrompt, loadArc: loadArc, findPiece: findPiece, imgToAscii: imgToAscii, term: term, out: out, input: input, viewer: viewer, run: run, cell: cell, strw: strw, trunc: trunc, padw: padw, scroll: scroll, au: au, promptEl: promptEl, THEMES: THEMES, applyTheme: applyTheme, CMDS: CMDS, read: read, app: app, cols: cols, rowsN: rowsN, RAMP: RAMP, showViewer: showViewer, openData: openData, IG: IG, KOFI: KOFI, XDOORS: XDOORS, flagMode: null };
 
   // ===================================================================== idle screensaver (donut)
   var idleT = 0, saver = null;
