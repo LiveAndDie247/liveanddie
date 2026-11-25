@@ -503,7 +503,7 @@
   }
   function cols() { return Math.max(20, Math.floor(innerWidth / 8)); }
   function rowsN() { return Math.max(10, Math.floor(innerHeight / 16)); }
-  window.SH = { cmd: cmd, line: line, pre: pre, raw: raw, fmt: fmt, esc: esc, newPrompt: newPrompt, loadArc: loadArc, findPiece: findPiece, imgToAscii: imgToAscii, term: term, out: out, input: input, viewer: viewer, run: run, cell: cell, strw: strw, trunc: trunc, padw: padw, scroll: scroll, au: au, promptEl: promptEl, THEMES: THEMES, applyTheme: applyTheme, CMDS: CMDS, read: read, app: app, cols: cols, rowsN: rowsN, RAMP: RAMP, showViewer: showViewer, openData: openData, IG: IG, KOFI: KOFI, XDOORS: XDOORS, flagMode: null };
+  window.SH = { cmd: cmd, line: line, pre: pre, raw: raw, fmt: fmt, esc: esc, newPrompt: newPrompt, loadArc: loadArc, findPiece: findPiece, imgToAscii: imgToAscii, term: term, out: out, input: input, viewer: viewer, run: run, cell: cell, strw: strw, trunc: trunc, padw: padw, scroll: scroll, au: au, promptEl: promptEl, THEMES: THEMES, applyTheme: applyTheme, CMDS: CMDS, read: read, app: app, cols: cols, rowsN: rowsN, RAMP: RAMP, showViewer: showViewer, openData: openData, IG: IG, KOFI: KOFI, XDOORS: XDOORS, setShare: function (s) { lastShareable = s; }, LAUNCH: LAUNCH };
 
   // ===================================================================== idle screensaver (donut)
   var idleT = 0, saver = null;
