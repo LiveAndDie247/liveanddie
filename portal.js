@@ -174,7 +174,8 @@
   try { history = JSON.parse(localStorage.getItem("lad_hist") || "[]"); if (!Array.isArray(history)) history = []; } catch (e) { history = []; }
   hist = history.length;
   function saveHist() { try { localStorage.setItem("lad_hist", JSON.stringify(history.slice(-100))); } catch (e) {} }
-  function newPrompt() { out.appendChild(promptEl); promptEl.style.display = "flex"; scroll(); if (!typing) input.focus(); }
+  var ps1span = $("prompt").querySelector(".ps1");
+  function newPrompt() { if (ps1span) ps1span.textContent = prompt1(); out.appendChild(promptEl); promptEl.style.display = "flex"; scroll(); if (!typing) input.focus(); }
   var lastShareable = "";
   function submit(cmdline, opts) {
     promptEl.style.display = "none"; echo(cmdline);
@@ -557,5 +558,7 @@
     term.addEventListener("pointerdown", function h(e) { if (promptEl.style.display === "none") { skip(); } term.removeEventListener("pointerdown", h); }, { once: true });
     nextL();
   }
+  // PWA: register the service worker on the live host (not localhost, to keep dev fresh)
+  if ("serviceWorker" in navigator && !/^(localhost|127\.|0\.0\.0\.0)/.test(location.hostname)) { try { navigator.serviceWorker.register("/sw.js"); } catch (e) {} }
   boot();
 })();
